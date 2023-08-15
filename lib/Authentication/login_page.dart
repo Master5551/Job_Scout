@@ -43,8 +43,8 @@ class LoginPage extends StatelessWidget {
           // Username textfield
           MyTextField(
             controller: userNameController,
-            hinText: 'Enter your Username here',
-            obsecureText: false,
+            hintText: 'Enter your Username here', // Corrected parameter name
+            obscureText: false,
           ),
           SizedBox(
             height: 50,
@@ -52,9 +52,9 @@ class LoginPage extends StatelessWidget {
 
           //password textfield
           MyTextField(
-            controller: PasswordController,
-            hinText: 'Enter your password here',
-            obsecureText: true,
+            controller: userNameController,
+            hintText: 'Enter your Password here', // Corrected parameter name
+            obscureText: false,
           ),
 
           Padding(
@@ -97,12 +97,27 @@ class LoginPage extends StatelessWidget {
               ],
             ),
           ),
-
-          Row(
+          SizedBox(height: 20,),
+          Column(
             children: [
               SignInButton(
               Buttons.Google,
-              onPressed: () {},
+              onPressed: () {},),
+
+              SizedBox(height:10),
+              
+              SignInButton(
+              Buttons.Apple,
+              onPressed: () {},)
+            ],
+          ),
+          SizedBox(height: 100,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Not A Member ?"),
+              Text("Register Now",
+              style: TextStyle(color: Colors.blue),
               )
             ],
           )
