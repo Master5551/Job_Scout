@@ -7,8 +7,10 @@ environment:
   sdk: '>=3.0.2 <4.0.0'
   
 dependencies:
+  flutter_signin_button: ^2.0.0
   flutter:
     sdk: flutter
+    
      
 
 dev_dependencies:
