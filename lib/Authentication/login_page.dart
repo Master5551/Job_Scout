@@ -32,7 +32,7 @@ class LoginPage extends StatelessWidget {
           Text(
             'Welcome to Job Scout App',
             style: TextStyle(
-              color: Colors.grey,
+              color: Colors.red,
               fontSize: 16,
             ),
           ),
