@@ -32,7 +32,7 @@ class LoginPage extends StatelessWidget {
           Text(
             'Welcome to Job Scout App',
             style: TextStyle(
-              color: Colors.red,
+              color: Colors.grey,
               fontSize: 16,
             ),
           ),
@@ -97,27 +97,32 @@ class LoginPage extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Column(
             children: [
               SignInButton(
-              Buttons.Google,
-              onPressed: () {},),
-
-              SizedBox(height:10),
-              
+                Buttons.Google,
+                onPressed: () {},
+              ),
+              SizedBox(height: 10),
               SignInButton(
-              Buttons.Apple,
-              onPressed: () {},)
+                Buttons.Apple,
+                onPressed: () {},
+              )
             ],
           ),
-          SizedBox(height: 100,),
+          SizedBox(
+            height: 100,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text("Not A Member ?"),
-              Text("Register Now",
-              style: TextStyle(color: Colors.blue),
+              Text(
+                "Register Now",
+                style: TextStyle(color: Colors.blue),
               )
             ],
           )
