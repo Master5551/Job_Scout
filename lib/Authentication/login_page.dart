@@ -7,126 +7,133 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key});
   // text editing controller
   final userNameController = TextEditingController();
-  final PasswordController = TextEditingController();
+  final passwordController = TextEditingController();
 
   // sign in user method
-  void signUserIn() {}
+  void signUserIn() {
+    // Implement your sign-in logic here
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Icon(
-            Icons.lock,
-            size: 100,
-          ),
-          SizedBox(
-            height: 50,
-          ),
-
-          Text(
-            'Welcome to Job Scout App',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 16,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 50, left: 10),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: 50,
-          ),
-
-          // Username textfield
-          MyTextField(
-            controller: userNameController,
-            hintText: 'Enter your Username here', // Corrected parameter name
-            obscureText: false,
-          ),
-          SizedBox(
-            height: 50,
-          ),
-
-          //password textfield
-          MyTextField(
-            controller: userNameController,
-            hintText: 'Enter your Password here', // Corrected parameter name
-            obscureText: false,
-          ),
-
-          Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.0),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+            Icon(
+              Icons.lock,
+              size: MediaQuery.of(context).size.width * 0.3,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+            ),
+            Text(
+              'Welcome to Job Scout App',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: MediaQuery.of(context).size.width * 0.04,
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+            ),
+            MyTextField(
+              controller: userNameController,
+              hintText: 'Enter your Username here',
+              obscureText: false,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+            ),
+            MyTextField(
+              controller: passwordController,
+              hintText: 'Enter your Password here',
+              obscureText: true,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    'Forgot_Password',
+                    'Forgot Password',
                     style: TextStyle(color: Colors.blue),
-                  )
+                  ),
                 ],
-              )),
-
-          SizedBox(height: 25),
-
-          MyButton(
-            onTap: signUserIn,
-          ),
-
-          SizedBox(height: 50),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+            MyButton(
+              onTap: signUserIn,
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.1,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Divider(
+                      thickness: 0.5,
+                      color: Colors.grey.shade400,
+                    ),
+                  ),
+                  Text('Or Continue with'),
+                  Expanded(
+                    child: Divider(
+                      thickness: 0.5,
+                      color: Colors.grey.shade400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+            Column(
               children: [
-                Expanded(
-                  child: Divider(
-                    thickness: 0.5,
-                    color: Colors.grey.shade400,
-                  ),
+                SignInButton(
+                  Buttons.Google,
+                  onPressed: () {},
                 ),
-                Text('Or Continue with'),
-                Expanded(
-                  child: Divider(
-                    thickness: 0.5,
-                    color: Colors.grey.shade400,
-                  ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                SignInButton(
+                  Buttons.Apple,
+                  onPressed: () {},
                 ),
               ],
             ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Column(
-            children: [
-              SignInButton(
-                Buttons.Google,
-                onPressed: () {},
-              ),
-              SizedBox(height: 10),
-              SignInButton(
-                Buttons.Apple,
-                onPressed: () {},
-              )
-            ],
-          ),
-          SizedBox(
-            height: 100,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Not A Member ?"),
-              Text(
-                "Register Now",
-                style: TextStyle(color: Colors.blue),
-              )
-            ],
-          )
-        ],
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Not A Member ?"),
+                Text(
+                  "Register Now",
+                  style: TextStyle(color: Colors.blue),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
