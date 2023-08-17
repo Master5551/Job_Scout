@@ -13,8 +13,8 @@ class HomePage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Image.asset(
-                'assets/images/startpage.png', // Replace with your image asset path
-                fit: BoxFit.cover, // Adjust the fit as needed
+                'assets/images/startpage.png', 
+                fit: BoxFit.cover, 
               ),
             ),
           ),
@@ -27,8 +27,8 @@ class HomePage extends StatelessWidget {
                   'Next',
                   style: TextStyle(
                     color:
-                        Colors.green[800], // Set the text color to light green
-                    fontSize: 18, // Adjust the font size as needed
+                        Colors.green[800], 
+                    fontSize: 18, 
                   ),
                 ),
                 SizedBox(
