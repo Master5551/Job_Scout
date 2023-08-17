@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'login_page.dart'; // Import the login page
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,16 +22,26 @@ class HomePage extends StatelessWidget {
             right: 20.0,
             child: Row(
               children: [
-                Text(
-                  'Next',
-                  style: TextStyle(
-                    color: Colors.green[800],
-                    fontSize: 14,
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              LoginPage()), // Navigate to the login page
+                    );
+                  },
+                  child: Text(
+                    'Next',
+                    style: TextStyle(
+                      color: Colors.green[800],
+                      fontSize: 18,
+                    ),
                   ),
                 ),
                 SizedBox(
                     width: 10), // Add some space between the text and the icon
-                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward)),
               ],
             ),
           ),
