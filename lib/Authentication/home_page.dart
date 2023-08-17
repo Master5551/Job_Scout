@@ -21,15 +21,20 @@ class HomePage extends StatelessWidget {
           Positioned(
             bottom: 20.0,
             right: 20.0,
-            child: ElevatedButton(
-              onPressed: () {
-                // Handle the "Next" button press
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 20, vertical: 10), // Adjust padding as needed
-              ),
-              child: const Text('Next'),
+            child: Row(
+              children: [
+                Text(
+                  'Next',
+                  style: TextStyle(
+                    color:
+                        Colors.green[800], // Set the text color to light green
+                    fontSize: 18, // Adjust the font size as needed
+                  ),
+                ),
+                SizedBox(
+                    width: 10), // Add some space between the text and the icon
+                Icon(Icons.arrow_forward),
+              ],
             ),
           ),
         ],
