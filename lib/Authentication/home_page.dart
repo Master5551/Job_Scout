@@ -26,9 +26,10 @@ class HomePage extends StatelessWidget {
                 // Handle the "Next" button press
               },
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10), // Adjust padding as needed
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20, vertical: 10), // Adjust padding as needed
               ),
-              child: Text('Next'),
+              child: const Text('Next'),
             ),
           ),
         ],
