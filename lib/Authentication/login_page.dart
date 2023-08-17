@@ -33,15 +33,15 @@ class LoginPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.001),
             Center(
               child: Image.asset(
-                'assets/images/logo.png', 
-                height: MediaQuery.of(context).size.width * 3, 
+                'assets/images/logo.png',
+                height: MediaQuery.of(context).size.width * 0.7,
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.03,
+              height: MediaQuery.of(context).size.height * 0.002,
             ),
             Text(
               'Welcome to Job Scout App',
