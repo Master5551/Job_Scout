@@ -5,11 +5,9 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
-  // text editing controller
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  // sign in user method
   void signUserIn() {
     // Implement your sign-in logic here
   }
@@ -36,9 +34,9 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-            Icon(
-              Icons.lock,
-              size: MediaQuery.of(context).size.width * 0.3,
+            Image.asset(
+              'assets/images/logo.png', // Replace with your logo asset path
+              height: MediaQuery.of(context).size.width * 0.3,
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.03,
@@ -83,6 +81,7 @@ class LoginPage extends StatelessWidget {
             SizedBox(height: MediaQuery.of(context).size.height * 0.015),
             MyButton(
               onTap: signUserIn,
+              buttonText: '',
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
             Padding(
