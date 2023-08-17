@@ -41,7 +41,16 @@ class HomePage extends StatelessWidget {
                 ),
                 SizedBox(
                     width: 10), // Add some space between the text and the icon
-                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward)),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                LoginPage()), // Navigate to the login page
+                      );
+                    },
+                    icon: Icon(Icons.arrow_forward)),
               ],
             ),
           ),
