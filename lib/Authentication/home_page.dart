@@ -13,8 +13,8 @@ class HomePage extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: Image.asset(
-                'assets/images/startpage.png', // Replace with your image asset path
-                fit: BoxFit.cover, // Adjust the fit as needed
+                'assets/images/startpage.png', 
+                fit: BoxFit.cover, 
               ),
             ),
           ),
@@ -26,21 +26,13 @@ class HomePage extends StatelessWidget {
                 Text(
                   'Next',
                   style: TextStyle(
-<<<<<<< HEAD
-                    color: Colors.green[800], // Set the text color to light green
-                    fontSize: 18, // Adjust the font size as needed
-                  ),
-                ),
-                SizedBox(width: 10), // Add some space between the text and the icon
-=======
                     color:
-                        Colors.green[800], // Set the text color to light green
-                    fontSize: 18, // Adjust the font size as needed
+                        Colors.green[800], 
+                    fontSize: 18, 
                   ),
                 ),
                 SizedBox(
-                    width: 10), // Add some space between the text and the icon
->>>>>>> bf0ad555dc578795b6337a99e57ecb0627bd0da8
+                    width: 10), 
                 Icon(Icons.arrow_forward),
               ],
             ),
