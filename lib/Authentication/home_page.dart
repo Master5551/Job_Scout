@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
                 ),
                 SizedBox(
                     width: 10), // Add some space between the text and the icon
-                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+                IconButton(onPressed: () {}, icon: Icon(Icons.arrow_forward)),
               ],
             ),
           ),
