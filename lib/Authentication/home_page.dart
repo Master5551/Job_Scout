@@ -26,11 +26,21 @@ class HomePage extends StatelessWidget {
                 Text(
                   'Next',
                   style: TextStyle(
+<<<<<<< HEAD
                     color: Colors.green[800], // Set the text color to light green
                     fontSize: 18, // Adjust the font size as needed
                   ),
                 ),
                 SizedBox(width: 10), // Add some space between the text and the icon
+=======
+                    color:
+                        Colors.green[800], // Set the text color to light green
+                    fontSize: 18, // Adjust the font size as needed
+                  ),
+                ),
+                SizedBox(
+                    width: 10), // Add some space between the text and the icon
+>>>>>>> bf0ad555dc578795b6337a99e57ecb0627bd0da8
                 Icon(Icons.arrow_forward),
               ],
             ),
