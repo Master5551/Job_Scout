@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.001),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             Center(
               child: Image.asset(
                 'assets/images/logo.png',

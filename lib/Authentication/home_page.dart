@@ -11,8 +11,8 @@ class HomePage extends StatelessWidget {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              child: Image.asset(
-                'assets/images/startpage.png',
+              child: SvgPicture.asset(
+                'assets/images/startpage.svg',
                 fit: BoxFit.cover,
               ),
             ),
@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                    width: 10), // Add some space between the text and the icon
+                    width: 3), // Add some space between the text and the icon
                 IconButton(
                     onPressed: () {
                       Navigator.push(
