@@ -8,6 +8,7 @@ environment:
   
 dependencies:
   flutter_signin_button: ^2.0.0
+  # firbase_auth:
    
   firebase_core:
    
