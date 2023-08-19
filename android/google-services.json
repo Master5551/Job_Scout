@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1091407447247",
+    "project_id": "job-scout-73434",
+    "storage_bucket": "job-scout-73434.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091407447247:android:a5fbae3e5ca47b1766e3ba",
+        "android_client_info": {
+          "package_name": "com.example.pdf_readers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1091407447247-cddrb0sm2opdcj6irigrk91k7tvonh09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHkLAzPShBa3XRDDR4K-rPYIbMcO8Z_0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1091407447247-cddrb0sm2opdcj6irigrk91k7tvonh09.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

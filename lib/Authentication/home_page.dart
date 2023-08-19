@@ -1,8 +1,12 @@
+// ignore_for_file: sized_box_for_whitespace, depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'login_page.dart'; // Import the login page
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +44,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                     width: 3), // Add some space between the text and the icon
                 IconButton(
                     onPressed: () {
@@ -51,7 +55,7 @@ class HomePage extends StatelessWidget {
                                 LoginPage()), // Navigate to the login page
                       );
                     },
-                    icon: Icon(Icons.arrow_forward)),
+                    icon: const Icon(Icons.arrow_forward)),
               ],
             ),
           ),

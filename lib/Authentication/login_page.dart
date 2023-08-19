@@ -21,11 +21,11 @@ class LoginPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 50, left: 10),
+              padding: const EdgeInsets.only(top: 50, left: 10),
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -70,7 +70,7 @@ class LoginPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.05,
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
@@ -98,7 +98,7 @@ class LoginPage extends StatelessWidget {
                       color: Colors.grey.shade400,
                     ),
                   ),
-                  Text('Or Continue with'),
+                  const Text('Or Continue with'),
                   Expanded(
                     child: Divider(
                       thickness: 0.5,
@@ -123,7 +123,7 @@ class LoginPage extends StatelessWidget {
               ],
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("Not A Member ?"),

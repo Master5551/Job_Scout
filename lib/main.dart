@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:job_scout/Authentication/login_page.dart';
 import 'package:flutter/services.dart';
 
 import 'Authentication/home_page.dart';
 
 void main() {
-  runApp(MainApp());
+  runApp(const MainApp());
 
   // Lock the app orientation to portrait mode
   SystemChrome.setPreferredOrientations([
@@ -19,7 +18,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     );
