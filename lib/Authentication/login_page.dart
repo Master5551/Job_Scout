@@ -19,9 +19,9 @@ class LoginPage extends StatelessWidget {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        log('The password provided is too weak.');
+        log('The password provided is too weak.' as num);
       } else if (e.code == 'email-already-in-use') {
-        log('The account already exists for that email.');
+        log('The account already exists for that email.' as num);
       }
     } catch (e) {
       log(e);
@@ -74,7 +74,7 @@ class LoginPage extends StatelessWidget {
               ),
               MyTextField(
                 controller: _email,
-                hintText: 'Enter your Username here',
+                hintText: 'Email',
                 obscureText: false,
               ),
               SizedBox(
@@ -82,7 +82,7 @@ class LoginPage extends StatelessWidget {
               ),
               MyTextField(
                 controller: _password,
-                hintText: 'Enter your Password here',
+                hintText: 'Password',
                 obscureText: true,
               ),
               Padding(
