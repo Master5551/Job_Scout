@@ -1,16 +1,23 @@
 import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:job_scout/components/my_button.dart';
 import 'package:job_scout/components/my_text_field.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _formkey = GlobalKey<FormState>();
+  bool _isPasswordVisible = false; // Added state variable
+
   void signInWithEmailAndPassword() async {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -19,12 +26,12 @@ class LoginPage extends StatelessWidget {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        log('The password provided is too weak.' as num);
+        print('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        log('The account already exists for that email.' as num);
+        print('The account already exists for that email.');
       }
     } catch (e) {
-      log(e);
+      print(e);
     }
     // Implement your sign-in logic here
   }
@@ -75,7 +82,7 @@ class LoginPage extends StatelessWidget {
               MyTextField(
                 controller: _email,
                 hintText: 'Email',
-                obscureText: false,
+                obscureText: false, 
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
@@ -83,7 +90,18 @@ class LoginPage extends StatelessWidget {
               MyTextField(
                 controller: _password,
                 hintText: 'Password',
-                obscureText: true,
+                obscureText: !_isPasswordVisible, // Use the state variable here
+                suffixIcon: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                  child: Icon(
+                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.grey,
+                  ),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
@@ -101,8 +119,8 @@ class LoginPage extends StatelessWidget {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.015),
               MyButton(
-                onTap: signUserIn,
-                buttonText: '',
+                onTap: signInWithEmailAndPassword,
+                buttonText: 'Sign In',
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               Padding(
