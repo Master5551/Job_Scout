@@ -79,11 +79,11 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
-              MyTextField(
-                controller: _email,
-                hintText: 'Email',
-                obscureText: false, 
-              ),
+              // MyTextField(
+              //   controller: _email,
+              //   hintText: 'Email',
+              //   obscureText: false, 
+              // ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
