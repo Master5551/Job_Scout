@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:job_scout/Authentication/home_page.dart';
 import 'package:job_scout/components/my_button.dart';
 import 'package:job_scout/components/my_text_field.dart';
@@ -25,9 +26,11 @@ class _LoginPageState extends State<LoginPage> {
         password: _password.text,
       );
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
-        );
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -36,6 +39,24 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
     // Implement your sign-in logic here
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   @override
@@ -160,7 +181,10 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   SignInButton(
                     Buttons.Google,
-                    onPressed: () {},
+                    onPressed: () {
+                      print('hi');
+                      signInWithGoogle();
+                    },
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                   SignInButton(
