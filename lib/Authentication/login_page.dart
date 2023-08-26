@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:job_scout/Authentication/home_page.dart';
 import 'package:job_scout/components/my_button.dart';
 import 'package:job_scout/components/my_text_field.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -23,6 +24,10 @@ class _LoginPageState extends State<LoginPage> {
         email: _email.text,
         password: _password.text,
       );
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
+        );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -76,11 +81,14 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
-              // MyTextField(
-              //   controller: _email,
-              //   hintText: 'Email',
-              //   obscureText: false,
-              // ),
+              MyTextField(
+                suffixIcon: GestureDetector(
+                  child: Icon(Icons.abc),
+                ),
+                controller: _email,
+                hintText: 'Email',
+                obscureText: false,
+              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
@@ -118,7 +126,10 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.015),
               MyButton(
-                onTap: signInWithEmailAndPassword,
+                onTap: () {
+                  signInWithEmailAndPassword();
+                  setState(() {});
+                },
                 buttonText: 'Sign In',
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
