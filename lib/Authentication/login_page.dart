@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:job_scout/components/my_button.dart';
@@ -25,13 +24,11 @@ class _LoginPageState extends State<LoginPage> {
         password: _password.text,
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
       }
-    } catch (e) {
-      print(e);
     }
     // Implement your sign-in logic here
   }
@@ -82,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
               // MyTextField(
               //   controller: _email,
               //   hintText: 'Email',
-              //   obscureText: false, 
+              //   obscureText: false,
               // ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
@@ -98,7 +95,9 @@ class _LoginPageState extends State<LoginPage> {
                     });
                   },
                   child: Icon(
-                    _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                    _isPasswordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
                     color: Colors.grey,
                   ),
                 ),
