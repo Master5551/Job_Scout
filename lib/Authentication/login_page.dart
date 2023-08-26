@@ -7,9 +7,10 @@ import 'package:job_scout/components/my_text_field.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -21,15 +22,17 @@ class _LoginPageState extends State<LoginPage> {
 
   void signInWithEmailAndPassword() async {
     try {
+      // ignore: unused_local_variable
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _email.text,
         password: _password.text,
       );
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) =>
-                HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
+                const HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -104,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               MyTextField(
                 suffixIcon: GestureDetector(
-                  child: Icon(Icons.abc),
+                  child: const Icon(Icons.abc),
                 ),
                 controller: _email,
                 hintText: 'Email',

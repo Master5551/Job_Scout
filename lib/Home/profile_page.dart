@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -17,24 +16,24 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile Page'),
+        title: const Text('Profile Page'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: ListView(
           children: <Widget>[
             imageProfile(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             nameTextField(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             professionTextField(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             dobField(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             titleTextField(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             aboutTextField(),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -45,7 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Center(
       child: Stack(
         children: <Widget>[
-          CircleAvatar(
+          const CircleAvatar(
             radius: 80.0,
             // backgroundImage: imageFile == null
             //     ? Image.asset("assets/images/profile.png")
@@ -76,34 +75,34 @@ class _ProfilePageState extends State<ProfilePage> {
     return Container(
       height: 100.0,
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 20,
       ),
       child: Column(children: <Widget>[
-        Text(
+        const Text(
           "Choose Profile photo",
           style: TextStyle(
             fontSize: 20.0,
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextButton.icon(
-              icon: Icon(Icons.camera),
+              icon: const Icon(Icons.camera),
               onPressed: () {
                 takePhoto(ImageSource.camera);
               },
-              label: Text("Camera"),
+              label: const Text("Camera"),
             ),
             TextButton.icon(
-              icon: Icon(Icons.image),
+              icon: const Icon(Icons.image),
               onPressed: () {
                 takePhoto(ImageSource.gallery);
               },
-              label: Text("Gallery"),
+              label: const Text("Gallery"),
             ),
           ],
         )
@@ -121,11 +120,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget nameTextField() {
     return TextFormField(
       decoration: InputDecoration(
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
               borderSide: BorderSide(
             color: Colors.teal,
           )),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(
             color: Colors.orange,
             width: 2,
@@ -143,11 +142,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget professionTextField() {
     return TextFormField(
       decoration: InputDecoration(
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
               borderSide: BorderSide(
             color: Colors.teal,
           )),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(
             color: Colors.orange,
             width: 2,
@@ -165,11 +164,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget dobField() {
     return TextFormField(
       decoration: InputDecoration(
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
             borderSide: BorderSide(
           color: Colors.teal,
         )),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(
           color: Colors.orange,
           width: 2,
@@ -188,11 +187,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget titleTextField() {
     return TextFormField(
       decoration: InputDecoration(
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
             borderSide: BorderSide(
           color: Colors.teal,
         )),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(
           color: Colors.orange,
           width: 2,
@@ -211,7 +210,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget aboutTextField() {
     return TextFormField(
       maxLines: 4,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         border: OutlineInputBorder(
             borderSide: BorderSide(
           color: Colors.teal,
