@@ -47,9 +47,9 @@ class _ProfilePageState extends State<ProfilePage> {
         children: <Widget>[
           CircleAvatar(
             radius: 80.0,
-            backgroundImage: imageFile == null
-                ? AssetImage("assets/images/profile.png")
-                : FileImage(File(imageFile!.path)),
+            // backgroundImage: imageFile == null
+            //     ? Image.asset("assets/images/profile.png")
+            //     : FileImage(File(imageFile!.path)),
           ),
           Positioned(
             bottom: 20.0,
@@ -112,9 +112,9 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void takePhoto(ImageSource source) async {
-    final pickedFile = await imagePicker.getImage(source: ImageSource.camera);
+    // final pickedFile = await imagePicker.getImage(source: ImageSource.camera);
     setState(() {
-      imageFile = pickedFile;
+      // imageFile = pickedFile;
     });
   }
 
