@@ -80,10 +80,7 @@ class _LoginPageState extends State<LoginPage> {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<void> logout() async {
-    await GoogleSignIn().disconnect();
-    FirebaseAuth.instance.signOut();
-  }
+  
 
   void Homepage() {
     Navigator.pushReplacement(
