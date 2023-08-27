@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
+                const HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -58,24 +58,6 @@ class _LoginPageState extends State<LoginPage> {
     }
     // Implement your sign-in logic here
   }
-  // Google Sign in Authentication code......................................!!!!!!!!!!!!!!
-  // Future<UserCredential> signInWithGoogle() async {
-  //   // Trigger the authentication flow
-  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-  //   // Obtain the auth details from the request
-  //   final GoogleSignInAuthentication? googleAuth =
-  //       await googleUser?.authentication;
-
-  //   // Create a new credential
-  //   final credential = GoogleAuthProvider.credential(
-  //     accessToken: googleAuth?.accessToken,
-  //     idToken: googleAuth?.idToken,
-  //   );
-
-  //   // Once signed in, return the UserCredential
-  //   return await FirebaseAuth.instance.signInWithCredential(credential);
-  // }
 
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -93,6 +75,11 @@ class _LoginPageState extends State<LoginPage> {
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<void> logout() async {
+    await GoogleSignIn().disconnect();
+    FirebaseAuth.instance.signOut();
   }
 
   @override
@@ -223,7 +210,9 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                   SignInButton(
                     Buttons.Apple,
-                    onPressed: () {},
+                    onPressed: () {
+                      logout();
+                    },
                   ),
                 ],
               ),
