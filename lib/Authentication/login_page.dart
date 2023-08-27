@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const Padding(
-                padding: EdgeInsetsDirectional.all(18),
+                padding: EdgeInsets.fromLTRB(5, 10, 10, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -230,10 +230,13 @@ class _LoginPageState extends State<LoginPage> {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Not A Member ?"),
+                  Text(
+                    "Not A Member?",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                  ),
                   Text(
                     "Register Now",
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: Colors.blue, fontSize: 17),
                   ),
                 ],
               ),
