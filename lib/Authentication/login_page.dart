@@ -33,11 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-
-                HomePage()),
-
-                const HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
-
+                 HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
