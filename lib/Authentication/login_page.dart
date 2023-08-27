@@ -33,29 +33,27 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                 HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
+                HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Fluttertoast.showToast(
-        msg: "No User Found with that email",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM_RIGHT,
-        timeInSecForIosWeb: 2,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
+            msg: "No User Found with that email",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM_RIGHT,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       } else if (e.code == 'wrong-password') {
         Fluttertoast.showToast(
-        msg: "The entered password doesn't match our credentials",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM_RIGHT,
-        timeInSecForIosWeb: 2,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
+            msg: "The entered password doesn't match our credentials",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM_RIGHT,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
       }
     }
     // Implement your sign-in logic here
@@ -143,7 +141,6 @@ class _LoginPageState extends State<LoginPage> {
                 suffixIcon: GestureDetector(
                   child: const Icon(Icons.abc),
                 ),
-                
                 controller: _email,
                 hintText: 'Email',
                 obscureText: false,
@@ -220,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                   SignInButton(
                     Buttons.Google,
                     onPressed: () {
-
+                      signInWithGoogle();
                     },
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.005),
