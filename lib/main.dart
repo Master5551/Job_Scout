@@ -2,9 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:job_scout/Authentication/login_page.dart';
-import 'package:job_scout/Home/profile_page.dart';
 import 'package:job_scout/firebase_options.dart';
-import 'Authentication/home_page.dart';
+// ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
@@ -26,7 +25,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(
       //   primaryColor: kPrimaryColor2,
