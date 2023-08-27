@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:job_scout/Authentication/home_page.dart';
+import 'package:job_scout/Authentication/welcome_screen.dart';
 import 'package:job_scout/components/my_button.dart';
 import 'package:job_scout/components/my_text_field.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -72,7 +73,9 @@ class _LoginPageState extends State<LoginPage> {
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-
+    if (FirebaseAuth.instance.currentUser != null) {
+      Homepage();
+    }
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
@@ -80,6 +83,15 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> logout() async {
     await GoogleSignIn().disconnect();
     FirebaseAuth.instance.signOut();
+  }
+
+  void Homepage() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              const WelcomeScreen()), // Replace 'OtherPage' with your page's name
+    );
   }
 
   @override
@@ -108,7 +120,8 @@ class _LoginPageState extends State<LoginPage> {
               Center(
                 child: Image.asset(
                   'assets/images/logo.png',
-                  height: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.2,
                 ),
               ),
               SizedBox(
@@ -117,7 +130,8 @@ class _LoginPageState extends State<LoginPage> {
               Text(
                 'Welcome to Job Scout App',
                 style: TextStyle(
-                  color: Colors.grey,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
                   fontSize: MediaQuery.of(context).size.width * 0.04,
                 ),
               ),
@@ -153,11 +167,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.05,
-                ),
-                child: const Row(
+              const Padding(
+                padding: EdgeInsetsDirectional.all(18),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
@@ -210,9 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                   SignInButton(
                     Buttons.Apple,
-                    onPressed: () {
-                      logout();
-                    },
+                    onPressed: () {},
                   ),
                 ],
               ),
