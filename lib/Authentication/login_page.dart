@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:job_scout/Authentication/home_page.dart';
 import 'package:job_scout/components/my_button.dart';
 import 'package:job_scout/components/my_text_field.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -25,18 +27,54 @@ class _LoginPageState extends State<LoginPage> {
         password: _password.text,
       );
       Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
-        );
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                HomePage()),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        Fluttertoast.showToast(
+        msg: "No User Found with that email",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM_RIGHT,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        Fluttertoast.showToast(
+        msg: "The entered password doesn't match our credentials",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM_RIGHT,
+        timeInSecForIosWeb: 2,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
       }
     }
     // Implement your sign-in logic here
   }
+  // Google Sign in Authentication code......................................!!!!!!!!!!!!!!
+  // Future<UserCredential> signInWithGoogle() async {
+  //   // Trigger the authentication flow
+  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  //   // Obtain the auth details from the request
+  //   final GoogleSignInAuthentication? googleAuth =
+  //       await googleUser?.authentication;
+
+  //   // Create a new credential
+  //   final credential = GoogleAuthProvider.credential(
+  //     accessToken: googleAuth?.accessToken,
+  //     idToken: googleAuth?.idToken,
+  //   );
+
+  //   // Once signed in, return the UserCredential
+  //   return await FirebaseAuth.instance.signInWithCredential(credential);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +99,10 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
               Center(
                 child: Image.asset(
                   'assets/images/logo.png',
-                  height: MediaQuery.of(context).size.width * 0.7,
+                  height: MediaQuery.of(context).size.width * 0.5,
                 ),
               ),
               SizedBox(
@@ -85,6 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                 suffixIcon: GestureDetector(
                   child: Icon(Icons.abc),
                 ),
+                
                 controller: _email,
                 hintText: 'Email',
                 obscureText: false,
@@ -160,7 +198,9 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   SignInButton(
                     Buttons.Google,
-                    onPressed: () {},
+                    onPressed: () {
+                      
+                    },
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                   SignInButton(
