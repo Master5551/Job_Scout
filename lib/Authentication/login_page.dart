@@ -80,7 +80,12 @@ class _LoginPageState extends State<LoginPage> {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  
+  Future<UserCredential> signInWithGitHub() async {
+    // Create a new provider
+    GithubAuthProvider githubProvider = GithubAuthProvider();
+
+    return await FirebaseAuth.instance.signInWithProvider(githubProvider);
+  }
 
   void Homepage() {
     Navigator.pushReplacement(
@@ -218,8 +223,11 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                   SignInButton(
-                    Buttons.Apple,
-                    onPressed: () {},
+                    Buttons.GitHub,
+                    onPressed: () {
+                      print('HI');
+                      signInWithGitHub();
+                    },
                   ),
                 ],
               ),
