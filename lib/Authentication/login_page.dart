@@ -22,20 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   final _formkey = GlobalKey<FormState>();
   bool _isPasswordVisible = false; // Added state variable
 
-  String? _validateEmail(String value) {
-    if (value.isEmpty) {
-      return "Field cannot be empty";
-    } else {
-      return null;
-    }
-  }
-
-  String? _validatePassword(String value) {
-    if (value.length < 8) {
-      return "At least 8 chars!";
-    } else {
-      return null;
-    }
+  void _submitForm() {
+    if (_formkey.currentState!.validate()) {}
   }
 
   void signInWithEmailAndPassword() async {
@@ -108,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
       context,
       MaterialPageRoute(
           builder: (context) =>
-              const WelcomeScreen()), // Replace 'OtherPage' with your page's name
+              const WelcomeScreen()), 
     );
   }
 
@@ -156,34 +144,55 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
-              MyTextField(
-                suffixIcon: GestureDetector(
-                  child: const Icon(Icons.abc),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextFormField(
+                  controller: _email,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText:
+                        "Please enter email", // Fix: Use the correct parameter name
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400),
+                    ),
+                    fillColor: Colors.grey.shade400,
+                    filled: true,
+                  ),
                 ),
-                controller: _email,
-                hintText: 'Email',
-                obscureText: false,
-                validator: _validateEmail,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
-              MyTextField(
-                controller: _password,
-                hintText: 'Password',
-                obscureText: !_isPasswordVisible,
-                validator: _validatePassword, // Use the state variable here
-                suffixIcon: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextFormField(
+                  controller: _password,
+                  obscureText: !_isPasswordVisible,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
                   },
-                  child: Icon(
-                    _isPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    color: Colors.grey,
+                  decoration: InputDecoration(
+                    hintText:
+                        "Please enter Your password", // Fix: Use the correct parameter name
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400),
+                    ),
+                    fillColor: Colors.grey.shade400,
+                    filled: true,
                   ),
                 ),
               ),
@@ -203,6 +212,7 @@ class _LoginPageState extends State<LoginPage> {
               MyButton(
                 onTap: () {
                   signInWithEmailAndPassword();
+                  _submitForm();
                   setState(() {});
                 },
                 buttonText: 'Sign In',
