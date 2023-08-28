@@ -9,7 +9,8 @@ class MyTextField extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.hintText,
-    required this.obscureText, required GestureDetector suffixIcon,
+    required this.obscureText, required GestureDetector suffixIcon, required validator, 
+    
   }) : super(key: key);
 
   @override

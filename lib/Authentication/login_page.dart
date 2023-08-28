@@ -22,6 +22,22 @@ class _LoginPageState extends State<LoginPage> {
   final _formkey = GlobalKey<FormState>();
   bool _isPasswordVisible = false; // Added state variable
 
+  String? _validateEmail(String value) {
+    if (value.isEmpty) {
+      return "Field cannot be empty";
+    } else {
+      return null;
+    }
+  }
+
+  String? _validatePassword(String value) {
+    if (value.length < 8) {
+      return "At least 8 chars!";
+    } else {
+      return null;
+    }
+  }
+
   void signInWithEmailAndPassword() async {
     try {
       // ignore: unused_local_variable
@@ -147,6 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                 controller: _email,
                 hintText: 'Email',
                 obscureText: false,
+                validator: _validateEmail,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
@@ -154,7 +171,8 @@ class _LoginPageState extends State<LoginPage> {
               MyTextField(
                 controller: _password,
                 hintText: 'Password',
-                obscureText: !_isPasswordVisible, // Use the state variable here
+                obscureText: !_isPasswordVisible,
+                validator: _validatePassword, // Use the state variable here
                 suffixIcon: GestureDetector(
                   onTap: () {
                     setState(() {
