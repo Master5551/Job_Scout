@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:job_scout/Authentication/forgot_password_screen.dart';
 import 'package:job_scout/Authentication/home_page.dart';
+import 'package:job_scout/Authentication/verified_page.dart';
 import 'package:job_scout/Authentication/welcome_screen.dart';
 import 'package:job_scout/components/my_button.dart';
 import 'package:job_scout/components/my_text_field.dart';
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                const HomePage()), // Replace `NextScreen` with the actual screen you want to navigate to
+                const VerifiedPage()), // Replace `NextScreen` with the actual screen you want to navigate to
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -220,12 +221,14 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      style: TextButton.styleFrom(foregroundColor: Colors.teal),
+                        style:
+                            TextButton.styleFrom(foregroundColor: Colors.teal),
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ForgotPasswordScreen()));
+                                  builder: (context) =>
+                                      ForgotPasswordScreen()));
                         },
                         child: Text('Forgot Password'))
                   ],
@@ -237,6 +240,7 @@ class _LoginPageState extends State<LoginPage> {
                   signInWithEmailAndPassword();
                   _submitForm();
                   setState(() {});
+                  
                 },
                 buttonText: 'Sign In',
               ),
@@ -276,7 +280,6 @@ class _LoginPageState extends State<LoginPage> {
                   SignInButton(
                     Buttons.GitHub,
                     onPressed: () {
-                      print('HI');
                       signInWithGitHub();
                     },
                   ),
