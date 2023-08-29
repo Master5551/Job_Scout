@@ -28,10 +28,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      // theme: ThemeData(
-      //   primaryColor: kPrimaryColor2,
-      //   scaffoldBackgroundColor: Colors.white,
-      // ),
+      
       home: HomePage(),
     );
   }
