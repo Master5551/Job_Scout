@@ -20,7 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   final _formkey = GlobalKey<FormState>();
-  bool _isPasswordVisible = false; // Added state variable
+  bool _isPasswordVisible = false;
+  bool _isPasswordValid = false;
 
   void _submitForm() {
     if (_formkey.currentState!.validate()) {}
@@ -94,9 +95,7 @@ class _LoginPageState extends State<LoginPage> {
   void Homepage() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-          builder: (context) =>
-              const WelcomeScreen()), 
+      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
     );
   }
 
@@ -152,11 +151,14 @@ class _LoginPageState extends State<LoginPage> {
                     if (value!.isEmpty) {
                       return 'Please enter some text';
                     }
+                    if (!RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}')
+                        .hasMatch(value)) {
+                      return 'Please enter valid Email';
+                    }
                     return null;
                   },
                   decoration: InputDecoration(
-                    hintText:
-                        "Please enter email", // Fix: Use the correct parameter name
+                    hintText: "Please enter email",
                     enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
                     ),
@@ -178,7 +180,8 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: !_isPasswordVisible,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      _isPasswordValid = true;
+                      return 'Please enter password';
                     }
                     return null;
                   },
@@ -188,6 +191,20 @@ class _LoginPageState extends State<LoginPage> {
                     enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
                     ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                      icon: _isPasswordVisible
+                          ? Icon(
+                              Icons.visibility,
+                              color: Colors.black,
+                            )
+                          : Icon(Icons.visibility_off, color: Colors.grey),
+                    ),
+
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400),
                     ),
