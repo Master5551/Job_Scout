@@ -15,7 +15,6 @@ class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -241,7 +240,6 @@ class _LoginPageState extends State<LoginPage> {
                   signInWithEmailAndPassword();
                   _submitForm();
                   setState(() {});
-                  
                 },
                 buttonText: 'Sign In',
               ),
@@ -292,19 +290,22 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Text(
                     "Not A Member?",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                   TextButton(
-                        style:
-                            TextButton.styleFrom(foregroundColor: Colors.teal),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      RegisterPage()));
-                        },
-                        child: Text('Regester Here')),
+                      style: TextButton.styleFrom(foregroundColor: Colors.teal),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RegisterPage()));
+                      },
+                      child: Text(
+                        'Register Here',
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      )),
                 ],
               ),
             ],
