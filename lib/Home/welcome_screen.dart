@@ -1,30 +1,67 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:job_scout/Home/bottom_navigation.dart';
+import 'bottom_navigation.dart'; // Import the bottom_navigation.dart file
+import 'jobs.dart'; // Import the jobs.dart file
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    Future<void> logout() async {
-      await GoogleSignIn().disconnect();
-      FirebaseAuth.instance.signOut();
-    }
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
 
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('data'),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  logout();
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.logout))
-          ],
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  int _currentIndex = 0;
+
+  void _onTap(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: CircleAvatar(
+          radius: 20,
+          backgroundImage: AssetImage('assets/images/profile.png'),
         ),
+        title: Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.search),
+              SizedBox(width: 8),
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search...',
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          IconButton(
+            color: Color.fromARGB(255, 121, 116, 116),
+            icon: Icon(Icons.chat),
+            onPressed: () {
+              // Add your chat icon button functionality here
+            },
+          ),
+        ],
+      ),
+      body: Container(),
+      bottomNavigationBar: BottomNavigation(
+        currentIndex: _currentIndex,
+        onTap: _onTap,
       ),
     );
   }
