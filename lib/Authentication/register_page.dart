@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_scout/Authentication/forgot_password_screen.dart';
+import 'package:job_scout/Authentication/login_page.dart';
 import 'package:job_scout/components/my_button.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -255,18 +256,24 @@ class _RegisterPageState extends State<RegisterPage> {
                 buttonText: 'Sign In',
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.06),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Already Have an Account?",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                   ),
-                  Text(
-                    "Login Here",
-                    style: TextStyle(
-                        color: Colors.lightGreenAccent, fontSize: 17),
-                  ),
+                  TextButton(
+                        style:
+                            TextButton.styleFrom(foregroundColor: Colors.teal),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      LoginPage()));
+                        },
+                        child: Text('Login Here')),
                 ],
               ),
             ],

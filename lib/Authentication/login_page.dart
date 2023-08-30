@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:job_scout/Authentication/forgot_password_screen.dart';
 import 'package:job_scout/Authentication/home_page.dart';
+import 'package:job_scout/Authentication/register_page.dart';
 import 'package:job_scout/Authentication/verified_page.dart';
 import 'package:job_scout/Authentication/welcome_screen.dart';
 import 'package:job_scout/components/my_button.dart';
@@ -286,17 +287,24 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "Not A Member?",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                   ),
-                  Text(
-                    "Register Now",
-                    style: TextStyle(color: Colors.blue, fontSize: 17),
-                  ),
+                  TextButton(
+                        style:
+                            TextButton.styleFrom(foregroundColor: Colors.teal),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      RegisterPage()));
+                        },
+                        child: Text('Regester Here')),
                 ],
               ),
             ],
