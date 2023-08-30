@@ -5,7 +5,7 @@ import 'package:job_scout/Authentication/forgot_password_screen.dart';
 import 'package:job_scout/Authentication/home_page.dart';
 import 'package:job_scout/Authentication/register_page.dart';
 import 'package:job_scout/Authentication/verified_page.dart';
-import 'package:job_scout/Authentication/welcome_screen.dart';
+import 'package:job_scout/Home/welcome_screen.dart';
 import 'package:job_scout/components/my_button.dart';
 import 'package:job_scout/components/my_text_field.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
