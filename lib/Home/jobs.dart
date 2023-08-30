@@ -10,19 +10,28 @@ class JobsScreen extends StatefulWidget {
 }
 
 class _JobsScreenState extends State<JobsScreen> {
- int _currentIndex = 3; // Set the initial index to 0 for the "Home" button
+  int _currentIndex = 3; // Set the initial index to 0 for the "Home" button
 
   void _onTap(int index) {
     if (index == 0) {
       // If "Home" button is tapped
-      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => WelcomeScreen()),
+      );
+    } else if (index == 3) {
+      // If "Jobs" button is tapped
+      Navigator.popUntil(context, ModalRoute.withName('/'));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => JobsScreen()),
+      );
     } else {
       setState(() {
         _currentIndex = index;
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

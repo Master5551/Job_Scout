@@ -35,7 +35,7 @@ class MainApp extends StatelessWidget {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
       
-      home: WelcomeScreen(),
+      home: JobsScreen(),
     );
   }
 }

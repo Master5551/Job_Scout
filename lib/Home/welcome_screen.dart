@@ -11,14 +11,21 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  int _currentIndex = 0;
+   int _currentIndex = 0; // Set the initial index to 0 for the "Home" button
 
   void _onTap(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+    if (index == 3) {
+      // If "Jobs" button is tapped
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => JobsScreen()),
+      );
+    } else {
+      setState(() {
+        _currentIndex = index;
+      });
+    }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
