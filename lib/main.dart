@@ -30,12 +30,11 @@ void main() async {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  @override 
+  @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      
-      home: JobsScreen(),
+      home: LoginPage(),
     );
   }
 }
