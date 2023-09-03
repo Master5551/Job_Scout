@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:job_scout/Authentication/forgot_password_screen.dart';
 import 'package:job_scout/Authentication/home_page.dart';
@@ -97,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
   void Homepage() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) =>  WelcomeScreen()),
+      MaterialPageRoute(builder: (context) => WelcomeScreen()),
     );
   }
 
@@ -125,8 +126,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Center(
-                child: Image.asset(
-                  'assets/images/logo.png',
+                child: SvgPicture.asset(
+                  'assets/images/logo.svg',
                   width: MediaQuery.of(context).size.width * 0.5,
                   height: MediaQuery.of(context).size.height * 0.2,
                 ),

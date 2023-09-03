@@ -60,7 +60,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             color: Color.fromARGB(255, 121, 116, 116),
             icon: Icon(Icons.chat),
             onPressed: () {
-              // Add your chat icon button functionality here
             },
           ),
         ],
