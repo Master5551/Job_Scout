@@ -45,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                 const VerifiedPage()), // Replace `NextScreen` with the actual screen you want to navigate to
       );
     } on FirebaseAuthException catch (e) {
+     
       if (e.code == 'user-not-found') {
         Fluttertoast.showToast(
             msg: "No User Found with that email",

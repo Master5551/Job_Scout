@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_scout/Authentication/login_page.dart';
+import 'package:job_scout/Home/profile_page.dart';
 import 'package:lottie/lottie.dart';
 
 class VerifiedPage extends StatefulWidget {
@@ -14,16 +15,17 @@ class _VerifiedPageState extends State<VerifiedPage> {
   void initState() {
     super.initState();
     // Delay navigation by 3 seconds
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 5), () {
       // Navigate to the desired page
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) =>
-            LoginPage(), // Replace YourNextPage with the actual page you want to navigate to
+            ProfilePage(), // Replace YourNextPage with the actual page you want to navigate to
       ));
     });
   }
 
   @override
+    
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView.builder(
