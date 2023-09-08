@@ -82,8 +82,13 @@ class _LoginPageState extends State<LoginPage> {
       idToken: googleAuth?.idToken,
     );
     if (FirebaseAuth.instance.currentUser != null) {
-      Homepage();
+        Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => VerifiedPage(),
+        ));
+          
     }
+    // print("Outside");
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
@@ -98,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
   void Register(){
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => WelcomeScreen()),
+      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
     );
   }
 
@@ -201,11 +206,11 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       },
                       icon: _isPasswordVisible
-                          ? Icon(
+                          ? const Icon(
                               Icons.visibility,
                               color: Colors.black,
                             )
-                          : Icon(Icons.visibility_off, color: Colors.grey),
+                          : const Icon(Icons.visibility_off, color: Colors.grey),
                     ),
 
                     focusedBorder: OutlineInputBorder(
@@ -217,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(5, 10, 10, 0),
+                padding: const EdgeInsets.fromLTRB(5, 10, 10, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -229,9 +234,9 @@ class _LoginPageState extends State<LoginPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      ForgotPasswordScreen()));
+                                      const ForgotPasswordScreen()));
                         },
-                        child: Text('Forgot Password'))
+                        child: const Text('Forgot Password'))
                   ],
                 ),
               ),
@@ -289,7 +294,7 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Not A Member?",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
@@ -299,9 +304,9 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => RegisterPage()));
+                                builder: (context) => const RegisterPage()));
                       },
-                      child: Text(
+                      child: const Text(
                         'Register Here',
                         style: TextStyle(
                           fontSize: 20,
