@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:job_scout/Authentication/forgot_password_screen.dart';
 import 'package:job_scout/Authentication/login_page.dart';
+import 'package:job_scout/Authentication/models/user_model.dart';
 import 'package:job_scout/components/my_button.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -12,6 +15,10 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formkey = GlobalKey<FormState>();
+  final _username = TextEditingController();
+  final _first_name = TextEditingController();
+  final _last_name = TextEditingController();
+  final _mobileno = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
   bool _isPasswordVisible = false;
@@ -66,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextFormField(
-                  // controller: _email,
+                  controller: _username,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter some text';
@@ -89,7 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextFormField(
-                  // controller: _email,
+                  controller: _first_name,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter some text';
@@ -112,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextFormField(
-                  // controller: _email,
+                  controller: _last_name,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter some text';
@@ -135,7 +142,30 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextFormField(
-                  // controller: _email,
+                  controller: _email,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Enter your email",
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade400),
+                    ),
+                    fillColor: Colors.grey.shade400,
+                    filled: true,
+                  ),
+                ),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextFormField(
+                  controller: _mobileno,
                   maxLength: 10,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -149,11 +179,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     hintText: " Enter your Mobile no",
-                      enabledBorder: const OutlineInputBorder(
+                    enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
-                      
                     ),
-                   
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue),
                     ),
@@ -168,8 +196,8 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextFormField(
-                  // controller: _password,
-                  // obscureText: !_isPasswordVisible,
+                   controller: _password,
+                   obscureText: !_isPasswordVisible,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       // _isPasswordValid = true;
@@ -250,7 +278,15 @@ class _RegisterPageState extends State<RegisterPage> {
               MyButton(
                 onTap: () {
                   // signInWithEmailAndPassword();
-                  _submitForm();
+                  final user = UserModel(
+                    username: _username.text,
+                    first_name: _first_name.text,
+                    last_name: _last_name.text,
+                    mobileno: _mobileno.text,
+                    email: _email.text,
+                    password: _password.text,
+                  );
+                  
                   setState(() {});
                 },
                 buttonText: 'Sign In',
@@ -264,16 +300,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                   ),
                   TextButton(
-                        style:
-                            TextButton.styleFrom(foregroundColor: Colors.teal),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      LoginPage()));
-                        },
-                        child: Text('Login Here')),
+                      style: TextButton.styleFrom(foregroundColor: Colors.teal),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginPage()));
+                      },
+                      child: Text('Login Here')),
                 ],
               ),
             ],
