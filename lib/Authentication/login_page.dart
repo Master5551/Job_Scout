@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
     return await FirebaseAuth.instance.signInWithProvider(githubProvider);
   }
 
-  void RegisterPage() {
+  void Register(){
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => WelcomeScreen()),
