@@ -51,7 +51,7 @@ class _SendDataPageState extends State<SendDataPage> {
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error inserting user data: $e'),
+            content: Text('Error inserting user data not: $e'),
           ),
         );
       }
