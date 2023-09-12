@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:job_scout/Authentication/verified_page.dart';
+import 'package:job_scout/Controller/send.dart';
 import 'package:job_scout/components/my_button.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -12,6 +14,13 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late PickedFile? imageFile;
   final ImagePicker imagePicker = ImagePicker();
+  final _first_name = TextEditingController();
+  final _last_name = TextEditingController();
+  final _mobileno = TextEditingController();
+  final _profession = TextEditingController();
+  final _dob = TextEditingController();
+  final _title = TextEditingController();
+  final _about = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget firstnameTextField() {
     return TextFormField(
+      controller: _first_name,
       decoration: InputDecoration(
           border: const OutlineInputBorder(
               borderSide: BorderSide(
@@ -148,6 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget lastnameTextField() {
     return TextFormField(
+      controller: _last_name,
       decoration: InputDecoration(
           border: const OutlineInputBorder(
               borderSide: BorderSide(
@@ -170,6 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget mobilenoTextField() {
     return TextFormField(
+      controller: _mobileno,
       decoration: InputDecoration(
           border: const OutlineInputBorder(
               borderSide: BorderSide(
@@ -192,6 +204,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget professionTextField() {
     return TextFormField(
+      controller: _profession,
       decoration: InputDecoration(
           border: const OutlineInputBorder(
               borderSide: BorderSide(
@@ -214,6 +227,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget dobField() {
     return TextFormField(
+      controller: _dob,
       decoration: InputDecoration(
         border: const OutlineInputBorder(
             borderSide: BorderSide(
@@ -237,6 +251,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget titleTextField() {
     return TextFormField(
+      controller: _title,
       decoration: InputDecoration(
         border: const OutlineInputBorder(
             borderSide: BorderSide(
@@ -260,6 +275,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget aboutTextField() {
     return TextFormField(
+      controller: _about,
       maxLines: 4,
       decoration: const InputDecoration(
         border: OutlineInputBorder(
@@ -280,10 +296,28 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget Button() {
     return MyButton(
-      onTap: () {
-        setState(() {});
-      },
-      buttonText: 'Submit',
+      onTap: () async {
+    try {
+       DataSender();
+      // If the data insertion was successful, you can navigate to another page here.
+      // Example:
+      // Navigator.of(context).pushReplacement(
+      //   MaterialPageRoute(
+      //     builder: (context) => VerifiedPage(),
+      //   ),
+      // );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $e'),
+        ),
+      );
+    }
+  },
+  buttonText: "Submit",
+
+      
+      
     );
   }
 }
