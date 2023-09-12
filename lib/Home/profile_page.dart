@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:job_scout/components/my_button.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -24,7 +25,11 @@ class _ProfilePageState extends State<ProfilePage> {
           children: <Widget>[
             imageProfile(),
             const SizedBox(height: 20),
-            nameTextField(),
+            firstnameTextField(),
+            const SizedBox(height: 20),
+            lastnameTextField(),
+            const SizedBox(height: 20),
+            mobilenoTextField(),
             const SizedBox(height: 20),
             professionTextField(),
             const SizedBox(height: 20),
@@ -33,6 +38,8 @@ class _ProfilePageState extends State<ProfilePage> {
             titleTextField(),
             const SizedBox(height: 20),
             aboutTextField(),
+            const SizedBox(height: 20),
+            Button(),
             const SizedBox(height: 20),
           ],
         ),
@@ -117,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  Widget nameTextField() {
+  Widget firstnameTextField() {
     return TextFormField(
       decoration: InputDecoration(
           border: const OutlineInputBorder(
@@ -133,7 +140,51 @@ class _ProfilePageState extends State<ProfilePage> {
             Icons.person,
             color: Colors.green[300],
           ),
-          labelText: "Name",
+          labelText: "first name",
+          helperText: "Name Can't be empty",
+          hintText: "John Doe"),
+    );
+  }
+
+  Widget lastnameTextField() {
+    return TextFormField(
+      decoration: InputDecoration(
+          border: const OutlineInputBorder(
+              borderSide: BorderSide(
+            color: Colors.teal,
+          )),
+          focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+            color: Colors.orange,
+            width: 2,
+          )),
+          prefixIcon: Icon(
+            Icons.person,
+            color: Colors.green[300],
+          ),
+          labelText: "last name",
+          helperText: "Name Can't be empty",
+          hintText: "John Doe"),
+    );
+  }
+
+  Widget mobilenoTextField() {
+    return TextFormField(
+      decoration: InputDecoration(
+          border: const OutlineInputBorder(
+              borderSide: BorderSide(
+            color: Colors.teal,
+          )),
+          focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+            color: Colors.orange,
+            width: 2,
+          )),
+          prefixIcon: Icon(
+            Icons.person,
+            color: Colors.green[300],
+          ),
+          labelText: "Enter Your Mobile Number",
           helperText: "Name Can't be empty",
           hintText: "John Doe"),
     );
@@ -224,6 +275,15 @@ class _ProfilePageState extends State<ProfilePage> {
         helperText: "Write about yourself",
         hintText: "Full Stack Developer",
       ),
+    );
+  }
+
+  Widget Button() {
+    return MyButton(
+      onTap: () {
+        setState(() {});
+      },
+      buttonText: 'Submit',
     );
   }
 }
