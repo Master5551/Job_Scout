@@ -1,112 +1,18 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:job_scout/users/Authentication/forgot_password_screen.dart';
-import 'package:job_scout/users/Authentication/home_page.dart';
-import 'package:job_scout/users/Authentication/register_page.dart';
-import 'package:job_scout/users/Authentication/verified_page.dart';
+import 'package:job_scout/Controller/login_controller.dart';
 import 'package:job_scout/Home/welcome_screen.dart';
 import 'package:job_scout/components/my_button.dart';
-import 'package:job_scout/components/my_text_field.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:job_scout/users/Authentication/forgot_password_screen.dart';
+import 'package:job_scout/users/Authentication/verified_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final _email = TextEditingController();
-  final _password = TextEditingController();
-  final _formkey = GlobalKey<FormState>();
-  bool _isPasswordVisible = false;
-  bool _isPasswordValid = false;
-
-  void _submitForm() {
-    if (_formkey.currentState!.validate()) {}
-  }
-
-  void signInWithEmailAndPassword() async {
-    try {
-      // ignore: unused_local_variable
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _email.text,
-        password: _password.text,
-      );
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                const VerifiedPage()), // Replace `NextScreen` with the actual screen you want to navigate to
-      );
-    } on FirebaseAuthException catch (e) {
-     
-      if (e.code == 'user-not-found') {
-        Fluttertoast.showToast(
-            msg: "No User Found with that email",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM_RIGHT,
-            timeInSecForIosWeb: 2,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      } else if (e.code == 'wrong-password') {
-        Fluttertoast.showToast(
-            msg: "The entered password doesn't match our credentials",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM_RIGHT,
-            timeInSecForIosWeb: 2,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
-      }
-    }
-    // Implement your sign-in logic here
-  }
-
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    if (FirebaseAuth.instance.currentUser != null) {
-        Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => VerifiedPage(),
-        ));
-          
-    }
-    // print("Outside");
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
-
-  Future<UserCredential> signInWithGitHub() async {
-    // Create a new provider
-    GithubAuthProvider githubProvider = GithubAuthProvider();
-
-    return await FirebaseAuth.instance.signInWithProvider(githubProvider);
-  }
-
-  void Register(){
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const WelcomeScreen()),
-    );
-  }
+class LoginPage extends StatelessWidget {
+  final LoginController loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Form(
-          key: _formkey,
+          key: loginController.formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -155,14 +61,14 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextFormField(
-                  controller: _email,
+                  controller: loginController.emailController,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter some text';
                     }
                     if (!RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}')
                         .hasMatch(value)) {
-                      return 'Please enter valid Email';
+                      return 'Please enter a valid Email';
                     }
                     return null;
                   },
@@ -185,35 +91,31 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextFormField(
-                  controller: _password,
-                  obscureText: !_isPasswordVisible,
+                  controller: loginController.passwordController,
+                  obscureText: !loginController.isPasswordVisible.value,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      _isPasswordValid = true;
-                      return 'Please enter password';
+                      loginController.isPasswordValid.value = true;
+                      return 'Please enter a password';
                     }
                     return null;
                   },
                   decoration: InputDecoration(
-                    hintText:
-                        "Please enter Your password", // Fix: Use the correct parameter name
+                    hintText: "Please enter your password",
                     enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
                     ),
                     suffixIcon: IconButton(
                       onPressed: () {
-                        setState(() {
-                          _isPasswordVisible = !_isPasswordVisible;
-                        });
+                        loginController.togglePasswordVisibility();
                       },
-                      icon: _isPasswordVisible
-                          ? const Icon(
-                              Icons.visibility,
-                              color: Colors.black,
-                            )
-                          : const Icon(Icons.visibility_off, color: Colors.grey),
+                      icon: Obx(() => Icon(
+                        loginController.isPasswordVisible.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Colors.black,
+                      )),
                     ),
-
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade400),
                     ),
@@ -228,14 +130,13 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                        style:
-                            TextButton.styleFrom(foregroundColor: Colors.teal),
+                        style: TextButton.styleFrom(foregroundColor: Colors.teal),
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const ForgotPasswordScreen()));
+                                      ForgotPasswordScreen()));
                         },
                         child: const Text('Forgot Password'))
                   ],
@@ -244,9 +145,8 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.015),
               MyButton(
                 onTap: () {
-                  signInWithEmailAndPassword();
-                  _submitForm();
-                  setState(() {});
+                  loginController.signInWithEmailAndPassword();
+                  loginController.submitForm();
                 },
                 buttonText: 'Sign In',
               ),
@@ -279,14 +179,14 @@ class _LoginPageState extends State<LoginPage> {
                   SignInButton(
                     Buttons.Google,
                     onPressed: () {
-                      signInWithGoogle();
+                      loginController.signInWithGoogle();
                     },
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.005),
                   SignInButton(
                     Buttons.GitHub,
                     onPressed: () {
-                      signInWithGitHub();
+                      loginController.signInWithGitHub();
                     },
                   ),
                 ],
@@ -302,10 +202,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextButton(
                       style: TextButton.styleFrom(foregroundColor: Colors.teal),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const RegisterPage()));
+                        Get.toNamed('/searchpage');
                       },
                       child: const Text(
                         'Register Here',

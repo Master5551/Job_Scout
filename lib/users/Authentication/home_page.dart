@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              const LoginPage()), // Navigate to the login page
+                               LoginPage()), // Navigate to the login page
                     );
                   },
                   child: Text(
@@ -52,7 +52,7 @@ class HomePage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                const LoginPage()), // Navigate to the login page
+                                 LoginPage()), // Navigate to the login page
                       );
                     },
                     icon: const Icon(Icons.arrow_forward)),

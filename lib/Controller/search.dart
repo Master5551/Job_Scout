@@ -1,77 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:job_scout/Controller/search_user_controller.dart';
 
-
-class Another extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SearchUsersPage(),
-    );
-  }
-}
-
-class SearchUsersPage extends StatefulWidget {
-  @override
-  _SearchUsersPageState createState() => _SearchUsersPageState();
-}
-
-class _SearchUsersPageState extends State<SearchUsersPage> {
-  final TextEditingController _searchController = TextEditingController();
-  List<Map<String, dynamic>> _searchResults = [];
-
-  Future<List<Map<String, dynamic>>> searchUsers(String query) async {
-    try {
-      // Print the search query and field being used
-      print('Searching for users with query: $query in "firstName" or "lastName" field');
-
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('Users')
-          .where('firstName', isEqualTo: query)
-          .get();
-
-      final querySnapshotLastName = await FirebaseFirestore.instance
-          .collection('Users')
-          .where('lastName', isEqualTo: query)
-          .get();
-
-      final List<Map<String, dynamic>> searchResults = [];
-
-      querySnapshot.docs.forEach((doc) {
-        final userData = doc.data() as Map<String, dynamic>;
-        searchResults.add(userData);
-      });
-
-      querySnapshotLastName.docs.forEach((doc) {
-        final userData = doc.data() as Map<String, dynamic>;
-        searchResults.add(userData);
-      });
-
-      // Print the query results
-      print('Query results: $searchResults');
-
-      return searchResults;
-    } catch (e) {
-      print('Error searching for users: $e');
-      return [];
-    }
-  }
-
-  void onSearchButtonPressed() async {
-    final searchQuery = _searchController.text;
-
-    if (searchQuery.isNotEmpty) {
-      // Print the search query before initiating the search
-      print('Initiating search with query: $searchQuery');
-
-      final results = await searchUsers(searchQuery);
-
-      setState(() {
-        _searchResults = results;
-      });
-    }
-  }
+class SearchUsersPage extends StatelessWidget {
+  final SearchUsersController controller = Get.put(SearchUsersController());
 
   @override
   Widget build(BuildContext context) {
@@ -84,18 +18,30 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
         child: Column(
           children: [
             TextField(
-              controller: _searchController,
+              controller: controller.searchController,
               decoration: InputDecoration(
                 labelText: 'Search by First or Last Name',
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
-                  onPressed: onSearchButtonPressed,
+                  onPressed: controller.searchUsers,
                 ),
               ),
             ),
             SizedBox(height: 16),
             Expanded(
-              child: buildSearchResults(),
+              child: Obx(() {
+                if (controller.isLoading.value) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                if (controller.searchResults.isEmpty) {
+                  return Center(
+                    child: Text('No results found'),
+                  );
+                }
+
+                return buildSearchResults();
+              }),
             ),
           ],
         ),
@@ -104,23 +50,10 @@ class _SearchUsersPageState extends State<SearchUsersPage> {
   }
 
   Widget buildSearchResults() {
-    if (_searchResults.isEmpty) {
-      return Center(
-        child: Text('No results found'),
-      );
-    }
-
     return ListView.builder(
-      itemCount: _searchResults.length,
+      itemCount: controller.searchResults.length,
       itemBuilder: (context, index) {
-        final user = _searchResults[index];
-        
-        // Check if user data is null
-        if (user == null) {
-          return ListTile(
-            title: Text('User data not found'),
-          );
-        }
+        final user = controller.searchResults[index];
 
         // Access user data properties
         final firstName = user['firstName'] ?? 'Unknown';
