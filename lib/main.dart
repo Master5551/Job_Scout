@@ -5,6 +5,8 @@ import 'package:job_scout/Authentication/home_page.dart';
 import 'package:job_scout/Authentication/login_page.dart';
 import 'package:job_scout/Authentication/register_page.dart';
 import 'package:job_scout/Authentication/verified_page.dart';
+import 'package:job_scout/Controller/get_profile.dart';
+import 'package:job_scout/Controller/search.dart';
 import 'package:job_scout/Home/jobs.dart';
 import 'package:job_scout/Home/profile_page.dart';
 import 'package:job_scout/firebase_options.dart';
@@ -34,7 +36,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: SearchUsersPage(),
     );
   }
 }
