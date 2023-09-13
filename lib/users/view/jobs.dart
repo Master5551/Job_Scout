@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_scout/Home/welcome_screen.dart';
-import 'bottom_navigation.dart'; 
+import '../../Home/bottom_navigation.dart'; 
 
 class JobsScreen extends StatefulWidget {
   const JobsScreen({super.key});

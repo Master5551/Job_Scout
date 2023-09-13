@@ -1,6 +1,6 @@
   import 'package:flutter/material.dart';
   import 'package:image_picker/image_picker.dart';
-  import 'package:job_scout/Authentication/verified_page.dart';
+  import 'package:job_scout/users/Authentication/verified_page.dart';
   import 'package:job_scout/Controller/send.dart';
   import 'package:job_scout/components/my_button.dart';
 

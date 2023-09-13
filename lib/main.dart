@@ -1,14 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:job_scout/Authentication/home_page.dart';
-import 'package:job_scout/Authentication/login_page.dart';
-import 'package:job_scout/Authentication/register_page.dart';
-import 'package:job_scout/Authentication/verified_page.dart';
+import 'package:job_scout/users/Authentication/home_page.dart';
+import 'package:job_scout/users/Authentication/login_page.dart';
+import 'package:job_scout/users/Authentication/register_page.dart';
+import 'package:job_scout/users/Authentication/verified_page.dart';
 import 'package:job_scout/Controller/get_profile.dart';
 import 'package:job_scout/Controller/search.dart';
-import 'package:job_scout/Home/jobs.dart';
-import 'package:job_scout/Home/profile_page.dart';
+import 'package:job_scout/users/view/jobs.dart';
+import 'package:job_scout/users/view/profile_page.dart';
 import 'package:job_scout/firebase_options.dart';
 // ignore: unused_import
 import 'package:firebase_auth/firebase_auth.dart';

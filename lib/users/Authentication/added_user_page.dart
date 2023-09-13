@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:job_scout/Authentication/login_page.dart';
-import 'package:job_scout/Home/profile_page.dart';
+import 'package:job_scout/users/Authentication/login_page.dart';
+import 'package:job_scout/Home/bottom_navigation.dart';
+import 'package:job_scout/users/view/profile_page.dart';
 import 'package:lottie/lottie.dart';
 
-class VerifiedPage extends StatefulWidget {
-  const VerifiedPage({Key? key}) : super(key: key);
+class AddedUserPage extends StatefulWidget {
+  const AddedUserPage({Key? key}) : super(key: key);
 
   @override
-  State<VerifiedPage> createState() => _VerifiedPageState();
+  State<AddedUserPage> createState() => _AddedUserPageState();
 }
 
-class _VerifiedPageState extends State<VerifiedPage> {
+class _AddedUserPageState extends State<AddedUserPage> {
   @override
   void initState() {
     super.initState();
@@ -19,7 +20,7 @@ class _VerifiedPageState extends State<VerifiedPage> {
       // Navigate to the desired page
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) =>
-            ProfilePage(), // Replace YourNextPage with the actual page you want to navigate to
+            LoginPage(), // Replace YourNextPage with the actual page you want to navigate to
       ));
     });
   }

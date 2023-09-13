@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:job_scout/Authentication/forgot_password_screen.dart';
-import 'package:job_scout/Authentication/login_page.dart';
-import 'package:job_scout/Authentication/models/user_model.dart';
+import 'package:job_scout/users/Authentication/forgot_password_screen.dart';
+import 'package:job_scout/users/Authentication/login_page.dart';
 import 'package:job_scout/components/my_button.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -15,15 +14,35 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formkey = GlobalKey<FormState>();
-  final _username = TextEditingController();
-  final _first_name = TextEditingController();
-  final _last_name = TextEditingController();
-  final _mobileno = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
   bool _isPasswordVisible = false;
-  void _submitForm() {
-    if (_formkey.currentState!.validate()) {}
+   
+   void _submitForm() async {
+    if (_formkey.currentState!.validate()) {
+      try {
+        // Create a new user with email and password
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: _email.text,
+          password: _password.text,
+          
+        );
+        Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                        const LoginPage()), // Replace `NextScreen` with the actual screen you want to navigate to
+                      );
+
+
+        // User registration successful
+        // You can navigate to the next screen or perform other actions here
+      } catch (error) {
+        // Handle registration errors here
+        print('Error registering user: $error');
+        // You can display an error message to the user if needed
+      }
+    }
   }
 
   @override
@@ -67,77 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   fontSize: MediaQuery.of(context).size.width * 0.04,
                 ),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: TextFormField(
-                  controller: _username,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Enter Username here",
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade400),
-                    ),
-                    fillColor: Colors.grey.shade400,
-                    filled: true,
-                  ),
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: TextFormField(
-                  controller: _first_name,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Enter your first name",
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade400),
-                    ),
-                    fillColor: Colors.grey.shade400,
-                    filled: true,
-                  ),
-                ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: TextFormField(
-                  controller: _last_name,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Enter your last name",
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade400),
-                    ),
-                    fillColor: Colors.grey.shade400,
-                    filled: true,
-                  ),
-                ),
-              ),
+             
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -161,35 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: TextFormField(
-                  controller: _mobileno,
-                  maxLength: 10,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    if (value.length != 10) {
-                      return "Please Enter valid Mobile Number";
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    hintText: " Enter your Mobile no",
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue),
-                    ),
-                    fillColor: Colors.grey.shade400,
-                    filled: true,
-                  ),
-                ),
-              ),
+              
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),
@@ -278,16 +199,15 @@ class _RegisterPageState extends State<RegisterPage> {
               MyButton(
                 onTap: () {
                   // signInWithEmailAndPassword();
-                  final user = UserModel(
-                    username: _username.text,
-                    first_name: _first_name.text,
-                    last_name: _last_name.text,
-                    mobileno: _mobileno.text,
-                    email: _email.text,
-                    password: _password.text,
-                  );
-                  
-
+                  // final user = UserModel(
+                   
+                  //   email: _email.text,
+                  //   password: _password.text,
+                  // );
+                 
+                   
+                    _submitForm();
+                    
 
                   
                   setState(() {});
