@@ -1,8 +1,7 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:job_scout/users/Authentication/verified_page.dart';
 
 class DataSender {
@@ -41,11 +40,7 @@ class DataSender {
         await _firestore.collection('Users').doc(user.uid).set(userData);
 
         // Insertion successful, navigate to another page
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => VerifiedPage(),
-          ),
-        );
+        Get.toNamed('/searchpage');
       } else {
         throw Exception('User is not signed in.');
       }

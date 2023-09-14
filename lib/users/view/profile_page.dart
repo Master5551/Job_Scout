@@ -301,7 +301,8 @@ class ProfilePage extends StatelessWidget {
 
   Widget Button() {
     return MyButton(
-      onTap: () async {
+      onTap: ()  async {
+        
         try {
           // Create an instance of DataSender and call sendUserDataAndNavigate
           DataSender dataSender = DataSender();
@@ -314,10 +315,14 @@ class ProfilePage extends StatelessWidget {
             profileController.dobController.text,
             profileController.titleController.text,
             profileController.aboutController.text,
+
+            
           );
+          
         } catch (e) {
           print('Error: $e');
         }
+        
       },
       buttonText: "Submit",
     );

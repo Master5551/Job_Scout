@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:job_scout/users/Authentication/login_page.dart';
-import 'package:job_scout/Home/bottom_navigation.dart';
+import 'package:job_scout/components/bottom_navigation.dart';
 import 'package:job_scout/users/view/profile_page.dart';
 import 'package:lottie/lottie.dart';
 

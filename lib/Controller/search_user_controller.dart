@@ -5,6 +5,7 @@ class SearchUsersController extends GetxController {
   final searchController = TextEditingController();
   final searchResults = RxList<Map<String, dynamic>>([]);
   final isLoading = false.obs;
+  RxInt currentIndex = 2.obs;
 
   Future<void> searchUsers() async {
     try {
@@ -28,5 +29,8 @@ class SearchUsersController extends GetxController {
   void onClose() {
     searchController.dispose();
     super.onClose();
+  }
+  void setCurrentIndex(int index) {
+    currentIndex.value = index;
   }
 }

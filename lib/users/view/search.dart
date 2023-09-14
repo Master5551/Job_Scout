@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:job_scout/Controller/search_user_controller.dart';
+import 'package:job_scout/components/bottom_navigation.dart';
 
 class SearchUsersPage extends StatelessWidget {
   final SearchUsersController controller = Get.put(SearchUsersController());
@@ -46,6 +47,10 @@ class SearchUsersPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigation(
+  currentIndex: controller.currentIndex, // Pass the current index
+  tabLabels: ['Home', 'Create', 'Search', 'Profile'], // Pass the labels for each tab
+),
     );
   }
 
