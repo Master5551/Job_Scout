@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_scout/Controller/home_controller.dart';
+import 'package:job_scout/test/2.dart';
 import 'package:job_scout/users/view/search.dart';
 import 'package:job_scout/users/Authentication/start_page.dart';
 import 'package:job_scout/users/Authentication/register_page.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/', // Set the initial route here
       routes: {
-        '/': (context) => StartPage(), // Define the LoginPage route
+        '/': (context) => BottomNavBar(), // Define the LoginPage route
         '/login': (context) => LoginPage(), // Define the LoginPage route
         '/register': (context) => RegisterPage(),
         '/searchpage':(context) => SearchUsersPage(),
