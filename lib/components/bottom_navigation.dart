@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:job_scout/users/view/home_page.dart';
 
 import '../users/view/search.dart';
 
@@ -21,8 +22,9 @@ class BottomNavigation extends StatelessWidget {
           if (index == 2) {
             // Use Get.to to navigate to the SearchUsersPage
             Get.to(SearchUsersPage());
-          } else {
+          } else if (index == 0) {
             // Handle other tab selections here
+            Get.to(HomePage());
           }
         },
         items: List.generate(tabLabels.length, (index) {
