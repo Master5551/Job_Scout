@@ -47,10 +47,10 @@ class SearchUsersPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigation(
-  currentIndex: controller.currentIndex, // Pass the current index
-  tabLabels: ['Home', 'Create', 'Search', 'Profile'], // Pass the labels for each tab
-),
+//       bottomNavigationBar: BottomNavigation(
+//   currentIndex: controller.currentIndex, // Pass the current index
+//   tabLabels: ['Home', 'Create', 'Search', 'Profile'], // Pass the labels for each tab
+// ),
     );
   }
 

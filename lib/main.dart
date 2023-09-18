@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_scout/Controller/home_controller.dart';
+import 'package:job_scout/components/bottom_navigation.dart';
 import 'package:job_scout/users/view/search.dart';
 import 'package:job_scout/users/Authentication/start_page.dart';
 import 'package:job_scout/users/Authentication/register_page.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/searchpage':(context) => SearchUsersPage(),
         '/homepage':(context) => HomePage(),
         '/profilepage':(context) => ProfilePage(),
+        '/bottomnavbar':(context) => BottomNavBar(),
          // Define the RegisterPage route
       },
     );

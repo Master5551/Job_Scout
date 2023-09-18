@@ -1,6 +1,6 @@
-// ignore_for_file: sized_box_for_whitespace, depend_on_referenced_packages
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:job_scout/users/Authentication/register_page.dart';
 import 'login_page.dart'; // Import the login page
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -9,6 +9,9 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Define a custom green color similar to green[400]
+    final customGreenColor = Colors.green.shade400;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -25,37 +28,44 @@ class StartPage extends StatelessWidget {
           Positioned(
             bottom: 20.0,
             right: 20.0,
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                               LoginPage()), // Navigate to the login page
-                    );
+                    Get.toNamed('/login');
                   },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.grey),
+                  ),
                   child: Text(
-                    'Next',
+                    'Login',
                     style: TextStyle(
-                      color: Colors.green[800],
+                      color: customGreenColor,
                       fontSize: 18,
                     ),
                   ),
                 ),
                 const SizedBox(
-                    width: 3), // Add some space between the text and the icon
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                 LoginPage()), // Navigate to the login page
-                      );
-                    },
-                    icon: const Icon(Icons.arrow_forward)),
+                  height: 10.0, // Add some space between the buttons
+                ),
+                TextButton(
+                  onPressed: () {
+                    Get.toNamed('/register');
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(customGreenColor),
+                  ),
+                  child: Text(
+                    'Register',
+                    style: TextStyle(
+                      color: Colors.black, // Text color for Register
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

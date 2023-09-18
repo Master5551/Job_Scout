@@ -1,57 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:job_scout/users/Authentication/login_page.dart';
+import 'package:job_scout/users/Authentication/register_page.dart';
 import 'package:job_scout/users/view/home_page.dart';
+import 'package:job_scout/users/view/profile_page.dart';
+import 'package:job_scout/users/view/search.dart';
 
-import '../users/view/search.dart';
-
-class BottomNavigation extends StatelessWidget {
-  final RxInt currentIndex; // Change currentIndex to RxInt
-  final List<String> tabLabels;
-
-  BottomNavigation({
-    required this.currentIndex,
-    required this.tabLabels,
-  });
-
+class BottomNavBar extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      return BottomNavigationBar(
-        currentIndex: currentIndex.value, // Use the passed currentIndex
-        onTap: (index) {
-          if (index == 2) {
-            // Use Get.to to navigate to the SearchUsersPage
-            Get.to(SearchUsersPage());
-          } else if (index == 0) {
-            // Handle other tab selections here
-            Get.to(HomePage());
-          }
-        },
-        items: List.generate(tabLabels.length, (index) {
-          return BottomNavigationBarItem(
-            icon: Icon(_getIconForIndex(index)),
-            label: tabLabels[index],
-          );
-        }),
-        selectedItemColor: Colors.teal,
-        unselectedItemColor: Colors.grey,
-      );
+  _BottomNavBarState createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
+  final RxInt currentIndex = 0.obs;
+
+  final List<Widget> pages = [
+    HomePage(),
+    LoginPage(),
+    SearchUsersPage(),
+    RegisterPage(),
+  ];
+
+  void onItemTapped(int index) {
+    setState(() {
+      currentIndex.value = index;
     });
   }
 
-  // Define a method to get the icon based on the index
-  IconData _getIconForIndex(int index) {
-    switch (index) {
-      case 0:
-        return Icons.home;
-      case 1:
-        return Icons.add;
-      case 2:
-        return Icons.search;
-      case 3:
-        return Icons.person;
-      default:
-        return Icons.home;
-    }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Obx(() => pages[currentIndex.value]),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex.value,
+        onTap: onItemTapped,
+        selectedItemColor: Colors.teal,
+        unselectedItemColor: Colors.grey,
+        items: [
+          _buildBottomNavigationBarItem(Icons.home, 'Home', 0),
+          _buildBottomNavigationBarItem(Icons.add, 'Post', 1),
+          _buildBottomNavigationBarItem(Icons.search, 'Search', 2),
+          _buildBottomNavigationBarItem(Icons.backpack, 'Jobs', 3),
+        ],
+      ),
+    );
+  }
+
+  BottomNavigationBarItem _buildBottomNavigationBarItem(
+      IconData iconData, String label, int index) {
+    return BottomNavigationBarItem(
+      icon: Obx(() {
+        final current = currentIndex.value;
+        final color = current == index ? Colors.teal : Colors.grey;
+        return Icon(iconData, color: color);
+      }),
+      label: label,
+    );
   }
 }

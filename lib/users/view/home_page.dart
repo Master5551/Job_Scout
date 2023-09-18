@@ -16,10 +16,7 @@ class HomePage extends StatelessWidget {
         title: Text('Bottom Navigation Example'),
       ),
       body: Container(child: Text('gjdbgsdjgn'),),
-      bottomNavigationBar: BottomNavigation(
-        currentIndex: controller.currentIndex, // Pass the current index
-        tabLabels: ['Home', 'Create', 'Search', 'Profile'], // Pass the labels for each tab
-      ),
+      
     );
   }
 }

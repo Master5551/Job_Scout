@@ -40,7 +40,7 @@ class DataSender {
         await _firestore.collection('Users').doc(user.uid).set(userData);
 
         // Insertion successful, navigate to another page
-        Get.toNamed('/searchpage');
+        Get.toNamed('/bottomnavbar');
       } else {
         throw Exception('User is not signed in.');
       }
