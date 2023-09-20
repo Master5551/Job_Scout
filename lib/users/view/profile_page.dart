@@ -14,6 +14,7 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile Page'),
+        backgroundColor: Colors.teal,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -44,35 +45,37 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget imageProfile() {
-    return Center(
-      child: Stack(
-        children: <Widget>[
-          CircleAvatar(
-            radius: 80.0,
-            // backgroundImage: imageFile == null
-            //     ? Image.asset("assets/images/profile.png")
-            //     : FileImage(File(imageFile!.path)),
-          ),
-          Positioned(
-            bottom: 20.0,
-            right: 20.0,
-            child: InkWell(
-              onTap: () {
-                showModalBottomSheet(
-                  context: Get.context!,
-                  builder: ((builder) => bottomSheet()),
-                );
-              },
-              child: Icon(
-                Icons.camera_alt,
-                color: Colors.teal[200],
-              ),
+  return Center(
+    child: Stack(
+      children: <Widget>[
+        CircleAvatar(
+          radius: 80.0,
+          backgroundColor: Colors.green.shade100, // Set the default background color
+          // backgroundImage: imageFile == null
+          //     ? Image.asset("assets/images/profile.png")
+          //     : FileImage(File(imageFile!.path)),
+        ),
+        Positioned(
+          bottom: 20.0,
+          right: 20.0,
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: Get.context!,
+                builder: ((builder) => bottomSheet()),
+              );
+            },
+            child: Icon(
+              Icons.camera_alt,
+              color: Colors.teal[200],
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 
   Widget bottomSheet() {
     return Container(
