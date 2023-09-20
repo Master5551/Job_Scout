@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+    final User? user = _auth.currentUser;
     return GetMaterialApp(
       initialBinding: HomeControllerBinding(),
       title: 'Job Scout App',
@@ -27,7 +30,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/', // Set the initial route here
       routes: {
-        '/': (context) => BottomNavBar(), // Define the LoginPage route
+        '/': (context) =>  user != null ? HomePage() : LoginPage(), // Define the LoginPage route
         '/login': (context) => LoginPage(), // Define the LoginPage route
         '/register': (context) => RegisterPage(),
         '/searchpage':(context) => SearchUsersPage(),
