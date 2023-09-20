@@ -25,9 +25,9 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(height: 20),
             lastnameTextField(),
             const SizedBox(height: 20),
-            mobilenoTextField(),
+            emailTextField(),
             const SizedBox(height: 20),
-            professionTextField(),
+            mobilenoTextField(),
             const SizedBox(height: 20),
             dobField(),
             const SizedBox(height: 20),
@@ -124,24 +124,21 @@ class ProfilePage extends StatelessWidget {
     return TextFormField(
       controller: profileController.firstNameController,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.teal,
-          ),
+        hintText: "Enter Your First Name",
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.teal),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2,
-          ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.black),
         ),
+        fillColor: Colors.green.shade100,
+        filled: true,
         prefixIcon: const Icon(
-          Icons.person,
+          Icons.person_2,
           color: Colors.green,
         ),
-        labelText: "First Name",
-        helperText: "Name Can't be empty",
-        hintText: "John Doe",
       ),
     );
   }
@@ -150,76 +147,67 @@ class ProfilePage extends StatelessWidget {
     return TextFormField(
       controller: profileController.lastNameController,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.teal,
-          ),
+        hintText: "Enter Your Last Name",
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.teal),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2,
-          ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.black),
         ),
+        fillColor: Colors.green.shade100,
+        filled: true,
         prefixIcon: const Icon(
-          Icons.person,
+          Icons.person_2,
           color: Colors.green,
         ),
-        labelText: "Last Name",
-        helperText: "Name Can't be empty",
-        hintText: "John Doe",
+      ),
+    );
+  }
+
+  Widget emailTextField() {
+    return TextFormField(
+      controller: profileController.mobileNoController,
+      decoration: InputDecoration(
+        hintText: "Please enter email",
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.teal),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.black),
+        ),
+        fillColor: Colors.green.shade100,
+        filled: true,
+        prefixIcon: const Icon(
+          Icons.mail,
+          color: Colors.green,
+        ),
       ),
     );
   }
 
   Widget mobilenoTextField() {
     return TextFormField(
-      controller: profileController.mobileNoController,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.teal,
-          ),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2,
-          ),
-        ),
-        prefixIcon: const Icon(
-          Icons.person,
-          color: Colors.green,
-        ),
-        labelText: "Mobile Number",
-        helperText: "Name Can't be empty",
-        hintText: "John Doe",
-      ),
-    );
-  }
-
-  Widget professionTextField() {
-    return TextFormField(
       controller: profileController.professionController,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.teal,
-          ),
+        hintText: "Please enter email",
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.teal),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2,
-          ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.black),
         ),
+        fillColor: Colors.green.shade100,
+        filled: true,
         prefixIcon: const Icon(
-          Icons.person,
+          Icons.phone,
           color: Colors.green,
         ),
-        labelText: "Profession",
-        helperText: "Profession Can't be empty",
-        hintText: "GoLang Developer",
       ),
     );
   }
@@ -228,24 +216,21 @@ class ProfilePage extends StatelessWidget {
     return TextFormField(
       controller: profileController.dobController,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.teal,
-          ),
+        hintText: "Enter Your Date Of Birth",
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.teal),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2,
-          ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.black),
         ),
+        fillColor: Colors.green.shade100,
+        filled: true,
         prefixIcon: const Icon(
-          Icons.person,
+          Icons.date_range,
           color: Colors.green,
         ),
-        labelText: "Date of Birth",
-        helperText: "Provide DOB on dd/mm/yyyy",
-        hintText: "19/07/2003",
       ),
     );
   }
@@ -254,24 +239,21 @@ class ProfilePage extends StatelessWidget {
     return TextFormField(
       controller: profileController.titleController,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.teal,
-          ),
+        hintText: "Enter Your Profession",
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.teal),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2,
-          ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.black),
         ),
+        fillColor: Colors.green.shade100,
+        filled: true,
         prefixIcon: const Icon(
-          Icons.person,
+          Icons.book,
           color: Colors.green,
         ),
-        labelText: "Title",
-        helperText: "It can't be empty",
-        hintText: "Full Stack Developer",
       ),
     );
   }
@@ -281,28 +263,28 @@ class ProfilePage extends StatelessWidget {
       controller: profileController.aboutController,
       maxLines: 4,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.teal,
-          ),
+        hintText: "Tell Us about Yourself",
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.teal),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.orange,
-            width: 2,
-          ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40),
+          borderSide: BorderSide(color: Colors.black),
         ),
-        labelText: "About",
-        helperText: "Write about yourself",
-        hintText: "Full Stack Developer",
+        fillColor: Colors.green.shade100,
+        filled: true,
+        prefixIcon: const Icon(
+          Icons.account_box_outlined,
+          color: Colors.green,
+        ),
       ),
     );
   }
 
   Widget Button() {
     return MyButton(
-      onTap: ()  async {
-        
+      onTap: () async {
         try {
           // Create an instance of DataSender and call sendUserDataAndNavigate
           DataSender dataSender = DataSender();
@@ -315,14 +297,10 @@ class ProfilePage extends StatelessWidget {
             profileController.dobController.text,
             profileController.titleController.text,
             profileController.aboutController.text,
-
-            
           );
-          
         } catch (e) {
           print('Error: $e');
         }
-        
       },
       buttonText: "Submit",
     );

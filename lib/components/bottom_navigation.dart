@@ -17,7 +17,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   final List<Widget> pages = [
     HomePage(),
     LoginPage(),
-    SearchUsersPage(),
+    UserSearchScreen(),
     RegisterPage(),
   ];
 

@@ -9,7 +9,7 @@ class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final isPasswordVisible = false.obs;
+  RxBool isPasswordVisible = false.obs;
   final isPasswordValid = false.obs;
   final isLoading = false.obs;
 
@@ -42,7 +42,7 @@ class LoginController extends GetxController {
         password: passwordController.text,
       );
 
-      Get.offAll(() =>  VerifiedPage());
+      Get.offAll(() => VerifiedPage());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Fluttertoast.showToast(
@@ -71,7 +71,8 @@ class LoginController extends GetxController {
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,

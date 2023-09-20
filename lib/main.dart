@@ -8,7 +8,7 @@ import 'package:job_scout/users/Authentication/start_page.dart';
 import 'package:job_scout/users/Authentication/register_page.dart';
 import 'package:job_scout/users/Authentication/login_page.dart';
 import 'package:job_scout/users/view/home_page.dart';
-import 'package:job_scout/users/view/profile_page.dart'; // Import your LoginPage here
+import 'package:job_scout/users/view/profile_page.dart'; 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,12 +25,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/', // Set the initial route here
+      initialRoute: '/', 
       routes: {
-        '/': (context) => StartPage(), // Define the LoginPage route
-        '/login': (context) => LoginPage(), // Define the LoginPage route
+        '/': (context) => StartPage(), 
+        '/login': (context) => LoginPage(), 
         '/register': (context) => RegisterPage(),
-        '/searchpage':(context) => SearchUsersPage(),
+        '/searchpage':(context) => UserSearchScreen(),
         '/homepage':(context) => HomePage(),
         '/profilepage':(context) => ProfilePage(),
         '/bottomnavbar':(context) => BottomNavBar(),

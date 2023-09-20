@@ -1,79 +1,114 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:get/get.dart'; // Import Get package
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:job_scout/Controller/search_user_controller.dart';
-import 'package:job_scout/components/bottom_navigation.dart';
 
-class SearchUsersPage extends StatelessWidget {
-  final SearchUsersController controller = Get.put(SearchUsersController());
+class UserSearchScreen extends StatefulWidget {
+  @override
+  State<UserSearchScreen> createState() => _UserSearchScreenState();
+}
+
+class _UserSearchScreenState extends State<UserSearchScreen> {
+  final UserSearchController userSearchController =
+      Get.put(UserSearchController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('User Search'),
+        backgroundColor: Colors.teal,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
-              controller: controller.searchController,
+              controller: userSearchController.searchController,
               decoration: InputDecoration(
-                labelText: 'Search by First or Last Name',
+                hintText: "Search by user name",
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.teal),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                    fillColor: Colors.green.shade100,
+                    filled: true,
+                
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
-                  onPressed: controller.searchUsers,
+                  color: Colors.teal,
+                  onPressed: () {
+                    userSearchController.searchWithBuffer();
+                  },
                 ),
               ),
             ),
-            SizedBox(height: 16),
-            Expanded(
-              child: Obx(() {
-                if (controller.isLoading.value) {
-                  return Center(child: CircularProgressIndicator());
-                }
+            SizedBox(height: 20.0),
+            Obx(() {
+              if (userSearchController.searching.value) {
+                return CircularProgressIndicator();
+              } else if (userSearchController.searchResults.isNotEmpty) {
+                final topResults =
+                    userSearchController.searchResults.take(5).toList();
+                final remainingResults =
+                    userSearchController.searchResults.skip(0).toList();
 
-                if (controller.searchResults.isEmpty) {
-                  return Center(
-                    child: Text('No results found'),
-                  );
-                }
-
-                return buildSearchResults();
-              }),
-            ),
+                return Column(
+                  children: [
+                    Column(
+                      children: topResults.map((userSnapshot) {
+                        // Display the top 5 search results
+                        return Card(
+                          color: Colors.teal,
+                          elevation: 5,
+                          margin: EdgeInsets.all(10),
+                          child: ListTile(
+                            title: Text(
+                              '${userSnapshot['firstName']} ${userSnapshot['lastName']}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              'Profession: ${userSnapshot['profession']}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    if (remainingResults.isNotEmpty)
+                      ElevatedButton(
+                      
+                        onPressed: () {
+                          // Show all remaining search results when button is clicked
+                          userSearchController.showAllResults();
+                        },
+                        
+                        child: Text('Show All Results'),
+                      ),
+                  ],
+                );
+              } else if (userSearchController
+                  .searchController.text.isNotEmpty) {
+                return Text('No users found');
+              } else {
+                // Provide a message or hint when no search query
+                return Text('Enter a search query');
+              }
+            }),
           ],
         ),
       ),
-//       bottomNavigationBar: BottomNavigation(
-//   currentIndex: controller.currentIndex, // Pass the current index
-//   tabLabels: ['Home', 'Create', 'Search', 'Profile'], // Pass the labels for each tab
-// ),
-    );
-  }
-
-  Widget buildSearchResults() {
-    return ListView.builder(
-      itemCount: controller.searchResults.length,
-      itemBuilder: (context, index) {
-        final user = controller.searchResults[index];
-
-        // Access user data properties
-        final firstName = user['firstName'] ?? 'Unknown';
-        final lastName = user['lastName'] ?? 'Unknown';
-        final email = user['email'] ?? 'Unknown';
-
-        return ListTile(
-          title: Text('$firstName $lastName'),
-          subtitle: Text(email),
-          onTap: () {
-            // You can navigate to the user's profile page here
-            // Replace this with your navigation logic
-          },
-        );
-      },
     );
   }
 }

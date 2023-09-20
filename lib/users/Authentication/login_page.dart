@@ -11,7 +11,12 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:job_scout/users/Authentication/forgot_password_screen.dart';
 import 'package:job_scout/users/Authentication/verified_page.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final LoginController loginController = Get.put(LoginController());
 
   @override
@@ -74,14 +79,20 @@ class LoginPage extends StatelessWidget {
                   },
                   decoration: InputDecoration(
                     hintText: "Please enter email",
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.teal),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.black),
                     ),
-                    fillColor: Colors.grey.shade400,
+                    fillColor: Colors.green.shade100,
                     filled: true,
+                    prefixIcon: const Icon(
+                      Icons.mail,
+                      color: Colors.green,
+                    ),
                   ),
                 ),
               ),
@@ -102,25 +113,32 @@ class LoginPage extends StatelessWidget {
                   },
                   decoration: InputDecoration(
                     hintText: "Please enter your password",
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.teal),
                     ),
                     suffixIcon: IconButton(
                       onPressed: () {
                         loginController.togglePasswordVisibility();
+                        setState(() {});
                       },
                       icon: Obx(() => Icon(
-                        loginController.isPasswordVisible.value
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: Colors.black,
-                      )),
+                            loginController.isPasswordVisible.value
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.black,
+                          )),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.black),
                     ),
-                    fillColor: Colors.grey.shade400,
+                    fillColor: Colors.green.shade100,
                     filled: true,
+                    prefixIcon: const Icon(
+                      Icons.key,
+                      color: Colors.green,
+                    ),
                   ),
                 ),
               ),
@@ -130,7 +148,8 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                        style: TextButton.styleFrom(foregroundColor: Colors.teal),
+                        style:
+                            TextButton.styleFrom(foregroundColor: Colors.teal),
                         onPressed: () {
                           Navigator.push(
                               context,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_scout/users/Authentication/register_page.dart';
-import 'login_page.dart'; // Import the login page
+import 'login_page.dart'; 
 import 'package:flutter_svg/flutter_svg.dart';
 
 class StartPage extends StatelessWidget {
@@ -48,7 +48,7 @@ class StartPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 10.0, // Add some space between the buttons
+                  height: 10.0,
                 ),
                 TextButton(
                   onPressed: () {
@@ -61,7 +61,7 @@ class StartPage extends StatelessWidget {
                   child: Text(
                     'Register',
                     style: TextStyle(
-                      color: Colors.black, // Text color for Register
+                      color: Colors.black, 
                       fontSize: 18,
                     ),
                   ),

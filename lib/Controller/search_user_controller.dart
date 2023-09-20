@@ -1,36 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SearchUsersController extends GetxController {
-  final searchController = TextEditingController();
-  final searchResults = RxList<Map<String, dynamic>>([]);
-  final isLoading = false.obs;
-  RxInt currentIndex = 2.obs;
+class UserSearchController extends GetxController {
+  final TextEditingController searchController = TextEditingController();
+  final RxList<DocumentSnapshot> searchResults = <DocumentSnapshot>[].obs;
+  final RxBool searching = false.obs;
+  DocumentSnapshot? lastVisibleResult; // Store the last visible document
 
-  Future<void> searchUsers() async {
+  void searchUsers() async {
+    final query = searchController.text;
+    searching.value = true;
+
     try {
-      final query = searchController.text;
-      if (query.isEmpty) {
-        return;
+      final userQuery = await FirebaseFirestore.instance
+          .collection('Users')
+          .where('firstName', isEqualTo: query)
+          .get();
+
+      if (userQuery.docs.isNotEmpty) {
+        searchResults.assignAll(userQuery.docs);
+        lastVisibleResult =
+            userQuery.docs.last; // Store the last visible document
+      } else {
+        searchResults.clear();
+        lastVisibleResult = null; // Reset the last visible document
       }
-
-      isLoading.value = true;
-
-      // Perform your Firestore query here and update searchResults
-
-      isLoading.value = false;
     } catch (e) {
-      print('Error searching for users: $e');
-      isLoading.value = false;
+      print('Error searching users: $e');
+    } finally {
+      searching.value = false;
     }
   }
 
-  @override
-  void onClose() {
-    searchController.dispose();
-    super.onClose();
+  void searchWithBuffer() {
+    searching.value = true;
+    Future.delayed(Duration(seconds: 2), () {
+      searchUsers();
+    });
   }
-  void setCurrentIndex(int index) {
-    currentIndex.value = index;
+
+  void showAllResults() async {
+  final query = searchController.text;
+  searching.value = true;
+
+  try {
+    final userQuery = await FirebaseFirestore.instance
+        .collection('Users')
+        .where('firstName', isEqualTo: query)
+        .get();
+
+    if (userQuery.docs.isNotEmpty) {
+      searchResults.assignAll(userQuery.docs);
+      lastVisibleResult =
+          userQuery.docs.last; // Store the last visible document
+    } else {
+      searchResults.clear();
+      lastVisibleResult = null; // Reset the last visible document
+    }
+  } catch (e) {
+    print('Error searching users: $e');
+  } finally {
+    searching.value = false;
+  }
+}
+
+
+  void loadMoreResults() async {
+    if (lastVisibleResult == null) {
+      return; // No more results to load
+    }
+
+    final query = searchController.text;
+    searching.value = true;
+
+    try {
+      final userQuery = await FirebaseFirestore.instance
+          .collection('Users')
+          .where('firstName', isEqualTo: query)
+          .startAfterDocument(
+              lastVisibleResult!) 
+          .get();
+
+      if (userQuery.docs.isNotEmpty) {
+        searchResults.addAll(userQuery.docs);
+        lastVisibleResult =
+            userQuery.docs.last; 
+      }
+    } catch (e) {
+      print('Error loading more results: $e');
+    } finally {
+      searching.value = false;
+    }
   }
 }

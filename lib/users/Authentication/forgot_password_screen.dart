@@ -29,13 +29,15 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               controller: emailController,
               decoration: InputDecoration(
                     hintText: "Please enter email",
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.teal),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(40),
+                      borderSide: BorderSide(color: Colors.black),
                     ),
-                    fillColor: Colors.grey.shade400,
+                    fillColor: Colors.green.shade100,
                     filled: true,
                   ),
             ),
