@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () {
-                  AuthController();
+                  AuthController().logoutAndRedirectToLogin();
               },
           ),
           // Add your other menu items here if needed
