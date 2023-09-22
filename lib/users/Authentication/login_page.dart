@@ -43,8 +43,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Center(
-                child: SvgPicture.asset(
-                  'assets/images/logo.svg',
+                child: Image.asset(
+                  'assets/images/logo_1.png',
                   width: MediaQuery.of(context).size.width * 0.5,
                   height: MediaQuery.of(context).size.height * 0.2,
                 ),
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: MediaQuery.of(context).size.height * 0.002,
               ),
               Text(
-                'Welcome to Job Scout App',
+                'Welcome to Job Scout',
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,

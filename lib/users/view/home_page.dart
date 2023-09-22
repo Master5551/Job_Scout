@@ -22,9 +22,8 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.logout),
             onPressed: () {
-              // Call the logout method from the AuthController
-              Get.find<AuthController>().logout();
-            },
+                  AuthController();
+              },
           ),
           // Add your other menu items here if needed
         ],

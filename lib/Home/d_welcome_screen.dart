@@ -1,74 +1,49 @@
-// import 'package:flutter/material.dart';
-// import 'package:job_scout/components/bottom_navigation.dart';
-// import '../components/bottom_navigation.dart'; // Import the bottom_navigation.dart file
-// import '../users/view/d_jobs.dart'; // Import the jobs.dart file
+import 'package:flutter/material.dart';
 
-// class WelcomeScreen extends StatefulWidget {
-//   const WelcomeScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
 
-//   @override
-//   State<WelcomeScreen> createState() => _WelcomeScreenState();
-// }
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
-// class _WelcomeScreenState extends State<WelcomeScreen> {
-//    int _currentIndex = 0; // Set the initial index to 0 for the "Home" button
+  @override
+  void initState() {
+    super.initState();
 
-//   void _onTap(int index) {
-//     if (index == 3) {
-//       // If "Jobs" button is tapped
-//       Navigator.push(
-//         context,
-//         MaterialPageRoute(builder: (context) => JobsScreen()),
-//       );
-//     } else {
-//       setState(() {
-//         _currentIndex = index;
-//       });
-//     }
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.white,
-//         leading: CircleAvatar(
-//           radius: 20,
-//           backgroundImage: AssetImage('assets/images/profile.png'),
-//         ),
-//         title: Container(
-//           decoration: BoxDecoration(
-//             color: Colors.grey[200],
-//             borderRadius: BorderRadius.circular(8),
-//           ),
-//           child: Row(
-//             children: [
-//               Icon(Icons.search),
-//               SizedBox(width: 8),
-//               Expanded(
-//                 child: TextField(
-//                   decoration: InputDecoration(
-//                     hintText: 'Search...',
-//                     border: InputBorder.none,
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//         actions: [
-//           IconButton(
-//             color: Color.fromARGB(255, 121, 116, 116),
-//             icon: Icon(Icons.chat),
-//             onPressed: () {
-//             },
-//           ),
-//         ],
-//       ),
-//       body: Container(),
-//       bottomNavigationBar: BottomNavigation(
-//         currentIndex: _currentIndex,
-//         onTap: _onTap,
-//       ),
-//     );
-//   }
-// }
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+
+    _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
+    _controller.forward();
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Navigator.of(context).pushReplacementNamed('/timer_screen');
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white, 
+      body: Center(
+        child: FadeTransition(
+          opacity: _animation, 
+          child: Image.asset('assets/images/logo.png'), 
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+}
