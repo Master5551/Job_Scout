@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:job_scout/users/Authentication/login_page.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -19,20 +20,21 @@ class AuthController extends GetxController {
     try {
       await _auth.signOut();
       await _googleSignIn.signOut();
+      Get.to(LoginPage());
       
-      Get.toNamed('/login'); // Replace '/login' with your actual login page route
     } catch (e) {
       print("Error during logout: $e");
     }
   }
 
-  // Method to sign out using Google authentication
+ 
   Future<void> googleSignOut() async {
     try {
       await _googleSignIn.signOut();
       await _auth.signOut();
+      
       // Redirect to the login page
-      Get.toNamed('/login'); 
+      Get.to(LoginPage()); 
     } catch (e) {
       print("Error during Google sign out: $e");
     }
