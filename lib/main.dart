@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/', 
       routes: {
-        '/': (context) => user != null ?HomePage() :LoginPage(),
+        '/': (context) => user != null ?BottomNavBar():LoginPage(),
         '/login': (context) => LoginPage(), 
         '/register': (context) => RegisterPage(),
         '/searchpage':(context) => UserSearchScreen(),
