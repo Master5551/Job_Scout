@@ -112,3 +112,4 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
     );
   }
 }
+// AuthController()..logoutAndRedirectToLogin();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:job_scout/Home/conversationList.dart';
 import 'package:job_scout/users/Authentication/login_page.dart';
 import 'package:job_scout/users/Authentication/register_page.dart';
 import 'package:job_scout/users/view/home_page.dart';
