@@ -5,9 +5,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:job_scout/users/Authentication/login_page.dart';
 
 class RegisterController extends GetxController {
-  final formKey = GlobalKey<FormState>();
+  final formkey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmpasswordController = TextEditingController();
   final isPasswordVisible = false.obs;
 
   void togglePasswordVisibility() {
@@ -15,7 +16,7 @@ class RegisterController extends GetxController {
   }
 
   void submitForm() async {
-    if (formKey.currentState!.validate()) {
+    if (formkey.currentState!.validate()) {
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,

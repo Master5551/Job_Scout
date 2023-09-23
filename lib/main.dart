@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         '/homepage':(context) => HomePage(),
         '/profilepage':(context) => ProfilePage(),
         '/bottomnavbar':(context) => BottomNavBar(),
-         // Define the RegisterPage route
+         
       },
     );
   }

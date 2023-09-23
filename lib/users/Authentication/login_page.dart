@@ -23,215 +23,217 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Form(
-          key: loginController.formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 50, left: 10),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Center(
-                child: Image.asset(
-                  'assets/images/logo_1.png',
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: MediaQuery.of(context).size.height * 0.2,
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.002,
-              ),
-              Text(
-                'Welcome to Job Scout',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: MediaQuery.of(context).size.width * 0.04,
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: TextFormField(
-                  controller: loginController.emailController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter some text';
-                    }
-                    if (!RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}')
-                        .hasMatch(value)) {
-                      return 'Please enter a valid Email';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Please enter email",
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(40),
-                      borderSide: BorderSide(color: Colors.teal),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(40),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    fillColor: Colors.green.shade100,
-                    filled: true,
-                    prefixIcon: const Icon(
-                      Icons.mail,
-                      color: Colors.green,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: TextFormField(
-                  controller: loginController.passwordController,
-                  obscureText: !loginController.isPasswordVisible.value,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      loginController.isPasswordValid.value = true;
-                      return 'Please enter a password';
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    hintText: "Please enter your password",
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(40),
-                      borderSide: BorderSide(color: Colors.teal),
-                    ),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        loginController.togglePasswordVisibility();
-                        setState(() {});
-                      },
-                      icon: Obx(() => Icon(
-                            loginController.isPasswordVisible.value
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Colors.black,
-                          )),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(40),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    fillColor: Colors.green.shade100,
-                    filled: true,
-                    prefixIcon: const Icon(
-                      Icons.key,
-                      color: Colors.green,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(5, 10, 10, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                        style:
-                            TextButton.styleFrom(foregroundColor: Colors.teal),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Form(
+            key: loginController.formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 50, left: 10),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_back),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ForgotPasswordScreen()));
+                          Navigator.pop(context);
                         },
-                        child: const Text('Forgot Password'))
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.015),
-              MyButton(
-                onTap: () {
-                  loginController.signInWithEmailAndPassword();
-                  loginController.submitForm();
-                },
-                buttonText: 'Sign In',
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.1,
+                Center(
+                  child: Image.asset(
+                    'assets/images/logo_1.png',
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                  ),
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey.shade400,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.002,
+                ),
+                Text(
+                  'Welcome to Job Scout',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: MediaQuery.of(context).size.width * 0.04,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: TextFormField(
+                    controller: loginController.emailController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      if (!RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}')
+                          .hasMatch(value)) {
+                        return 'Please enter a valid Email';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Please enter email",
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        borderSide: BorderSide(color: Colors.teal),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      fillColor: Colors.green.shade100,
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.mail,
+                        color: Colors.green,
                       ),
                     ),
-                    const Text('Or Continue with'),
-                    Expanded(
-                      child: Divider(
-                        thickness: 0.5,
-                        color: Colors.grey.shade400,
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.03,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: TextFormField(
+                    controller: loginController.passwordController,
+                    obscureText: !loginController.isPasswordVisible.value,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        loginController.isPasswordValid.value = true;
+                        return 'Please enter a password';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Please enter your password",
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        borderSide: BorderSide(color: Colors.teal),
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          loginController.togglePasswordVisibility();
+                          setState(() {});
+                        },
+                        icon: Obx(() => Icon(
+                              loginController.isPasswordVisible.value
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Colors.black,
+                            )),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      fillColor: Colors.green.shade100,
+                      filled: true,
+                      prefixIcon: const Icon(
+                        Icons.key,
+                        color: Colors.green,
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              Column(
-                children: [
-                  SignInButton(
-                    Buttons.Google,
-                    onPressed: () {
-                      loginController.signInWithGoogle();
-                    },
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 10, 10, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                          style:
+                              TextButton.styleFrom(foregroundColor: Colors.teal),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ForgotPasswordScreen()));
+                          },
+                          child: const Text('Forgot Password'))
+                    ],
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.005),
-                  SignInButton(
-                    Buttons.GitHub,
-                    onPressed: () {
-                      loginController.signInWithGitHub();
-                    },
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.015),
+                MyButton(
+                  onTap: () {
+                    loginController.signInWithEmailAndPassword();
+                    loginController.submitForm();
+                  },
+                  buttonText: 'Sign In',
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.1,
                   ),
-                ],
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Not A Member?",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  TextButton(
-                      style: TextButton.styleFrom(foregroundColor: Colors.teal),
-                      onPressed: () {
-                        Get.toNamed('/register');
-                      },
-                      child: const Text(
-                        'Register Here',
-                        style: TextStyle(
-                          fontSize: 20,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Colors.grey.shade400,
                         ),
-                      )),
-                ],
-              ),
-            ],
+                      ),
+                      const Text('Or Continue with'),
+                      Expanded(
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Colors.grey.shade400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                Column(
+                  children: [
+                    SignInButton(
+                      Buttons.Google,
+                      onPressed: () {
+                        loginController.signInWithGoogle();
+                      },
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                    SignInButton(
+                      Buttons.GitHub,
+                      onPressed: () {
+                        loginController.signInWithGitHub();
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Not A Member?",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    TextButton(
+                        style: TextButton.styleFrom(foregroundColor: Colors.teal),
+                        onPressed: () {
+                          Get.toNamed('/register');
+                        },
+                        child: const Text(
+                          'Register Here',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        )),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

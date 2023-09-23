@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:job_scout/Home/conversationList.dart';
 import 'package:job_scout/users/Authentication/login_page.dart';
 import 'package:job_scout/users/Authentication/register_page.dart';
+import 'package:job_scout/users/view/d_jobs.dart';
 import 'package:job_scout/users/view/home_page.dart';
 import 'package:job_scout/users/view/profile_page.dart';
 import 'package:job_scout/users/view/search.dart';
@@ -19,7 +20,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     HomePage(),
     LoginPage(),
     UserSearchScreen(),
-    RegisterPage(),
+    JobsScreen(),
   ];
 
   void onItemTapped(int index) {
