@@ -1,7 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Import Get package
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:job_scout/Controller/Add_connection.dart';
+import 'package:job_scout/Controller/Connection_controller.dart';
+import 'package:job_scout/Controller/Connection_controller_final.dart';
 import 'package:job_scout/Controller/search_user_controller.dart';
+import 'package:job_scout/Home/chat_screen.dart';
+import 'package:job_scout/users/view/Chat/chat.dart';
 
 class UserSearchScreen extends StatefulWidget {
   @override
@@ -11,6 +17,7 @@ class UserSearchScreen extends StatefulWidget {
 class _UserSearchScreenState extends State<UserSearchScreen> {
   final UserSearchController userSearchController =
       Get.put(UserSearchController());
+final User? currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +68,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                   children: [
                     Column(
                       children: topResults.map((userSnapshot) {
-                        // Display the top 5 search results
+                        
                         return Card(
                           color: Colors.teal,
                           elevation: 5,
@@ -82,7 +89,33 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                 fontSize: 16,
                               ),
                             ),
-                            trailing: IconButton(onPressed: (){},icon: const Icon(Icons.add),),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: (){
+                                    if(currentUser!=null)
+                                    {
+                                      String currentUserId = currentUser!.uid;
+                                      String friendUserId = userSnapshot.id;
+                                        
+                                      // Add_connection(currentUserId, friendUserId);
+                                    }
+                                    
+                                  },
+                                  icon: const Icon(Icons.add),),
+                                  IconButton(onPressed: () async {
+                                    
+                                     
+                                    final userIDsFromConnections = await getUserIdsFromConnections(currentUser!.uid);
+                                    print(userIDsFromConnections);
+                                    printUserDetailsFromUsersCollection(userIDsFromConnections);
+
+
+                                    
+                                  }, icon:Icon(Icons.chat)) 
+                              ],
+                            ),
                           ),
                         );
                       }).toList(),
@@ -91,11 +124,11 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                       ElevatedButton(
                       
                         onPressed: () {
-                          // Show all remaining search results when button is clicked
+                        
                           userSearchController.showAllResults();
                         },
                         
-                        child: Text('Show All Results'),
+                        child: const Text('Show All Results'),
                       ),
                   ],
                 );
