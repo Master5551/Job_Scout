@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
-            key: loginController.formKey,
+            key: loginController.loginFormKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

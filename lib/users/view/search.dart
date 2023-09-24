@@ -17,7 +17,7 @@ class UserSearchScreen extends StatefulWidget {
 class _UserSearchScreenState extends State<UserSearchScreen> {
   final UserSearchController userSearchController =
       Get.put(UserSearchController());
-final User? currentUser = FirebaseAuth.instance.currentUser;
+  final User? currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +34,16 @@ final User? currentUser = FirebaseAuth.instance.currentUser;
               controller: userSearchController.searchController,
               decoration: InputDecoration(
                 hintText: "Search by user name",
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(40),
-                      borderSide: BorderSide(color: Colors.teal),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(40),
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    fillColor: Colors.green.shade100,
-                    filled: true,
-                
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(40),
+                  borderSide: BorderSide(color: Colors.teal),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(40),
+                  borderSide: BorderSide(color: Colors.black),
+                ),
+                fillColor: Colors.green.shade100,
+                filled: true,
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
                   color: Colors.teal,
@@ -68,7 +67,6 @@ final User? currentUser = FirebaseAuth.instance.currentUser;
                   children: [
                     Column(
                       children: topResults.map((userSnapshot) {
-                        
                         return Card(
                           color: Colors.teal,
                           elevation: 5,
@@ -93,27 +91,29 @@ final User? currentUser = FirebaseAuth.instance.currentUser;
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                  onPressed: (){
-                                    if(currentUser!=null)
-                                    {
+                                  onPressed: () {
+                                    if (currentUser != null) {
                                       String currentUserId = currentUser!.uid;
                                       String friendUserId = userSnapshot.id;
-                                        
-                                      // Add_connection(currentUserId, friendUserId);
+
+                                      addFriend(currentUserId, friendUserId);
                                     }
-                                    
                                   },
-                                  icon: const Icon(Icons.add),),
-                                  IconButton(onPressed: () async {
-                                    
-                                     
-                                    final userIDsFromConnections = await getUserIdsFromConnections(currentUser!.uid);
-                                    print(userIDsFromConnections);
-                                    printUserDetailsFromUsersCollection(userIDsFromConnections);
-
-
-                                    
-                                  }, icon:Icon(Icons.chat)) 
+                                  icon: const Icon(Icons.add),
+                                ),
+                                IconButton(
+                                    onPressed: () async {
+                                      final userIDsFromConnections =
+                                          await getUserIdsFromConnections(
+                                              currentUser!.uid);
+                                      print(userIDsFromConnections);
+                                      printUserDetailsFromUsersCollection(
+                                          userIDsFromConnections);
+                                      Get.to(ChatsScreen1(
+                                        currentuserId: currentUser!.uid,
+                                      ));
+                                    },
+                                    icon: Icon(Icons.chat))
                               ],
                             ),
                           ),
@@ -122,12 +122,9 @@ final User? currentUser = FirebaseAuth.instance.currentUser;
                     ),
                     if (remainingResults.isNotEmpty)
                       ElevatedButton(
-                      
                         onPressed: () {
-                        
                           userSearchController.showAllResults();
                         },
-                        
                         child: const Text('Show All Results'),
                       ),
                   ],

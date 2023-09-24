@@ -19,7 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Form(
-          key: registerController.formkey,
+          key: registerController.registerFormKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [

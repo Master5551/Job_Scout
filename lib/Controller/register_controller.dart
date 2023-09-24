@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:job_scout/users/Authentication/login_page.dart';
 
 class RegisterController extends GetxController {
-  final formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmpasswordController = TextEditingController();
@@ -16,13 +16,13 @@ class RegisterController extends GetxController {
   }
 
   void submitForm() async {
-    if (formkey.currentState!.validate()) {
+    if (registerFormKey.currentState!.validate()) {
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: passwordController.text,
         );
-        Get.off(() => LoginPage());
+        Get.toNamed('/login');
       } catch (error) {
         print('Error registering user: $error');
         Fluttertoast.showToast(

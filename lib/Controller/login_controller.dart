@@ -6,7 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:job_scout/users/Authentication/verified_page.dart';
 
 class LoginController extends GetxController {
-  final formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   RxBool isPasswordVisible = false.obs;
@@ -30,7 +30,7 @@ class LoginController extends GetxController {
   }
 
   void submitForm() {
-    if (formKey.currentState!.validate()) {
+    if (loginFormKey.currentState!.validate()) {
       // Form is valid, you can perform your login logic here
     }
   }

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+final List<String> userIds = [];
 Future<List<String>> getUserIdsFromConnections(String currentUserId) async {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final List<String> userIds = [];
 
   final connectionSnapshot = await firestore
       .collection('Users')
@@ -13,14 +13,12 @@ Future<List<String>> getUserIdsFromConnections(String currentUserId) async {
   for (final doc in connectionSnapshot.docs) {
     final data = doc.data() as Map<String, dynamic>;
     final userId = data['userID'] as String?;
-     if (userId != null) {
+    if (userId != null) {
       userIds.add(userId as String);
     }
-   
-print(userIds);
-    
+
+    print(userIds);
   }
- 
 
   return userIds;
 }
@@ -37,9 +35,12 @@ Future<void> printUserDetailsFromUsersCollection(List<String> userIds) async {
       print('First Name: ${userData['firstName']}');
       print('Last Name: ${userData['lastName']}');
       print('Email: ${userData['email']}');
-      // Print other user details as needed
     } else {
       print('User with ID $userId not found in the Users collection');
     }
   }
+}
+
+int connectionLength() {
+  return userIds.length ;
 }
