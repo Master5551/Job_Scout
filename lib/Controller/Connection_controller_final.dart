@@ -14,10 +14,12 @@ Future<List<String>> getUserIdsFromConnections(String currentUserId) async {
     final data = doc.data() as Map<String, dynamic>;
     final userId = data['userID'] as String?;
     if (userId != null) {
-      userIds.add(userId as String);
+      userIds.add(userId);
+      print(userId);
+    } else {
+      userIds.add(
+          'DefaultUserID'); // Provide a default value if 'userID' is not present
     }
-
-    print(userIds);
   }
 
   return userIds;
@@ -42,5 +44,5 @@ Future<void> printUserDetailsFromUsersCollection(List<String> userIds) async {
 }
 
 int connectionLength() {
-  return userIds.length ;
+  return userIds.length;
 }

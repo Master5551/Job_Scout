@@ -34,7 +34,7 @@ class _ChatsScreen1State extends State<ChatsScreen1> {
       body: userIds.isEmpty
           ? CircularProgressIndicator()
           : ListView.builder(
-              itemCount: userIds.length - 1,
+              itemCount: userIds.length,
               itemBuilder: (context, index) {
                 final friendUserId = userIds[index];
                 return FutureBuilder<DocumentSnapshot>(
