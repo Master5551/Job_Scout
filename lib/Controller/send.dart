@@ -22,7 +22,7 @@ class DataSender {
       User? user = _auth.currentUser;
 
       if (user != null) {
-        // Define the data you want to insert
+        
         Map<String, dynamic> userData = {
           'userId': user.uid,
           'email': user.email,
@@ -33,13 +33,13 @@ class DataSender {
           'dob': dob,
           'title': title,
           'about': about,
-          // Add more fields as needed
+          
         };
 
-        // Use the user's UID as the document ID
+        
         await _firestore.collection('Users').doc(user.uid).set(userData);
 
-        // Insertion successful, navigate to another page
+        
         Get.toNamed('/bottomnavbar');
       } else {
         throw Exception('User is not signed in.');

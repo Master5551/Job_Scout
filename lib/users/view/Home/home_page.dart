@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_scout/Controller/home_controller.dart';
 import 'package:job_scout/Controller/home_page_controller.dart';
+import 'package:job_scout/users/view/Home/Widgets/jobs_list.dart';
 import 'package:job_scout/users/view/search.dart';
 import 'package:job_scout/components/bottom_navigation.dart';
 
-import '../../Controller/logout_controller.dart';
+import '../../../Controller/logout_controller.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,23 +16,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final AuthController authController = Get.put(AuthController());
   final HomePageController controller = Get.put(HomePageController());
-
-  List<Container> community_post = List.generate(
-    10,
-    (index) => Container(
-      color: Colors.green,
-      height: 300.0,
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-    ),
-  );
-  List<Container> job_post = List.generate(
-    10,
-    (index) => Container(
-      color: Colors.red,
-      height: 300.0,
-      margin: EdgeInsets.symmetric(vertical: 10.0),
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -105,22 +89,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: community_post.length,
-                itemBuilder: (context, index) {
-                  return community_post[index];
-                },
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: job_post.length,
-                itemBuilder: (context, index) {
-                  return job_post[index];
-                },
-              ),
-            ),
+            JobsList()
           ],
         ),
       ),

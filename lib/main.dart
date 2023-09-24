@@ -9,7 +9,7 @@ import 'package:job_scout/users/view/search.dart';
 import 'package:job_scout/users/Authentication/start_page.dart';
 import 'package:job_scout/users/Authentication/register_page.dart';
 import 'package:job_scout/users/Authentication/login_page.dart';
-import 'package:job_scout/users/view/home_page.dart';
+import 'package:job_scout/users/view/Home/home_page.dart';
 import 'package:job_scout/users/view/profile_page.dart'; 
 
 void main() async {

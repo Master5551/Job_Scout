@@ -189,7 +189,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     style: TextButton.styleFrom(foregroundColor: Colors.teal),
                     onPressed: () {
                       Get.toNamed('/login');
-                      
                     },
                     child: Text('Login Here'),
                   ),
