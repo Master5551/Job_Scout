@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -23,7 +24,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        Navigator.of(context).pushReplacementNamed('/timer_screen');
+        // Navigator.of(context).pushReplacementNamed('/timer_screen');
+        Get.toNamed('/checkuser');
       }
     });
   }
@@ -35,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       body: Center(
         child: FadeTransition(
           opacity: _animation, 
-          child: Image.asset('assets/images/logo.png'), 
+          child: Image.asset('assets/images/logo_1.png'), 
         ),
       ),
     );

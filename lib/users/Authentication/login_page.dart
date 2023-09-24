@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:job_scout/Controller/login_controller.dart';
-import 'package:job_scout/Home/d_welcome_screen.dart';
+import 'package:job_scout/Home/splash_screen.dart';
 import 'package:job_scout/components/my_button.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:job_scout/users/Authentication/forgot_password_screen.dart';
