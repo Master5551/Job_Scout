@@ -12,6 +12,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   final RxInt currentIndex = 0.obs;
+  Color accentColor = Colors.teal;
 
   final List<Widget> pages = [
     HomePage(),
@@ -30,17 +31,35 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() => pages[currentIndex.value]),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex.value,
-        onTap: onItemTapped,
-        selectedItemColor: Colors.teal,
-        unselectedItemColor: Colors.grey,
-        items: [
-          _buildBottomNavigationBarItem(Icons.home, 'Home', 0),
-          _buildBottomNavigationBarItem(Icons.add, 'Post', 1),
-          _buildBottomNavigationBarItem(Icons.search, 'Search', 2),
-          _buildBottomNavigationBarItem(Icons.backpack, 'Jobs', 3),
-        ],
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
+      bottomNavigationBar: Theme(
+        data: ThemeData(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: BottomNavigationBar(
+          currentIndex: currentIndex.value,
+          onTap: onItemTapped,
+          selectedItemColor: Colors.teal,
+          unselectedItemColor: Colors.grey,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.public), label: 'Connection'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.backpack_sharp), label: 'Jobs'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.notifications_none), label: 'Notification'),
+          ],
+        ),
       ),
     );
   }
