@@ -19,7 +19,7 @@ class IconText extends StatelessWidget {
         ),
         Text(
           text,
-          style: TextStyle(fontSize: 12, color: Colors.grey),
+          style: TextStyle(fontSize: 12, color: Colors.white,fontWeight: FontWeight.bold),
         ),
         SizedBox(
           width: 10,
