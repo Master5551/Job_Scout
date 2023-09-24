@@ -82,6 +82,7 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                 fontSize: 16,
                               ),
                             ),
+                            trailing: IconButton(onPressed: (){},icon: const Icon(Icons.add),),
                           ),
                         );
                       }).toList(),
