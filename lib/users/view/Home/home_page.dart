@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:job_scout/Controller/home_controller.dart';
 import 'package:job_scout/Controller/home_page_controller.dart';
 import 'package:job_scout/users/view/Home/Widgets/jobs_list.dart';
+import 'package:job_scout/users/view/Profile_drawer/drawer.dart';
+import 'package:job_scout/users/view/profile_page.dart';
 import 'package:job_scout/users/view/search.dart';
 import 'package:job_scout/components/bottom_navigation.dart';
 
@@ -16,27 +18,42 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final AuthController authController = Get.put(AuthController());
   final HomePageController controller = Get.put(HomePageController());
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void goToProfilePage() {
+    Get.toNamed('/profilepage');
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: ProfileDrawer(
+        onProfileTap: goToProfilePage,
+        onSignOut: goToProfilePage,
+      ),
       body: SafeArea(
         child: Column(
           children: [
             Row(
               children: [
-                Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.teal,
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                      size: 20,
+                GestureDetector(
+                  onTap: () {
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.teal,
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                     ),
                   ),
                 ),

@@ -106,12 +106,6 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                       final userIDsFromConnections =
                                           await getUserIdsFromConnections(
                                               currentUser!.uid);
-                                      print(userIDsFromConnections);
-                                      // printUserDetailsFromUsersCollection(
-                                      //     userIDsFromConnections);
-                                      Get.to(ChatsScreen1(
-                                        currentUserId: currentUser!.uid ,
-                                      ));
                                     },
                                     icon: Icon(Icons.chat))
                               ],
