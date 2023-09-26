@@ -10,15 +10,16 @@ Future<List<String>> getUserIdsFromConnections(String currentUserId) async {
       .collection('Connections')
       .get();
 
-  for (final doc in connectionSnapshot.docs) {
+   for (final doc in connectionSnapshot.docs) {
     final data = doc.data() as Map<String, dynamic>;
-    final userId = data['userID'] as String?;
-    if (userId != null) {
-      userIds.add(userId);
-      print(userId);
-    } else {
-      userIds.add(
-          'DefaultUserID'); // Provide a default value if 'userID' is not present
+    if (data.containsKey('userID')) { // Check if 'userID' exists in the document
+      final userId = data['userID'] as String?;
+      if (userId != null) {
+        userIds.add(userId);
+        print(userId);
+      } else {
+        userIds.add('DefaultUserID');
+      }
     }
   }
 

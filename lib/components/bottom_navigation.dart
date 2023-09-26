@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:job_scout/users/view/Chat/chat.dart';
 import 'package:job_scout/users/view/d_jobs.dart';
 import 'package:job_scout/users/view/Home/home_page.dart';
 import 'package:job_scout/users/view/post_page.dart';
@@ -12,13 +14,16 @@ class BottomNavBar extends StatefulWidget {
 
 class _BottomNavBarState extends State<BottomNavBar> {
   final RxInt currentIndex = 0.obs;
+  final User? currentUser = FirebaseAuth.instance.currentUser;
   Color accentColor = Colors.teal;
 
-  final List<Widget> pages = [
-    HomePage(),
-    PostScreen(),
-    UserSearchScreen(),
-    JobsScreen(),
+  final List<Widget Function(String)> pages = [
+    (currentUserId) => HomePage(),
+    (currentUserId) => ChatsScreen1(
+          currentUserId: currentUserId,
+        ),
+    (currentUserId) => UserSearchScreen(),
+    (currentUserId) => JobsScreen(),
   ];
 
   void onItemTapped(int index) {
@@ -30,7 +35,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() => pages[currentIndex.value]),
+      body: Obx(() => pages[currentIndex.value](currentUser!.uid)),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},

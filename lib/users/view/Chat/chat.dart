@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:job_scout/Controller/Connection_controller_final.dart';
 
 class ChatsScreen1 extends StatefulWidget {
-  final String currentuserId;
+  final String currentUserId;
 
-  ChatsScreen1({required this.currentuserId});
+  ChatsScreen1({required this.currentUserId});
 
   @override
   _ChatsScreen1State createState() => _ChatsScreen1State();
@@ -18,11 +18,16 @@ class _ChatsScreen1State extends State<ChatsScreen1> {
     loadUserIds();
   }
 
-  List<String> userIds = [];
+  Set<String> userIds = {}; // Use a Set to ensure uniqueness
 
   Future<void> loadUserIds() async {
-    userIds = await getUserIdsFromConnections(widget.currentuserId);
-    setState(() {}); // Update the widget after loading user IDs
+    final loadedUserIds = await getUserIdsFromConnections(widget.currentUserId);
+
+    // Remove the currentUserId from the loadedUserIds set
+    loadedUserIds.remove(widget.currentUserId);
+
+    userIds = loadedUserIds.toSet(); // Convert to Set to ensure uniqueness
+    setState(() {});
   }
 
   @override
@@ -36,7 +41,7 @@ class _ChatsScreen1State extends State<ChatsScreen1> {
           : ListView.builder(
               itemCount: userIds.length,
               itemBuilder: (context, index) {
-                final friendUserId = userIds[index];
+                final friendUserId = userIds.elementAt(index);
                 return FutureBuilder<DocumentSnapshot>(
                   future: FirebaseFirestore.instance
                       .collection('Users')
