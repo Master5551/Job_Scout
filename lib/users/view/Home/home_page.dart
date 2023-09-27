@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void goToProfilePage() {
-    Get.toNamed('/profilepage');
+    Get.to(ProfilePage());
   }
 
   @override

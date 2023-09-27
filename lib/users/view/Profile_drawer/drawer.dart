@@ -27,12 +27,12 @@ class ProfileDrawer extends StatelessWidget {
         MyListTitle(
           icon: Icons.person,
           text: 'P R O F I L E',
-          onTap: () => onProfileTap,
+          onTap: () => onProfileTap!(),
         ),
         MyListTitle(
           icon: Icons.logout,
           text: 'L O G O U T',
-          onTap: () => onSignOut,
+          onTap: () => onSignOut!(),
         ),
       ]),
     );
