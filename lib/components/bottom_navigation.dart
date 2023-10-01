@@ -6,6 +6,7 @@ import 'package:job_scout/users/view/d_jobs.dart';
 import 'package:job_scout/users/view/Home/home_page.dart';
 import 'package:job_scout/users/view/post_page.dart';
 import 'package:job_scout/users/view/search.dart';
+import 'package:job_scout/users/view/user_profile_page.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           currentUserId: currentUserId,
         ),
     (currentUserId) => UserSearchScreen(),
-    (currentUserId) => JobsScreen(),
+    (currentUserId) => UserListScreen(),
   ];
 
   void onItemTapped(int index) {
