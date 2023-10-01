@@ -7,6 +7,7 @@ import 'package:job_scout/users/view/Profile_drawer/drawer.dart';
 import 'package:job_scout/users/view/profile_page.dart';
 import 'package:job_scout/users/view/search.dart';
 import 'package:job_scout/components/bottom_navigation.dart';
+import 'package:job_scout/users/view/user_profile_page.dart';
 
 import '../../../Controller/logout_controller.dart';
 
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void goToProfilePage() {
-    Get.to(ProfilePage());
+    Get.to(UserListScreen());
   }
 
   @override
