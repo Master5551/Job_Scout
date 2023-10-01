@@ -1,8 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:job_scout/Controller/Connection_controller_final.dart';
+import 'package:job_scout/Controller/chat_controller.dart';
+import 'package:job_scout/chatting/chat.dart';
+import 'package:job_scout/models/user_data.dart';
 
 class ChatsScreen1 extends StatefulWidget {
+    
   final String currentUserId;
 
   ChatsScreen1({required this.currentUserId});
@@ -12,7 +20,10 @@ class ChatsScreen1 extends StatefulWidget {
 }
 
 class _ChatsScreen1State extends State<ChatsScreen1> {
+  
   @override
+   final ChatController chatController=Get.put(ChatController());
+  
   void initState() {
     super.initState();
     loadUserIds();
@@ -63,7 +74,12 @@ class _ChatsScreen1State extends State<ChatsScreen1> {
                         title: Text('$firstName $lastName'),
                         subtitle: Text(email),
                         onTap: () {
-                          // Implement navigation to chat with this user
+                           final FirebaseAuth auth = FirebaseAuth.instance;
+                             final User? user = auth.currentUser;
+                            print('Clicked on card with Firebase User ID: $friendUserId');
+                            chatController.sendMessage(senderId: user!.uid, receiverId: friendUserId,messageText: "OM");
+                              Get.to(ChatPage(friendUserId: '$friendUserId'));
+
                         },
                       );
                     } else {

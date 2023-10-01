@@ -9,11 +9,22 @@ environment:
 dependencies:
 
   flutter_signin_button: ^2.0.0
+  flutter_chat_types: ^3.6.2
+  file_picker: ^5.3.2
   firebase_auth: ^4.8.0
-   
+  http: '>=0.13.6 <2.0.0'
+  mime: ^1.0.4
+  open_filex: ^4.3.2
+  path_provider: ^2.0.15
+  uuid: ^3.0.7
+  flutter_chat_ui: ^1.6.9
   firebase_core: ^2.15.1
   google_sign_in: ^6.1.4
-   
+  intl: ^0.18.0
+  url_launcher: ^6.0.10
+  video_player: ^2.2.5
+  cached_network_image: ^3.2.0
+    
   flutter:
     sdk: flutter
   
@@ -25,6 +36,7 @@ dependencies:
   cloud_firestore: ^4.9.1
   get: ^4.6.5
   get_storage: ^2.1.1
+  dash_chat_2: ^0.0.18
     
      
 

@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:job_scout/users/view/Chat/chat.dart';
+import 'package:job_scout/chatting/chat.dart';
+ import 'package:job_scout/users/view/Chat/chat.dart';
 import 'package:job_scout/users/view/d_jobs.dart';
 import 'package:job_scout/users/view/Home/home_page.dart';
 import 'package:job_scout/users/view/post_page.dart';
@@ -24,7 +25,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
           currentUserId: currentUserId,
         ),
     (currentUserId) => UserSearchScreen(),
-    (currentUserId) => UserListScreen(),
+      // (currentUserId) => UserListScreen(),
+      (currentUserId) =>ChatPage(
+             friendUserId: currentUserId,
+      ),
+   
   ];
 
   void onItemTapped(int index) {
