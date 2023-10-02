@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:job_scout/components/bottom_navigation.dart';
+import 'package:job_scout/users/view/Home/home_page.dart';
 import 'package:job_scout/users/view/profile_page.dart';
 import 'package:lottie/lottie.dart';
 
@@ -10,7 +12,7 @@ class VerifiedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 5), () {
       // Navigate to the desired page using Get.to
-      Get.off(() => ProfilePage());
+      Get.off(() => BottomNavBar());
     });
 
     return Scaffold(

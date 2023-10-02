@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => RegisterPage(),
         '/searchpage':(context) => UserSearchScreen(),
         '/homepage':(context) => HomePage(),
-        '/profilepage':(context) =>  ProfilePage(),
+        '/profilepage':(context) =>  HomePage(),
         '/bottomnavbar':(context) => BottomNavBar(),
          
       },
