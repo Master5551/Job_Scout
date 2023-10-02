@@ -26,7 +26,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ),
     (currentUserId) => UserSearchScreen(),
       // (currentUserId) => UserListScreen(),
-      (currentUserId) =>ChatPage(
+      (currentUserId) =>MessageDisplay(
              friendUserId: currentUserId,
       ),
    
