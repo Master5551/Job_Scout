@@ -77,8 +77,8 @@ class _ChatsScreen1State extends State<ChatsScreen1> {
                            final FirebaseAuth auth = FirebaseAuth.instance;
                              final User? user = auth.currentUser;
                             print('Clicked on card with Firebase User ID: $friendUserId');
-                            chatController.sendMessage(senderId: user!.uid, receiverId: friendUserId,messageText: "OM");
-                              Get.to(MessageDisplay(friendUserId: friendUserId));
+                            // chatController.sendMessage(senderId: user!.uid, receiverId: friendUserId,messageText: "OM");
+                              Get.to(MessageDisplay(friendUserId: friendUserId,senderUserId: user!.uid));
 
                         },
                       );

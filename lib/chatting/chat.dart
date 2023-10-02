@@ -1,10 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MessageDisplay extends StatefulWidget {
   final String friendUserId;
-
-  MessageDisplay({required this.friendUserId});
+  final String senderUserId;
+  
+  MessageDisplay({required this.friendUserId,required this.senderUserId});
 
   @override
   _MessageDisplayState createState() => _MessageDisplayState();
@@ -12,6 +14,7 @@ class MessageDisplay extends StatefulWidget {
 
 class _MessageDisplayState extends State<MessageDisplay> {
   List<Map<String, dynamic>> messages = [];
+  
   TextEditingController messageController = TextEditingController();
 
   @override
@@ -159,14 +162,18 @@ class _MessageDisplayState extends State<MessageDisplay> {
     return messageGroupWidgets;
   }
 
-  Future<void> sendMessage() async {
+  Future<void> sendMessage({
+     required String senderId,
+     required String receiverId,
+  }) async {
+   
     final messageText = messageController.text;
     if (messageText.isNotEmpty) {
       final chatCollection = FirebaseFirestore.instance.collection('Chats');
       
       // Check if a chat document already exists between sender and receiver
       final existingChatQuery = await chatCollection
-          .where('Sender', isEqualTo: widget.friendUserId)
+          .where('Sender', isEqualTo: senderUserId)
           .where('Receiver', isEqualTo: widget.friendUserId)
           .get();
 
@@ -237,7 +244,7 @@ class _MessageDisplayState extends State<MessageDisplay> {
                 ),
                 IconButton(
                   icon: Icon(Icons.send),
-                  onPressed: sendMessage, // Send the message
+                  onPressed: sendMessage(receiverId: widget.friendUserId,senderId:senderUserId ), // Send the message
                 ),
               ],
             ),

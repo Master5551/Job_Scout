@@ -31,7 +31,7 @@ class ChatController extends GetxController {
     if (chatDocument != null && messageText != null) {
       final currentMessages = await chatDocument.get().then((doc) => doc.data()?['Messages'] ?? {});
 
-      // Create the message map with 'ID,' 'TimeStamp,' and 'messageText'
+      
       final messageMap = {
         'ID': senderId,
         'TimeStamp': FieldValue.serverTimestamp(),
