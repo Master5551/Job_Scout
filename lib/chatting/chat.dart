@@ -46,7 +46,6 @@ class _MessageDisplayState extends State<MessageDisplay> {
 
     try {
       for (String senderId in senderIds) {
-        
         final userDoc = await FirebaseFirestore.instance
             .collection('Users')
             .doc(senderId)
@@ -56,7 +55,8 @@ class _MessageDisplayState extends State<MessageDisplay> {
         final firstName = userData['firstName'] as String;
         senderNames.add(firstName);
       }
-
+      print(senderIds);
+      print("Hello");
       return senderNames;
     } catch (e) {
       print('Error fetching sender names: $e');
@@ -103,160 +103,149 @@ class _MessageDisplayState extends State<MessageDisplay> {
 
     for (var message in messages) {
       final messageTexts = extractMessageTexts(message);
-      final timestamp = messageTexts.isNotEmpty ? messageTexts[0] : '';
+      final senderIds = extractMessageSenderIds(message);
 
-      if (!messageGroups.containsKey(timestamp)) {
-        messageGroups[timestamp] = [];
+      for (var i = 0; i < senderIds.length; i++) {
+        final senderId = senderIds[i];
+        final messageId = message['Messages'].keys.toList()[i];
+
+        if (!messageGroups.containsKey(messageId)) {
+          messageGroups[messageId] = [];
+        }
+
+        messageGroups[messageId]!.add({
+          'senderId': senderId,
+          'messageTexts': messageTexts,
+        });
       }
-
-      messageGroups[timestamp]!.add(message);
     }
 
     List<Widget> messageGroupWidgets = [];
 
-    messageGroups.forEach((timestamp, groupMessages) {
+    messageGroups.forEach((messageId, groupMessages) {
       messageGroupWidgets.add(
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                timestamp,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                ),
-              ),
-            ),
-            for (var message in groupMessages)
-              FutureBuilder<List<String>>(
-                future: fetchSenderNames(extractMessageSenderIds(message)),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    final senderNames = snapshot.data!;
-                    final isYou = message['Sender'] == widget.friendUserId;
-
-                    return Align(
-                      alignment:
-                          isYou ? Alignment.centerRight : Alignment.centerLeft,
-                      child: Container(
-                        padding: EdgeInsets.all(8.0),
-                        margin: EdgeInsets.symmetric(vertical: 4.0),
-                        decoration: BoxDecoration(
-                          color: isYou ? Colors.blue : Colors.green,
-                          borderRadius: BorderRadius.only(
-                            topLeft: isYou
-                                ? Radius.circular(16.0)
-                                : Radius.circular(0.0),
-                            topRight: isYou
-                                ? Radius.circular(0.0)
-                                : Radius.circular(16.0),
-                            bottomLeft: Radius.circular(16.0),
-                            bottomRight: Radius.circular(16.0),
-                          ),
-                        ),
-                        child: Text(
-                          isYou
-                              ? 'You: ${extractMessageTexts(message).join(', ')}'
-                              : '${senderNames.join(', ')}: ${extractMessageTexts(message).join(', ')}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Text('Loading...');
-                  }
-                },
-              )
-          ],
-        ),
+        buildMessageGroup(messageId, groupMessages),
       );
     });
 
     return messageGroupWidgets;
   }
 
- Future<void> sendMessage({
-  required String senderId,
-  required String receiverId,
-}) async {
-  final messageText = messageController.text;
-  if (messageText.isNotEmpty) {
-    final chatCollection = FirebaseFirestore.instance.collection('Chats');
+  Widget buildMessageGroup(
+      String messageId, List<Map<String, dynamic>> groupMessages) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var message in groupMessages)
+          Align(
+            alignment: message['senderId'] == widget.senderUserId
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              margin: EdgeInsets.symmetric(vertical: 4.0),
+              decoration: BoxDecoration(
+                color: message['senderId'] == widget.senderUserId
+                    ? Colors.blue
+                    : Colors.green,
+                borderRadius: BorderRadius.only(
+                  topLeft: message['senderId'] == widget.senderUserId
+                      ? Radius.circular(16.0)
+                      : Radius.circular(0.0),
+                  topRight: message['senderId'] == widget.senderUserId
+                      ? Radius.circular(0.0)
+                      : Radius.circular(16.0),
+                  bottomLeft: Radius.circular(16.0),
+                  bottomRight: Radius.circular(16.0),
+                ),
+              ),
+              child: Text(
+                message['senderId'] == widget.senderUserId
+                    ? 'You: ${message['messageTexts'].join(', ')}'
+                    : '${message['senderId']}: ${message['messageTexts'].join(', ')}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
 
-    // Get the document ID for the chat between the sender and receiver
-    final chatDocumentId = getChatDocumentId(senderId, receiverId);
+  Future<void> sendMessage({
+    required String senderId,
+    required String receiverId,
+  }) async {
+    final messageText = messageController.text;
+    if (messageText.isNotEmpty) {
+      final chatCollection = FirebaseFirestore.instance.collection('Chats');
 
-    // Check if the chat document already exists
-    final existingChatDoc = await chatCollection.doc(chatDocumentId).get();
+      // Get the document ID for the chat between the sender and receiver
+      final chatDocumentId = getChatDocumentId(senderId, receiverId);
 
-    if (existingChatDoc.exists) {
-      // Chat document already exists, update it
-      await updateChatDocument(existingChatDoc, senderId, messageText);
-    } else {
-      // Chat document does not exist, create a new one
-      final newMessage = {
-        'Sender': senderId,
-        'Receiver': receiverId,
-        'Messages': {
-          Timestamp.now().millisecondsSinceEpoch.toString(): {
-            'ID': senderId,
-            'messageText': messageText,
-            'TimeStamp': FieldValue.serverTimestamp(),
+      // Check if the chat document already exists
+      final existingChatDoc = await chatCollection.doc(chatDocumentId).get();
+
+      if (existingChatDoc.exists) {
+        // Chat document already exists, update it
+        await updateChatDocument(existingChatDoc, senderId, messageText);
+      } else {
+        // Chat document does not exist, create a new one
+        final newMessage = {
+          'Sender': senderId,
+          'Receiver': receiverId,
+          'Messages': {
+            Timestamp.now().millisecondsSinceEpoch.toString(): {
+              'ID': senderId,
+              'messageText': messageText,
+              'TimeStamp': FieldValue.serverTimestamp(),
+            },
           },
-        },
-      };
+        };
 
-      // Create a new chat document with the specified document ID
-      await chatCollection.doc(chatDocumentId).set(newMessage);
-    }
+        // Create a new chat document with the specified document ID
+        await chatCollection.doc(chatDocumentId).set(newMessage);
+      }
 
-    messageController.clear();
-  }
-}
-
-String getChatDocumentId(String userId1, String userId2) {
-  // Generate a unique document ID for the chat document
-  // You can use a consistent method to ensure the same ID is generated for both users
-  List<String> userIds = [userId1, userId2]..sort();
-  return '${userIds[0]}_${userIds[1]}';
-}
-
-Future<void> updateChatDocument(
-  DocumentSnapshot existingChatDoc,
-  String senderId,
-  String messageText,
-) async {
-  final Map<String, dynamic>? data = existingChatDoc.data() as Map<String, dynamic>?;
-
-  if (data != null) {
-    final Map<String, dynamic>? messageField = data['Messages'] as Map<String, dynamic>?;
-
-    if (messageField != null) {
-      // Add the new message with a unique timestamp
-      final timestamp = Timestamp.now().millisecondsSinceEpoch.toString();
-      messageField[timestamp] = {
-        'ID': senderId,
-        'messageText': messageText,
-        'TimeStamp': FieldValue.serverTimestamp(),
-      };
-
-      // Update the existing chat document
-      await existingChatDoc.reference.update({'Messages': messageField});
+      messageController.clear();
     }
   }
-}
 
+  String getChatDocumentId(String userId1, String userId2) {
+    // Generate a unique document ID for the chat document
+    // You can use a consistent method to ensure the same ID is generated for both users
+    List<String> userIds = [userId1, userId2]..sort();
+    return '${userIds[0]}_${userIds[1]}';
+  }
 
+  Future<void> updateChatDocument(
+    DocumentSnapshot existingChatDoc,
+    String senderId,
+    String messageText,
+  ) async {
+    final Map<String, dynamic>? data =
+        existingChatDoc.data() as Map<String, dynamic>?;
 
+    if (data != null) {
+      final Map<String, dynamic>? messageField =
+          data['Messages'] as Map<String, dynamic>?;
+
+      if (messageField != null) {
+        // Add the new message with a unique timestamp
+        final timestamp = Timestamp.now().millisecondsSinceEpoch.toString();
+        messageField[timestamp] = {
+          'ID': senderId,
+          'messageText': messageText,
+          'TimeStamp': FieldValue.serverTimestamp(),
+        };
+
+        // Update the existing chat document
+        await existingChatDoc.reference.update({'Messages': messageField});
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -268,7 +257,7 @@ Future<void> updateChatDocument(
         children: [
           Expanded(
             child: SingleChildScrollView(
-              reverse: true, // To show the latest messages at the bottom
+              reverse: true,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: buildMessageGroups(),
@@ -295,7 +284,7 @@ Future<void> updateChatDocument(
                       senderId: widget.senderUserId,
                       receiverId: widget.friendUserId,
                     );
-                  }, // Send the message
+                  },
                 ),
               ],
             ),
