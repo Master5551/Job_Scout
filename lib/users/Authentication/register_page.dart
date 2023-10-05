@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_scout/Controller/register_controller.dart';
-import 'package:job_scout/users/Authentication/login_page.dart';
+
 import 'package:job_scout/components/my_button.dart';
-import 'package:job_scout/components/my_text_field.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -19,7 +18,6 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Form(
-          key: registerController.registerFormKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -95,7 +93,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (value == null || value.isEmpty) {
                       return 'Please enter password';
                     }
-                    return null;
                   },
                   decoration: InputDecoration(
                     hintText: "Enter Your password here",
@@ -110,8 +107,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     suffixIcon: IconButton(
                       onPressed: () {
                         registerController.togglePasswordVisibility();
+                        setState(() {});
                       },
-                      
                       icon: Obx(() => Icon(
                             registerController.isPasswordVisible.value
                                 ? Icons.visibility
@@ -119,7 +116,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             color: Colors.black,
                           )),
                     ),
-                    
                     fillColor: Colors.green.shade100,
                     filled: true,
                     prefixIcon: const Icon(
@@ -135,14 +131,13 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextFormField(
-                  controller: registerController
-                      .confirmpasswordController, // Use a separate controller for confirm password
-                  obscureText: !registerController.isPasswordVisible.value,
+                  controller: registerController.confirmpasswordController,
+                  obscureText:
+                      !registerController.isPasswordconfirmVisible.value,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter confirm password';
                     }
-                    return null;
                   },
                   decoration: InputDecoration(
                     hintText: "Enter Your confirm password here",
@@ -152,10 +147,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     suffixIcon: IconButton(
                       onPressed: () {
-                        registerController.togglePasswordVisibility();
+                        registerController.toggleconfirmPasswordVisibility();
+                        setState(() {});
                       },
                       icon: Obx(() => Icon(
-                            registerController.isPasswordVisible.value
+                            registerController.isPasswordconfirmVisible.value
                                 ? Icons.visibility
                                 : Icons.visibility_off,
                             color: Colors.black,
@@ -173,9 +169,11 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.015),
               MyButton(
                 onTap: () {
-                  registerController.submitForm();
+                  registerController.registerWithEmailAndPassword();
+                  
+                  setState(() {});
                 },
-                buttonText: 'Sign In',
+                buttonText: 'Sign Up',
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.06),
               Row(
@@ -188,7 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   TextButton(
                     style: TextButton.styleFrom(foregroundColor: Colors.teal),
                     onPressed: () {
-                      Get.toNamed('/login');
+                      Navigator.pop(context);
                     },
                     child: Text('Login Here'),
                   ),

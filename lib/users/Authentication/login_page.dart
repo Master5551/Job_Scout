@@ -5,10 +5,12 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:job_scout/Controller/login_controller.dart';
+import 'package:job_scout/Controller/logout_controller.dart';
 import 'package:job_scout/Home/splash_screen.dart';
 import 'package:job_scout/components/my_button.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:job_scout/users/Authentication/forgot_password_screen.dart';
+import 'package:job_scout/users/Authentication/register_page.dart';
 import 'package:job_scout/users/Authentication/verified_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,6 +19,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // final LoginController loginController = Get.put(LoginController());
   final LoginController loginController = Get.put(LoginController());
 
   @override
@@ -26,11 +29,9 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
-            key: loginController.loginFormKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                 
                 Center(
                   child: Image.asset(
                     'assets/images/logo_1.png',
@@ -111,12 +112,12 @@ class _LoginPageState extends State<LoginPage> {
                           loginController.togglePasswordVisibility();
                           setState(() {});
                         },
-                        icon: Obx(() => Icon(
-                              loginController.isPasswordVisible.value
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Colors.black,
-                            )),
+                        icon: Icon(
+                          loginController.isPasswordVisible.value
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.black,
+                        ),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(40),
@@ -137,8 +138,8 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                          style:
-                              TextButton.styleFrom(foregroundColor: Colors.teal),
+                          style: TextButton.styleFrom(
+                              foregroundColor: Colors.teal),
                           onPressed: () {
                             Navigator.push(
                                 context,
@@ -190,7 +191,8 @@ class _LoginPageState extends State<LoginPage> {
                         loginController.signInWithGoogle();
                       },
                     ),
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005),
                     SignInButton(
                       Buttons.GitHub,
                       onPressed: () {
@@ -205,12 +207,17 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     const Text(
                       "Not A Member?",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     TextButton(
-                        style: TextButton.styleFrom(foregroundColor: Colors.teal),
+                        style:
+                            TextButton.styleFrom(foregroundColor: Colors.teal),
                         onPressed: () {
-                          Get.toNamed('/register');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegisterPage()));
                         },
                         child: const Text(
                           'Register Here',

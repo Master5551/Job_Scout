@@ -6,7 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:job_scout/users/Authentication/verified_page.dart';
 
 class LoginController extends GetxController {
-  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   RxBool isPasswordVisible = false.obs;
@@ -29,11 +28,69 @@ class LoginController extends GetxController {
     isLoading.value = value;
   }
 
-  void submitForm() {
-    if (loginFormKey.currentState!.validate()) {
-      // Form is valid, you can perform your login logic here
-    }
+ void submitForm() {
+  if (_isValidEmail() && _isValidPassword()) {
+    // Form is valid, you can perform your login logic here
   }
+}
+
+bool _isValidEmail() {
+  String email = emailController.text.trim();
+
+  if (email.isEmpty) {
+    Get.snackbar(
+        "OOps..! It Seems Like You have made a mistake",
+        "please Fill out the email field",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    return false;
+  }
+
+  if (!RegExp('[a-z0-9]+@[a-z]+\\.[a-z]{2,3}').hasMatch(email)) {
+   Get.snackbar(
+        "OOps..! It Seems Like You have made a mistake",
+        "your Email is Badly Formated",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    return false;
+  }
+
+  return true;
+}
+
+bool _isValidPassword() {
+  String password = passwordController.text.trim();
+
+  if (password.isEmpty) {
+    Get.snackbar(
+        "OOps..! It Seems Like You have made a mistake",
+        "your Password is empty",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    return false;
+  }
+
+  if(password.length <= 6)
+  {
+    Get.snackbar(
+        "OOps..! It Seems Like You have made a mistake",
+        "your Password must be greater than 6 characters",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    return false;  
+  }
+
+  return true;
+}
+
 
   void signInWithEmailAndPassword() async {
     try {
@@ -45,25 +102,21 @@ class LoginController extends GetxController {
       Get.offAll(() => VerifiedPage());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        Fluttertoast.showToast(
-          msg: "No User Found with that email",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM_RIGHT,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0,
-        );
+        Get.snackbar(
+        "No User Found With That Email",
+        "If You are new please register first",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       } else if (e.code == 'wrong-password') {
-        Fluttertoast.showToast(
-          msg: "The entered password doesn't match our credentials",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM_RIGHT,
-          timeInSecForIosWeb: 2,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0,
-        );
+        Get.snackbar(
+        "Your Password doesn't match with our credentials",
+        "If You are new please register first",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
       }
     }
   }
