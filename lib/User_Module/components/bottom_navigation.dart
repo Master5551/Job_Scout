@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/Connection/chatting/chat.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/Connection/chat.dart';
+import 'package:job_scout/User_Module/View/Master_screen_pages/Navigation_page/navigation_page.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/d_jobs.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/Home/home_page.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/search.dart';
@@ -21,12 +22,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
   final List<Widget Function(String)> pages = [
     (currentUserId) => HomePage(),
     (currentUserId) => ChatsScreen1(
-          currentUserId: currentUserId,
-        ),
+          currentUserId: currentUserId,),
     (currentUserId) => UserSearchScreen(),
-    (currentUserId) => UserListScreen(),
-      
-   
+    (currentUserId) => ProfileNavigationPage(),
+    
   ];
 
   void onItemTapped(int index) {

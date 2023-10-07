@@ -22,7 +22,7 @@ class UserListScreen extends StatelessWidget {
           } else {
             List<UserModel> users = snapshot.data ?? [];
 
-            // Get the UID of the current user
+            
             String currentUserId = _auth.currentUser?.uid ?? "";
 
             // Find the details of the current user
@@ -38,7 +38,7 @@ class UserListScreen extends StatelessWidget {
                 title: '',
                 about: '',
                 dob: '',
-                // Add other default values as needed
+                
               ),
             );
 

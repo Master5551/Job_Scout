@@ -18,7 +18,7 @@ class ProfileController extends GetxController {
   void takePhoto(ImageSource source) async {
     // final pickedFile = await imagePicker.getImage(source: source);
     // setState(() {
-    //   imageFile = pickedFile;
+    //  imageFile = pickedFile;
     // });
   }
 }
@@ -55,10 +55,10 @@ class DataSender {
 
         await _firestore.collection('Users').doc(user.uid).set(userData);
 
-        // Create a subcollection called "Connections" with an initial empty document
+        
         _firestore.collection('Users').doc(user.uid).collection('Connections').doc().set({});
 
-        Get.toNamed('/bottomnavbar'); // Assuming you're using GetX for navigation
+        Get.toNamed('/bottomnavbar'); 
       } else {
         throw Exception('User is not signed in.');
       }
