@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         
-        Get.toNamed('/checkuser');
+        Get.offAllNamed('/checkuser');
       }
     });
   }

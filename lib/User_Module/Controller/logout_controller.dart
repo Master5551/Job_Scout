@@ -19,7 +19,7 @@ class AuthController extends GetxController {
     try {
       await _auth.signOut();
       await _googleSignIn.signOut();
-      Get.to(LoginPage()); 
+      Get.off(LoginPage()); 
     } catch (e) {
       print("Error during logout: $e");
     }

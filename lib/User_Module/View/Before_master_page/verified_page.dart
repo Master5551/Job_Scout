@@ -12,7 +12,7 @@ class VerifiedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 5), () {
       
-      Get.off(() => BottomNavBar());
+      Get.offAll(() => BottomNavBar());
     });
 
     return Scaffold(
