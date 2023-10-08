@@ -29,7 +29,7 @@ class _ChatsScreen1State extends State<ChatsScreen1> {
     loadUserIds();
   }
 
-  Set<String> userIds = {}; // Use a Set to ensure uniqueness
+  Set<String> userIds = {}; 
 
   Future<void> loadUserIds() async {
     final loadedUserIds = await getUserIdsFromConnections(widget.currentUserId);
@@ -38,7 +38,7 @@ class _ChatsScreen1State extends State<ChatsScreen1> {
     loadedUserIds.remove(widget.currentUserId);
 
     userIds = loadedUserIds.toSet(); // Convert to Set to ensure uniqueness
-    setState(() {});
+    // setState(() {});
   }
 
   @override

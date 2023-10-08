@@ -29,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(
+            
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -154,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.015),
                 MyButton(
                   onTap: () {
-                    loginController.signInWithEmailAndPassword();
+                    
                     loginController.submitForm();
                   },
                   buttonText: 'Sign In',
