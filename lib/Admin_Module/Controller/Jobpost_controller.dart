@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -39,7 +40,7 @@ class JobController extends GetxController {
   }
 
   // Submit the form
-  void submitForm() {
+ void submitForm() {
   if (formKey.currentState!.validate()) {
     // Save form data to Get Storage
     box.write('companyName', companyNameController.text);
@@ -52,27 +53,70 @@ class JobController extends GetxController {
     box.write('skillsRequired', skillsRequiredController.text);
     box.write('qualifications', qualificationsController.text);
 
-    // Clear form data
-    companyNameController.clear();
-    companyTypeController.clear();
-    lastApplicationDateController.clear();
-    jobProfileController.clear();
-    packageController.clear();
-    workLocationController.clear();
-    jobDescriptionController.clear();
-    skillsRequiredController.clear();
-    qualificationsController.clear();
-
-    // Update the dataSubmitted flag to true
+ 
     dataSubmitted = true;
 
-    // Continue with form submission logic
-    // ...
+    // Firebase Firestore logic to save form data
+    saveFormDataToFirestore();
+
+ 
+ 
   }
 }
 
-  
+void saveFormDataToFirestore() {
+  // Create a map of form data
+  Map<String, dynamic> formData = {
+    'companyName': companyNameController.text,
+    'companyType': companyTypeController.text,
+    'lastApplicationDate': lastApplicationDateController.text,
+    'jobProfile': jobProfileController.text,
+    'package': packageController.text,
+    'workLocation': workLocationController.text,
+    'jobDescription': jobDescriptionController.text,
+    'skillsRequired': skillsRequiredController.text,
+    'qualifications': qualificationsController.text,
+  };
+
+  // Replace 'YOUR_COMPANY_NAME' with the actual company name
+  String companyName = 'Job Scout';
+
+  // Get a reference to the Firestore collection named "Company"
+  CollectionReference companyCollection =
+      FirebaseFirestore.instance.collection('Company');
+
+  // Query the "Company" collection to find the document with the matching company name
+  companyCollection
+      .where('Name', isEqualTo: companyName)
+      .get()
+      .then((querySnapshot) {
+    if (querySnapshot.docs.isNotEmpty) {
+      // The document with the matching company name exists
+      // Get a reference to that document
+      DocumentReference companyDocRef = querySnapshot.docs[0].reference;
+
+      // Get a reference to the "jobApplications" subcollection of the specified company document
+      CollectionReference jobApplications =
+          companyDocRef.collection('Job_Post');
+
+      // Add the form data to the "jobApplications" subcollection
+      jobApplications.add(formData).then((value) {
+        // Form data added successfully
+        // You can add further actions here if needed
+        print('Form data added to Firestore successfully');
+      }).catchError((error) {
+        // Handle errors if any
+        print('Error adding form data to Firestore: $error');
+      });
+    } else {
+      // No document with the specified company name was found
+      print('Company with name "$companyName" not found in Firestore.');
+    }
+  });
 }
+
+  
+ 
 Future<DateTime?> _selectDate(BuildContext context, DateTime initialDate) async {
   final DateTime? picked = await showDatePicker(
     context: context,
@@ -89,4 +133,5 @@ Future<TimeOfDay?> _selectTime(BuildContext context, TimeOfDay initialTime) asyn
     initialTime: initialTime,
   );
   return picked;
+}
 }

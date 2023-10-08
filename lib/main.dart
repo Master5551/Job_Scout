@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:job_scout/Admin_Module/View/Pages/post_job.dart';
+import 'package:job_scout/Admin_Module/View/Pages/status.dart';
 import 'package:job_scout/User_Module/Controller/home_controller.dart';
 import 'package:job_scout/User_Module/View/Splash_screen/splash_screen.dart';
 import 'package:job_scout/User_Module/components/bottom_navigation.dart';
@@ -18,6 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
     await GetStorage.init(); // Initialize Get Storage
+     
 
   runApp(MyApp());
   
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', 
       routes: {
         '/': (context) => SplashScreen(),
-        '/adminmodule':(context)=>JobPosting(),
+        '/adminmodule':(context)=>PdfViewScreen(),
         '/checkuser': (context) => user != null ?BottomNavBar():LoginPage(),
         '/login': (context) => LoginPage(), 
         '/register': (context) => RegisterPage(),
