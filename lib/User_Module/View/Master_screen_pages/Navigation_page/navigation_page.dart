@@ -44,7 +44,7 @@ class ProfileNavigationPage extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () {
-                    Get.to(ProfilePage());
+                    Get.toNamed('profilepage');
                   },
                   child: Text("Profile Page"))
             ],
