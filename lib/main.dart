@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:job_scout/Admin_Module/View/Pages/cards.dart';
 import 'package:job_scout/Admin_Module/View/Pages/post_job.dart';
 import 'package:job_scout/Admin_Module/View/Pages/status.dart';
 import 'package:job_scout/User_Module/Controller/home_controller.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/', 
       routes: {
         '/': (context) => SplashScreen(),
-        '/adminmodule':(context)=>PdfViewScreen(),
+        '/adminmodule':(context)=>UserListPage(),
         '/checkuser': (context) => user != null ?BottomNavBar():LoginPage(),
         '/login': (context) => LoginPage(), 
         '/register': (context) => RegisterPage(),

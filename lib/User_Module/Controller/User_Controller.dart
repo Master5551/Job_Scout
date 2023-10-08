@@ -4,5 +4,7 @@ import 'package:get/get.dart';
 class UserController extends GetxController {
   final db = FirebaseFirestore.instance;
 
+  get users => null;
+
   void addNote() async {}
 }
