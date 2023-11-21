@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:job_scout/User_Module/View/Before_master_page/new_user_page.dart';
+import 'package:job_scout/User_Module/View/Before_master_page/new_user_page_2.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/profile_page.dart';
 import 'package:job_scout/User_Module/components/bottom_navigation.dart';
 
@@ -12,6 +13,7 @@ class UserStateController extends GetxController {
   late String useremail;
   String get getUserEmail => useremail;
   bool hasDetails = false;
+  bool hasDetails2 = false;
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
 
@@ -19,22 +21,30 @@ class UserStateController extends GetxController {
   TextEditingController lastName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController mobileNumber = TextEditingController();
+  TextEditingController profession = TextEditingController();
+  TextEditingController degree = TextEditingController();
+  TextEditingController college = TextEditingController();
 
   @override
   Future<void> onInit() async {
     super.onInit();
     await _initializeUserDetails();
     _isInitialized = true;
+    email.text = useremail;
   }
 
   Future<void> _initializeUserDetails() async {
     userId = _auth.currentUser?.uid ?? "";
     useremail = _auth.currentUser?.email ?? "";
     hasDetails = await checkUserDetails(userId);
+    hasDetails2 = await checkUserDetails2(userId);
 
     if (hasDetails == false) {
       await Get.to(NewUserPage());
-    } else {
+    } 
+    else if(hasDetails2 == false){
+      await Get.to(NewUserPage2());
+    }else {
       await Get.to(BottomNavBar());
     }
   }
@@ -62,6 +72,29 @@ class UserStateController extends GetxController {
     return false;
   }
 
+  Future<bool> checkUserDetails2(String userId) async {
+    try {
+      DocumentReference userDocRef =
+          FirebaseFirestore.instance.collection('Users').doc(userId);
+
+      DocumentSnapshot userSnapshot = await userDocRef.get();
+
+      if (userSnapshot.exists) {
+        Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
+
+        if (userData.containsKey('profession') &&
+            userData.containsKey('degree') && userData.containsKey('college')) {
+          return true;
+        }
+      }
+    } catch (e) {
+      print("Error checking user details: $e");
+    }
+
+    return false;
+  }
+
   String getUserId() {
     return userId;
   }
@@ -77,6 +110,27 @@ class UserStateController extends GetxController {
   String? validateLastName(String value) {
     if (value.isEmpty) {
       return 'Please enter your last name';
+    }
+    return null;
+  }
+
+  String? validateprofession(String value) {
+    if (value.isEmpty) {
+      return 'Please enter your profession';
+    }
+    return null;
+  }
+
+  String? validatecollege(String value) {
+    if (value.isEmpty) {
+      return 'Please enter your College name';
+    }
+    return null;
+  }
+
+  String? validatedegree(String value) {
+    if (value.isEmpty) {
+      return 'Please enter your degree name';
     }
     return null;
   }
@@ -112,33 +166,52 @@ class UserStateController extends GetxController {
     );
   }
 
-  // Your function to perform the validations and show Snackbar
-  void performValidations() {
+  
+  bool performValidations() {
     if (validateFirstName(firstName.text) != null) {
       showSnackbar(validateFirstName(firstName.text)!);
-      return;
+      return false;
     }
 
     if (validateLastName(lastName.text) != null) {
       showSnackbar(validateLastName(lastName.text)!);
-      return;
+      return false;
     }
 
     if (validateEmail(email.text) != null) {
       showSnackbar(validateEmail(email.text)!);
-      return;
+      return false;
     }
 
     if (validatePhoneNumber(mobileNumber.text) != null) {
       showSnackbar(validatePhoneNumber(mobileNumber.text)!);
-      return;
+      return false;
     }
 
-    // If all validations pass, update the user data
     updateUserData();
+    return true;
   }
 
-  // Function to update user data in Firestore
+  bool performValidations2() {
+    if (validateprofession(profession.text) != null) {
+      showSnackbar(validateprofession(profession.text)!);
+      return false;
+    }
+
+    if (validatedegree(degree.text) != null) {
+      showSnackbar(validatedegree(degree.text)!);
+      return false;
+    }
+
+    if (validatecollege(college.text) != null) {
+      showSnackbar(validatecollege(college.text)!);
+      return false;
+    }
+
+    updateUserData2();
+    return true;
+  }
+
   Future<void> updateUserData() async {
     try {
       DocumentReference userDocRef =
@@ -151,10 +224,26 @@ class UserStateController extends GetxController {
         'mobileNumber': mobileNumber.text,
       }, SetOptions(merge: true));
 
-      Get.to(BottomNavBar());
+      
     } catch (e) {
       print("Error updating user data: $e");
-      // Handle error, show a Snackbar, or perform any other actions
+    }
+  }
+
+  Future<void> updateUserData2() async {
+    try {
+      DocumentReference userDocRef =
+          FirebaseFirestore.instance.collection('Users').doc(userId);
+
+      await userDocRef.set({
+        'profession': profession.text,
+        'degree': degree.text,
+        'college': college.text,
+      }, SetOptions(merge: true));
+
+      
+    } catch (e) {
+      print("Error updating user data: $e");
     }
   }
 }

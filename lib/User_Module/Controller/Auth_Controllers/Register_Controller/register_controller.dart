@@ -21,22 +21,11 @@ class RegisterController extends GetxController {
   }
 
   Future<void> registerWithEmailAndPassword() async {
+    if (!validateInputs()) {
+      return;
+    }
+
     try {
-      if (!isValidEmail() || !isValidPassword()) {
-        return;
-      }
-
-      if (passwordController.text.trim() != confirmpasswordController.text.trim()) {
-        Get.snackbar(
-          "Password Mismatch",
-          "Password and Confirm Password should match",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-        return;
-      }
-
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
@@ -69,28 +58,20 @@ class RegisterController extends GetxController {
     }
   }
 
+  bool validateInputs() {
+    return isValidEmail() && isValidPassword() && passwordsMatch();
+  }
+
   bool isValidEmail() {
     String email = emailController.text.trim();
 
     if (email.isEmpty) {
-      Get.snackbar(
-        "Validation Error",
-        "Please fill out the email field",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      showValidationError("Validation Error", "Please fill out the email field");
       return false;
     }
 
     if (!RegExp('[a-z0-9]+@[a-z]+\\.[a-z]{2,3}').hasMatch(email)) {
-      Get.snackbar(
-        "Validation Error",
-        "Your Email is badly formatted",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      showValidationError("Validation Error", "Your Email is badly formatted");
       return false;
     }
 
@@ -98,55 +79,48 @@ class RegisterController extends GetxController {
   }
 
   bool isValidPassword() {
-  String password = passwordController.text.trim();
+    String password = passwordController.text.trim();
 
-  if (password.isEmpty) {
+    if (password.isEmpty) {
+      showValidationError("Validation Error", "Password is required");
+      return false;
+    }
+
+    if (password.length <= 6) {
+      showValidationError("Validation Error", "Password should be greater than 6 characters");
+      return false;
+    }
+
+    // Check for at least one special character
+    if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) {
+      showValidationError("Validation Error", "Password should contain at least one special character");
+      return false;
+    }
+
+    // Check for at least one digit
+    if (!RegExp(r'\d').hasMatch(password)) {
+      showValidationError("Validation Error", "Password should contain at least one digit");
+      return false;
+    }
+
+    return true;
+  }
+
+  bool passwordsMatch() {
+    if (passwordController.text.trim() != confirmpasswordController.text.trim()) {
+      showValidationError("Password Mismatch", "Password and Confirm Password should match");
+      return false;
+    }
+    return true;
+  }
+
+  void showValidationError(String title, String message) {
     Get.snackbar(
-      "Validation Error",
-      "Password is required",
+      title,
+      message,
       snackPosition: SnackPosition.BOTTOM,
       backgroundColor: Colors.red,
       colorText: Colors.white,
     );
-    return false;
   }
-
-  if (password.length <= 6) {
-    Get.snackbar(
-      "Validation Error",
-      "Password should be greater than 6 characters",
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-    );
-    return false;
-  }
-
-  // Check for at least one special character
-  if (!RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password)) {
-    Get.snackbar(
-      "Validation Error",
-      "Password should contain at least one special character",
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-    );
-    return false;
-  }
-
-  // Check for at least one digit
-  if (!RegExp(r'\d').hasMatch(password)) {
-    Get.snackbar(
-      "Validation Error",
-      "Password should contain at least one digit",
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-    );
-    return false;
-  }
-
-  return true;
-}
-
 }

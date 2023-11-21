@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:job_scout/User_Module/Controller/Auth_Controllers/User_state_controller/user_state_controller.dart';
-import 'package:job_scout/User_Module/View/Before_master_page/new_user_page_2.dart';
+import 'package:job_scout/User_Module/components/bottom_navigation.dart';
 import 'package:lottie/lottie.dart';
 
-class NewUserPage extends StatelessWidget {
-  NewUserPage({Key? key});
+class NewUserPage2 extends StatelessWidget {
+  NewUserPage2({super.key});
   UserStateController userstatecontroller = Get.find<UserStateController>();
 
   @override
   Widget build(BuildContext context) {
-    String? userEmail = userstatecontroller.getUserEmail;
-
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -19,7 +17,7 @@ class NewUserPage extends StatelessWidget {
           Row(
             children: [
               Lottie.asset(
-                'assets/animations/animation_lnh1sb7l.json',
+                'assets/animations/Animation - 1700141221426.json',
                 height: 100,
                 reverse: true,
                 repeat: true,
@@ -63,11 +61,12 @@ class NewUserPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 150,
+                    width: 300, // Set a fixed width or adjust as needed
                     child: TextFormField(
-                      controller: userstatecontroller.firstName,
+                     
+                      controller: userstatecontroller.profession,
                       decoration: InputDecoration(
-                        hintText: "First Name",
+                        hintText: "Enter Your Profession",
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40),
                           borderSide: BorderSide(color: Colors.teal),
@@ -79,32 +78,7 @@ class NewUserPage extends StatelessWidget {
                         fillColor: Colors.green.shade100,
                         filled: true,
                         prefixIcon: const Icon(
-                          Icons.person_2,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10), // Add some spacing if needed
-                  Container(
-                    width: 150, // Set a fixed width or adjust as needed
-                    child: TextFormField(
-                      controller: userstatecontroller.lastName,
-                      // controller: profileController.firstNameController,
-                      decoration: InputDecoration(
-                        hintText: "Last Name",
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40),
-                          borderSide: BorderSide(color: Colors.teal),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(40),
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                        fillColor: Colors.green.shade100,
-                        filled: true,
-                        prefixIcon: const Icon(
-                          Icons.person_2,
+                          Icons.email,
                           color: Colors.green,
                         ),
                       ),
@@ -112,6 +86,7 @@ class NewUserPage extends StatelessWidget {
                   ),
                 ],
               ),
+              
 
               SizedBox(height: 20),
               // Second Row
@@ -121,15 +96,10 @@ class NewUserPage extends StatelessWidget {
                   Container(
                     width: 300, // Set a fixed width or adjust as needed
                     child: TextFormField(
-                      readOnly:
-                          true, // Set readOnly to true to mimic a disabled state
-                      onTap: () {
-                        // Prevent keyboard from appearing when tapped
-                        // You can leave this function empty
-                      },
-                      controller: userstatecontroller.email,
+                      
+                      controller: userstatecontroller.degree,
                       decoration: InputDecoration(
-                        hintText: userEmail,
+                        hintText: "In which degree You Have Studied",
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40),
                           borderSide: BorderSide(color: Colors.teal),
@@ -157,9 +127,9 @@ class NewUserPage extends StatelessWidget {
                   Container(
                     width: 300, // Set a fixed width or adjust as needed
                     child: TextFormField(
-                      controller: userstatecontroller.mobileNumber,
+                      controller: userstatecontroller.college,
                       decoration: InputDecoration(
-                        hintText: "Enter your Phone number",
+                        hintText: "Enter Your College",
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(40),
                           borderSide: BorderSide(color: Colors.teal),
@@ -184,7 +154,7 @@ class NewUserPage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  userstatecontroller.performValidations() ? Get.to(NewUserPage2()) : Get.to(NewUserPage()) ;
+                   userstatecontroller.performValidations2() ? Get.to(BottomNavBar()) : Get.to(NewUserPage2()) ;
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors
