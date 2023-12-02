@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void goToProfilePage() {
-    Get.to(UserListScreen());
+    Get.to(UserIDPage());
   }
 
   @override

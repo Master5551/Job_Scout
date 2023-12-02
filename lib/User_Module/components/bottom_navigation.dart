@@ -21,7 +21,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   final List<Widget Function(String)> pages = [
     (currentUserId) => HomePage(),
-    (currentUserId) => ChatsScreen1(
+    (currentUserId) => UserListPage(
           currentUserId: currentUserId,),
     (currentUserId) => UserSearchScreen(),
     (currentUserId) => ProfileNavigationPage(),

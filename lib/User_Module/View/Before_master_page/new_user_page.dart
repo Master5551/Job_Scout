@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:job_scout/User_Module/Controller/Auth_Controllers/User_state_controller/user_state_controller.dart';
 import 'package:job_scout/User_Module/View/Before_master_page/new_user_page_2.dart';
 import 'package:lottie/lottie.dart';
@@ -7,6 +11,7 @@ import 'package:lottie/lottie.dart';
 class NewUserPage extends StatelessWidget {
   NewUserPage({Key? key});
   UserStateController userstatecontroller = Get.find<UserStateController>();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +64,38 @@ class NewUserPage extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Row(
+                children: [
+                  IconButton(
+                      onPressed: () async {
+                        ImagePicker imagepicker = ImagePicker();
+                        XFile? file = await imagepicker.pickImage(
+                            source: ImageSource.gallery);
+                        print('${file?.path}');
+
+                        if (file == null) return;
+
+                        String uniqueFileName =
+                            DateTime.now().millisecondsSinceEpoch.toString();
+                        Reference referenceRoot =
+                            FirebaseStorage.instance.ref();
+                        Reference referenceDirImages =
+                            referenceRoot.child('images');
+
+                        Reference referenceimageUpload =
+                            referenceDirImages.child(uniqueFileName);
+
+                        try {
+                          await referenceimageUpload.putFile(File(file!.path));
+                          userstatecontroller.imageUrl =
+                              await referenceimageUpload.getDownloadURL();
+                        } catch (error) {
+                          print("djgmad");
+                        }
+                      },
+                      icon: Icon(Icons.camera_alt)),
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -184,7 +221,9 @@ class NewUserPage extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  userstatecontroller.performValidations() ? Get.to(NewUserPage2()) : Get.to(NewUserPage()) ;
+                  userstatecontroller.performValidations()
+                      ? Get.to(NewUserPage2())
+                      : Get.to(NewUserPage());
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors

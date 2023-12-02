@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,6 +20,10 @@ class UserStateController extends GetxController {
   bool hasDetails2 = false;
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
+  String imageUrl = '';
+  String fileName = '';
+  File file = File('');
+  late String? downloadLink = '';
 
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -25,12 +33,48 @@ class UserStateController extends GetxController {
   TextEditingController degree = TextEditingController();
   TextEditingController college = TextEditingController();
 
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
   @override
   Future<void> onInit() async {
     super.onInit();
     await _initializeUserDetails();
     _isInitialized = true;
     email.text = useremail;
+  }
+
+  Future<String?> uploadPdf(String fileName, File file) async {
+    final refrence = FirebaseStorage.instance.ref().child("pdfs/$fileName.pdf");
+
+    final UploadTask = refrence.putFile(file);
+
+    await UploadTask.whenComplete(() {});
+
+    final downloadlink = await refrence.getDownloadURL();
+
+    return downloadlink;
+  }
+
+  void pickFile() async {
+    final pickedFile = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (pickedFile != null) {
+      fileName = pickedFile.files[0].name;
+
+      file = File(pickedFile.files[0].path!);
+
+      downloadLink = await uploadPdf(fileName, file);
+
+      await _firebaseFirestore.collection("pdfs").add({
+        "name": fileName,
+        "url": downloadLink,
+      });
+
+      print("Pdf Uploaded Succesfully");
+    }
   }
 
   Future<void> _initializeUserDetails() async {
@@ -41,10 +85,9 @@ class UserStateController extends GetxController {
 
     if (hasDetails == false) {
       await Get.to(NewUserPage());
-    } 
-    else if(hasDetails2 == false){
+    } else if (hasDetails2 == false) {
       await Get.to(NewUserPage2());
-    }else {
+    } else {
       await Get.to(BottomNavBar());
     }
   }
@@ -84,7 +127,8 @@ class UserStateController extends GetxController {
             userSnapshot.data() as Map<String, dynamic>;
 
         if (userData.containsKey('profession') &&
-            userData.containsKey('degree') && userData.containsKey('college')) {
+            userData.containsKey('degree') &&
+            userData.containsKey('college')) {
           return true;
         }
       }
@@ -166,7 +210,6 @@ class UserStateController extends GetxController {
     );
   }
 
-  
   bool performValidations() {
     if (validateFirstName(firstName.text) != null) {
       showSnackbar(validateFirstName(firstName.text)!);
@@ -222,9 +265,8 @@ class UserStateController extends GetxController {
         'lastName': lastName.text,
         'email': email.text,
         'mobileNumber': mobileNumber.text,
+        'imageUrl': imageUrl,
       }, SetOptions(merge: true));
-
-      
     } catch (e) {
       print("Error updating user data: $e");
     }
@@ -239,9 +281,9 @@ class UserStateController extends GetxController {
         'profession': profession.text,
         'degree': degree.text,
         'college': college.text,
+        "name": fileName,
+        "url": downloadLink,
       }, SetOptions(merge: true));
-
-      
     } catch (e) {
       print("Error updating user data: $e");
     }

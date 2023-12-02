@@ -1,94 +1,120 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:job_scout/User_Module/Controller/Connection_controller_final.dart';
-import 'package:job_scout/User_Module/Controller/chat_controller.dart';
-import 'package:job_scout/User_Module/View/Master_screen_pages/Connection/chatting/chat.dart';
-import 'package:job_scout/User_Module/models/user_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ChatsScreen1 extends StatefulWidget {
-    
+class UserListPage extends StatefulWidget {
   final String currentUserId;
-
-  ChatsScreen1({required this.currentUserId});
-
+  UserListPage({required this.currentUserId});
   @override
-  _ChatsScreen1State createState() => _ChatsScreen1State();
+  _UserListPageState createState() => _UserListPageState();
 }
 
-class _ChatsScreen1State extends State<ChatsScreen1> {
-  
-  @override
-   final ChatController chatController=Get.put(ChatController());
-  
-  void initState() {
-    super.initState();
-    loadUserIds();
+class _UserListPageState extends State<UserListPage> {
+  List<Map<String, dynamic>> usersData = [];
+  bool isLoading = true;
+
+  Future<List<String>> getUserIdsFromConnections(String currentUserId) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final List<String> userIds = [];
+
+    final connectionSnapshot = await firestore
+        .collection('Users')
+        .doc(currentUserId)
+        .collection('Connections')
+        .get();
+
+    for (final doc in connectionSnapshot.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      if (data.containsKey('userID')) {
+        final userId = data['userID'] as String?;
+        if (userId != null) {
+          userIds.add(userId);
+          print(userId);
+        } else {
+          userIds.add('DefaultUserID');
+        }
+      }
+    }
+
+    return userIds;
   }
 
-  Set<String> userIds = {}; 
+  Future<void> getUserDetails(List<String> userIds) async {
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<void> loadUserIds() async {
-    final loadedUserIds = await getUserIdsFromConnections(widget.currentUserId);
+    for (final userId in userIds) {
+      final userSnapshot =
+          await firestore.collection('Users').doc(userId).get();
 
-    // Remove the currentUserId from the loadedUserIds set
-    loadedUserIds.remove(widget.currentUserId);
+      if (userSnapshot.exists) {
+        final userData = userSnapshot.data() as Map<String, dynamic>;
+        setState(() {
+          usersData.add(userData);
+        });
+      }
+    }
+  }
 
-    userIds = loadedUserIds.toSet(); // Convert to Set to ensure uniqueness
-    // setState(() {});
+  void initState() {
+    super.initState();
+    final String currentUserId = widget.currentUserId;
+    getUserIdsFromConnections(currentUserId).then((userIds) {
+      getUserDetails(userIds).then((_) {
+        setState(() {
+          isLoading = false;
+        });
+      }).catchError((error) {
+        setState(() {
+          isLoading = false;
+        });
+        print("Error fetching user details: $error");
+      });
+    }).catchError((error) {
+      setState(() {
+        isLoading = false;
+      });
+      print("Error fetching user IDs: $error");
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat Screen'),
+        title: Text('User List'),
       ),
-      body: userIds.isEmpty
-          ? CircularProgressIndicator()
-          : ListView.builder(
-              itemCount: userIds.length,
-              itemBuilder: (context, index) {
-                final friendUserId = userIds.elementAt(index);
-                return FutureBuilder<DocumentSnapshot>(
-                  future: FirebaseFirestore.instance
-                      .collection('Users')
-                      .doc(friendUserId)
-                      .get(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else if (snapshot.hasData) {
-                      final userData =
-                          snapshot.data!.data() as Map<String, dynamic>;
-                      final firstName = userData['firstName'] ?? '';
-                      final lastName = userData['lastName'] ?? '';
-                      final email = userData['email'] ?? '';
-
-                      return ListTile(
-                        title: Text('$firstName $lastName'),
-                        subtitle: Text(email),
-                        onTap: () {
-                           final FirebaseAuth auth = FirebaseAuth.instance;
-                             final User? user = auth.currentUser;
-                            print('Clicked on card with Firebase User ID: $friendUserId');
-                            // chatController.sendMessage(senderId: user!.uid, receiverId: friendUserId,messageText: "OM");
-                              Get.to(MessageDisplay(friendUserId: friendUserId,senderUserId: user!.uid));
-
-                        },
-                      );
-                    } else {
-                      return Text('User not found');
-                    }
+      body: ListView.builder(
+        itemCount: usersData.length,
+        itemBuilder: (BuildContext context, int index) {
+          final userData = usersData[index];
+          return Card(
+            margin: EdgeInsets.all(10),
+            child: ListTile(
+              title: Text(
+                  'Name: ${userData['firstName']} ${userData['lastName']}'),
+              subtitle: Text('Email: ${userData['email']}'),
+             trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    
                   },
-                );
-              },
+                  icon: Icon(Icons.close),
+                  color: Colors.red, 
+                ),
+                IconButton(
+                  onPressed: () {
+                    
+                  },
+                  icon: Icon(Icons.check),
+                  color: Colors.green,
+                ),
+              ],
             ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

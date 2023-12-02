@@ -70,7 +70,7 @@ class JobsItem extends StatelessWidget {
               IconText(Icons.location_on_outlined, job.location),
               IconText(Icons.access_time_outlined, job.time)
             ],
-          )
+          ),
         ],
       ),
     );

@@ -149,6 +149,7 @@ class NewUserPage2 extends StatelessWidget {
                   ),
                 ],
               ),
+              FloatingActionButton(child: Icon(Icons.upload_file),onPressed: userstatecontroller.pickFile),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.03,
               ),

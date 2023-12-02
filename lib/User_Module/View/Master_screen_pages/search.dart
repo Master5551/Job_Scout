@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart'; // Import Get package
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:job_scout/User_Module/Controller/Add_connection.dart';
-import 'package:job_scout/User_Module/Controller/Connection_controller.dart';
 import 'package:job_scout/User_Module/Controller/Connection_controller_final.dart';
 import 'package:job_scout/User_Module/Controller/search_user_controller.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/Connection/chat.dart';
@@ -102,9 +101,12 @@ class _UserSearchScreenState extends State<UserSearchScreen> {
                                 ),
                                 IconButton(
                                     onPressed: () async {
-                                      final userIDsFromConnections =
+                                      final List<String>
+                                          userIDsFromConnections =
                                           await getUserIdsFromConnections(
                                               currentUser!.uid);
+                                      await printUserDetailsFromUsersCollection(
+                                          userIds);
                                     },
                                     icon: Icon(Icons.chat))
                               ],
