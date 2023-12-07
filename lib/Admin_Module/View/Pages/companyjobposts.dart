@@ -44,7 +44,7 @@ class CompanyJobPostsView extends StatelessWidget {
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        
+                        print('hiell');
                       },
                       child: GestureDetector(
                         onTap: (){
