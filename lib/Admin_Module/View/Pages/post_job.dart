@@ -1,8 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:job_scout/Admin_Module/Controller/Jobpost_controller.dart'; // Import your JobController class
-
+import 'package:job_scout/Admin_Module/Controller/Jobpost_controller.dart';
+ 
 class JobPosting extends StatelessWidget {
   final JobController jobController = Get.put(JobController());
   TextEditingController jobDescriptionController = TextEditingController();
@@ -14,6 +15,10 @@ class JobPosting extends StatelessWidget {
     lastDate: DateTime(2101),
   );
   return picked;
+}
+String getcompany() {
+  final User? currentUser = FirebaseAuth.instance.currentUser;
+  return currentUser?.uid ?? ''; // Return empty string if currentUser is null
 }
 
 Future<TimeOfDay?> _selectTime(BuildContext context, TimeOfDay initialTime) async {
@@ -144,6 +149,7 @@ Future<TimeOfDay?> _selectTime(BuildContext context, TimeOfDay initialTime) asyn
                     ),
                   ),
                   const SizedBox(height: 20),
+                  
     TextFormField(
   controller: controller.lastApplicationDateController,
   onTap: () async {
@@ -230,12 +236,35 @@ Future<TimeOfDay?> _selectTime(BuildContext context, TimeOfDay initialTime) asyn
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  const SizedBox(height: 20,),
+                  TextFormField(
+                    controller: controller.work_type,
+                    decoration: InputDecoration(
+                      hintText: "Work type(eg:full,part time)",
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        borderSide: const BorderSide(color: Colors.orange),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(40),
+                        borderSide: const BorderSide(color: Colors.orange),
+                      ),
+                      hintStyle: const TextStyle(
+                        fontFamily: 'Times New Roman',
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: const TextStyle(
+                      fontFamily: 'Times New Roman',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   TextFormField(
                     controller: controller.workLocationController,
                     decoration: InputDecoration(
                       hintText: "Work Location",
-                      enabledBorder: OutlineInputBorder(
+                        enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(40),
                         borderSide: const BorderSide(color: Colors.orange),
                       ),
@@ -289,7 +318,8 @@ Future<TimeOfDay?> _selectTime(BuildContext context, TimeOfDay initialTime) asyn
                         if (line.trimLeft().startsWith('•')) {
                           return line; // Leave it as is
                         } else {
-                          return '• $line'; // Add a bullet point
+                          return line.trimLeft().startsWith('*') ? '•'+line.substring(1) : '• $line';//Add bullet points
+
                         }
                       }).toList();
 
@@ -300,9 +330,9 @@ Future<TimeOfDay?> _selectTime(BuildContext context, TimeOfDay initialTime) asyn
                       jobDescriptionController.text = formattedText;
 
                       // Call the submitForm method from JobController
-                      controller.submitForm();
+                    
                     },
-                    child: const Text('Format and Submit'),
+                    child: const Text('Format'),
                   ),
                   const SizedBox(height: 20),
                   TextFormField(
@@ -352,7 +382,11 @@ Future<TimeOfDay?> _selectTime(BuildContext context, TimeOfDay initialTime) asyn
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: controller.submitForm,
+                    onPressed: (){
+                        controller.submitForm();
+                        print("getcompany() = "+getcompany());
+                        // Get.to(CompanyJobPostsView(companyId: getcompany()));
+                    },
                     child: const Text('Submit'),
                   ),
                 ],

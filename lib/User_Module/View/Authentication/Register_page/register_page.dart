@@ -131,6 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextFormField(
+                  
                   controller: registerController.confirmpasswordController,
                   obscureText:
                       !registerController.isPasswordconfirmVisible.value,
@@ -145,11 +146,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       borderRadius: BorderRadius.circular(40),
                       borderSide: BorderSide(color: Colors.teal),
                     ),
+                    prefix: Icon(Icons.key,color: Colors.green,),
                     suffixIcon: IconButton(
                       onPressed: () {
                         registerController.toggleconfirmPasswordVisibility();
                         setState(() {});
                       },
+
                       icon: Obx(() => Icon(
                             registerController.isPasswordconfirmVisible.value
                                 ? Icons.visibility

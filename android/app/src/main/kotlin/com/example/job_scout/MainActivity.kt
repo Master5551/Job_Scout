@@ -1,4 +1,4 @@
-package com.example.job_scout
+package com.jatan.job_scout
 
 import io.flutter.embedding.android.FlutterActivity
 

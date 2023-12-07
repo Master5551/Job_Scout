@@ -4,7 +4,7 @@ class Job {
   bool isMark;
   String title;
   String location;
-  String time;
+  String time;  
   List<String> req;
   Job(this.company, this.logoUrl, this.isMark, this.title, this.location,
       this.time, this.req);

@@ -58,11 +58,7 @@ class _UserListPageState extends State<UserListPage> {
     super.initState();
     final String currentUserId = widget.currentUserId;
     getUserIdsFromConnections(currentUserId).then((userIds) {
-      getUserDetails(userIds).then((_) {
-        setState(() {
-          isLoading = false;
-        });
-      }).catchError((error) {
+      getUserDetails(userIds).then((_) {}).catchError((error) {
         setState(() {
           isLoading = false;
         });
@@ -92,25 +88,21 @@ class _UserListPageState extends State<UserListPage> {
               title: Text(
                   'Name: ${userData['firstName']} ${userData['lastName']}'),
               subtitle: Text('Email: ${userData['email']}'),
-             trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {
-                    
-                  },
-                  icon: Icon(Icons.close),
-                  color: Colors.red, 
-                ),
-                IconButton(
-                  onPressed: () {
-                    
-                  },
-                  icon: Icon(Icons.check),
-                  color: Colors.green,
-                ),
-              ],
-            ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.close),
+                    color: Colors.red,
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.check),
+                    color: Colors.green,
+                  ),
+                ],
+              ),
             ),
           );
         },
