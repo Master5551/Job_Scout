@@ -24,17 +24,13 @@ class _StreamExampleState extends State<StreamExample> {
   final User? currentUser = FirebaseAuth.instance.currentUser;
   bool isButtonEnabled = true;
 
-
   @override
   void initState() {
     super.initState();
     _initializeData();
   }
 
-  void storeAppliedCompanyId(String companyId) {
-    companyController.addAppliedCompanyId(companyId,currentUser.toString());
-  }
-
+  
   void _initializeData() {
     CollectionReference<Map<String, dynamic>> companyCollectionRef =
         FirebaseFirestore.instance.collection('Company');
@@ -60,29 +56,65 @@ class _StreamExampleState extends State<StreamExample> {
     );
   }
 
-   void onPressedFunction(DocumentSnapshot<Map<String, dynamic>> document, String documentId) {
-    if (isButtonEnabled) {
-      setState(() {
-        isButtonEnabled = false;
-      });
-
-      
-      streamController.searchAndApply(document['companyName'], documentId);
-      storeAppliedCompanyId(documentId);
-
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          
-          content: Text('Applied Now!'),
-          duration: Duration(seconds: 10),
-        ),
-      );
-    }
+  void showPositivePopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Congratulations!'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Your application has been successfully submitted.'),
+                SizedBox(height: 20),
+                // Image.asset(
+                //   'assets/success_image.png', // Replace this with your image path
+                //   height: 100,
+                //   width: 100,
+                // ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  
-  
+  void onPressedFunction(
+  DocumentSnapshot<Map<String, dynamic>> document,
+  String documentId,
+) {
+  if (isButtonEnabled) {
+    setState(() {
+      isButtonEnabled = false;
+    });
+
+    final companyData = {
+      'companyName': document['companyName'],
+      'companyType': document['companyType'],
+      // Add other fields similarly
+    };
+
+    companyData['current_time'] = Timestamp.now(); // Example timestamp creation
+
+    // companyController.addAppliedCompany(
+    //   id: documentId,
+    //   userId: currentUser.toString(),
+    //   companyData: companyData,
+    // );
+
+    showPositivePopup(context);
+  }
+}
+
 
   void _showModalBottomSheet(BuildContext context, String documentId,
       DocumentSnapshot<Map<String, dynamic>> document) {
@@ -366,12 +398,6 @@ class _StreamExampleState extends State<StreamExample> {
                       ),
                       SizedBox(
                         height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          // Add more widgets as needed
-                        ],
                       ),
                     ],
                   ),

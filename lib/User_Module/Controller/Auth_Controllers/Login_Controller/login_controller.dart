@@ -1,23 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:job_scout/Admin_Module/View/Pages/companyjobposts.dart';
 import 'package:job_scout/User_Module/View/Before_master_page/verified_page.dart';
 
 class LoginController extends GetxController {
-   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
 
-  
   GlobalKey<FormState> getLoginFormKey() {
     return loginFormKey;
   }
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   RxBool isPasswordVisible = false.obs;
   final isPasswordValid = false.obs;
   final isLoading = false.obs;
-  
 
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
@@ -35,44 +36,95 @@ class LoginController extends GetxController {
     isLoading.value = value;
   }
 
-  void submitForm() async {
-  String email = emailController.text.trim();
-  String password = passwordController.text.trim();
+  Future<bool> company_user(String email, String password) async {
+    bool isUserAuthenticated = false;
 
-  if (_isValidEmail() && _isValidPassword()) {
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('Company')
+          .where('Email', isEqualTo: email)
+          .where('Password', isEqualTo: password)
+          .get();
 
-      Get.snackbar(
-        "Welcome to Job Scout",
-        "Wishing You Best of Luck for your Career",
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
-
-      Get.off(() => VerifiedPage());
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        showSnackbar("No User Found With That Email", "If You are new please register first", Colors.red);
-      } else if (e.code == 'wrong-password') {
-        showSnackbar("Your Password doesn't match with our credentials", "If You are new please register first", Colors.red);
-      } else {
-        // Handle other FirebaseAuthExceptions as needed
-        showSnackbar("Error", "An error occurred during sign-in", Colors.red);
+      if (querySnapshot.docs.isNotEmpty) {
+        isUserAuthenticated = true;
       }
+    } catch (e) {
+      print('Error: $e');
     }
-  } else {
-    showSnackbar("Error", "Invalid email or password", Colors.red);
+
+    return isUserAuthenticated;
   }
-}
 
+  Future<String> getCompany(String email, String password) async {
+    String documentId = '';
 
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('Company')
+          .where('Email', isEqualTo: email)
+          .where('Password', isEqualTo: password)
+          .get();
 
- 
+      if (querySnapshot.docs.isNotEmpty) {
+        documentId = querySnapshot.docs.first.id;
+        Get.off(() => CompanyJobPostsView(companyId: documentId));
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+
+    return documentId;
+  }
+
+  void submitForm() async {
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+    bool isAuthenticated = await company_user(email, password);
+    if (_isValidEmail() && _isValidPassword()) {
+      if (isAuthenticated) {
+        try {
+          String companyId = await getCompany(email, password);
+          print(companyId);
+          Get.to(CompanyJobPostsView(companyId: '$companyId'));
+        } catch (e) {
+          print('$e');
+        }
+      } else {
+        try {
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
+
+          Get.snackbar(
+            "Welcome to Job Scout",
+            "Wishing You Best of Luck for your Career",
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.green,
+            colorText: Colors.white,
+          );
+
+          Get.off(() => VerifiedPage());
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'user-not-found') {
+            showSnackbar("No User Found With That Email",
+                "If You are new please register first", Colors.red);
+          } else if (e.code == 'wrong-password') {
+            showSnackbar("Your Password doesn't match with our credentials",
+                "If You are new please register first", Colors.red);
+          } else {
+            
+            showSnackbar(
+                "Error", "An error occurred during sign-in", Colors.red);
+          }
+        }
+      }
+    } else {
+      showSnackbar("Error", "Invalid email or password", Colors.red);
+    }
+  }
+
   bool _isValidEmail() {
     String email = emailController.text.trim();
 
@@ -115,12 +167,8 @@ class LoginController extends GetxController {
       return false;
     }
 
-    
-
     return true;
   }
-
-  
 
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -146,7 +194,6 @@ class LoginController extends GetxController {
     return await FirebaseAuth.instance.signInWithProvider(githubProvider);
   }
 }
-
 
 void showSnackbar(String title, String message, Color backgroundColor) {
   Get.snackbar(

@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:job_scout/User_Module/Controller/company_controller.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/Connection/chatting/chat.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/Connection/chat.dart';
+import 'package:job_scout/User_Module/View/Master_screen_pages/Home/main_home_page.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/Navigation_page/navigation_page.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/d_jobs.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/Home/home_page.dart';
+import 'package:job_scout/User_Module/View/Master_screen_pages/job_notified_page.dart/job_display_page.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/search.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/Profile/user_profile_page.dart';
 
@@ -20,12 +23,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Color accentColor = Colors.teal;
 
   final List<Widget Function(String)> pages = [
-    (currentUserId) => HomePage(),
+    (currentUserId) => AllCompanyJobPosts(),
     (currentUserId) => UserListPage(
-          currentUserId: currentUserId,),
+          currentUserId: currentUserId,
+        ),
     (currentUserId) => UserSearchScreen(),
-    (currentUserId) => ProfileNavigationPage(),
-    
+    (currentUserId) => JobPostListPage(),
   ];
 
   void onItemTapped(int index) {
@@ -38,14 +41,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() => pages[currentIndex.value](currentUser!.uid)),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
       bottomNavigationBar: Theme(
         data: ThemeData(
           splashColor: Colors.transparent,
@@ -61,10 +56,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
                 icon: Icon(Icons.public), label: 'Connection'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.backpack_sharp), label: 'Jobs'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.notifications_none), label: 'Notification'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+            BottomNavigationBarItem(icon: Icon(Icons.update), label: 'Status'),
           ],
         ),
       ),

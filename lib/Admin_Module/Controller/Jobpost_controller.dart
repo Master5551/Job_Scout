@@ -18,6 +18,7 @@ class JobController extends GetxController {
   TextEditingController jobDescriptionController = TextEditingController();
   TextEditingController skillsRequiredController = TextEditingController();
   TextEditingController qualificationsController = TextEditingController();
+  TextEditingController work_type = TextEditingController();
 
   bool dataSubmitted = false; // Flag to track if data is submitted
 
@@ -36,6 +37,7 @@ class JobController extends GetxController {
       jobDescriptionController.text = box.read('jobDescription') ?? '';
       skillsRequiredController.text = box.read('skillsRequired') ?? '';
       qualificationsController.text = box.read('qualifications') ?? '';
+      work_type.text = box.read('work_type') ?? '';
     }
   }
 
@@ -52,19 +54,17 @@ class JobController extends GetxController {
     box.write('jobDescription', jobDescriptionController.text);
     box.write('skillsRequired', skillsRequiredController.text);
     box.write('qualifications', qualificationsController.text);
+    box.write('work_type', work_type.text);
 
- 
     dataSubmitted = true;
 
     // Firebase Firestore logic to save form data
-    saveFormDataToFirestore();
-
- 
+    saveFormDataToFirestore(companyNameController.text);
  
   }
 }
 
-void saveFormDataToFirestore() {
+void saveFormDataToFirestore(String companyName) {
   // Create a map of form data
   Map<String, dynamic> formData = {
     'companyName': companyNameController.text,
@@ -76,11 +76,12 @@ void saveFormDataToFirestore() {
     'jobDescription': jobDescriptionController.text,
     'skillsRequired': skillsRequiredController.text,
     'qualifications': qualificationsController.text,
+    'work_type':work_type.text,
+    'current_time':DateTime.now(),
+
   };
 
-  // Replace 'YOUR_COMPANY_NAME' with the actual company name
-  String companyName = 'Job Scout';
-
+   
   // Get a reference to the Firestore collection named "Company"
   CollectionReference companyCollection =
       FirebaseFirestore.instance.collection('Company');
@@ -97,7 +98,7 @@ void saveFormDataToFirestore() {
 
       // Get a reference to the "jobApplications" subcollection of the specified company document
       CollectionReference jobApplications =
-          companyDocRef.collection('Job_Post');
+          companyDocRef.collection('Jobpost');
 
       // Add the form data to the "jobApplications" subcollection
       jobApplications.add(formData).then((value) {
@@ -134,4 +135,5 @@ Future<TimeOfDay?> _selectTime(BuildContext context, TimeOfDay initialTime) asyn
   );
   return picked;
 }
+ 
 }

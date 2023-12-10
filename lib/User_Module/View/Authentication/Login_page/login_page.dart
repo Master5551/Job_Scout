@@ -155,7 +155,6 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.015),
                 MyButton(
                   onTap: () {
-                    
                     loginController.submitForm();
                   },
                   buttonText: 'Sign In',

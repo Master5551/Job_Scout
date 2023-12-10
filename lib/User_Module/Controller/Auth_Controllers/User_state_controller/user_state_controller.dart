@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:job_scout/User_Module/View/Before_master_page/new_user_page.dart';
 import 'package:job_scout/User_Module/View/Before_master_page/new_user_page_2.dart';
+import 'package:job_scout/User_Module/View/Before_master_page/otp_verify_page.dart';
 import 'package:job_scout/User_Module/View/Master_screen_pages/profile_page.dart';
 import 'package:job_scout/User_Module/components/bottom_navigation.dart';
 
@@ -24,6 +25,7 @@ class UserStateController extends GetxController {
   String fileName = '';
   File file = File('');
   late String? downloadLink = '';
+  List<String> skills = [];
 
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
@@ -32,6 +34,10 @@ class UserStateController extends GetxController {
   TextEditingController profession = TextEditingController();
   TextEditingController degree = TextEditingController();
   TextEditingController college = TextEditingController();
+  TextEditingController about = TextEditingController();
+  TextEditingController skill = TextEditingController();
+
+  static String _verificationId = '';
 
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
@@ -266,6 +272,7 @@ class UserStateController extends GetxController {
         'email': email.text,
         'mobileNumber': mobileNumber.text,
         'imageUrl': imageUrl,
+        'about': about.text,
       }, SetOptions(merge: true));
     } catch (e) {
       print("Error updating user data: $e");
@@ -283,9 +290,53 @@ class UserStateController extends GetxController {
         'college': college.text,
         "name": fileName,
         "url": downloadLink,
+        "skills": skills,
       }, SetOptions(merge: true));
     } catch (e) {
       print("Error updating user data: $e");
     }
+  }
+
+  Future<void> verifyPhoneNumber() async {
+    final PhoneVerificationCompleted verificationCompleted =
+        (AuthCredential phoneAuthCredential) async {
+      // Automatically sign in the user after phone number verification is successful.
+      await _auth.signInWithCredential(phoneAuthCredential);
+      // TODO: Navigate to the next screen or perform other actions.
+      print('Verification Completed');
+    };
+
+    final PhoneVerificationFailed verificationFailed =
+        (FirebaseAuthException authException) {
+      // Handle the verification failed scenario.
+      print('Phone number verification failed. Code: ${authException.code}');
+      print('Message: ${authException.message}');
+    };
+
+    final PhoneCodeSent codeSent =
+        (String verificationId, [int? forceResendingToken]) async {
+      // Save the verification ID for later use.
+      // You can use this ID to retrieve the verification code from another source.
+      print('Verification ID: $verificationId');
+      _verificationId = verificationId;
+
+      // Navigate to the OTP verification screen.
+      Get.to(OtpVerificationPage(_verificationId));
+    };
+
+    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+        (String verificationId) {
+      // Auto retrieval timeout, handle it here.
+      print("Auto retrieval timeout. Verification ID: $verificationId");
+    };
+
+    await _auth.verifyPhoneNumber(
+      phoneNumber: '+91${mobileNumber.text}', // Ensure correct phone number format
+      timeout: const Duration(seconds: 60),
+      verificationCompleted: verificationCompleted,
+      verificationFailed: verificationFailed,
+      codeSent: codeSent,
+      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+    );
   }
 }
