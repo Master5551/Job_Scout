@@ -1,10 +1,19 @@
-A dynamic Flutter application, redefines the job search landscape 
-by  seamlessly connecting job seekers, employers.
-With secure Firebase  authentication, users can explore job posts, track applications
------------------------User Credentialss-------------------------------------------------------------------
+
+# Job Scout
+
+A dynamic Flutter application, redefines the job search landscape by 
+seamlessly connecting job seekers, employers. With secure Firebase 
+authentication, users can explore job posts, track applications
+
+
+User Credentials:
+
 Email:test123@gmail.com
-Pass:123456
---------------------Company Credentials-----------------------------------------------------------------
+
+Password:123456
+
+Admin Credentials:
+
 Email:softmicro54@gmail.com
-Pass:softmicro@123
---------------------------------------------------------------------------------------------------------
+
+Password:softmicro@123
